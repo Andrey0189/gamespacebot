@@ -24,6 +24,7 @@ const request = require("request");
 const querystring = require('querystring');
 const rgbcolor = require('rgbcolor');
 const getImageColors = require('get-image-colors');
+const { inspect } = require("util");
 const vm = require("vm");
 const codeContext =  {};
 vm.createContext(codeContext);
