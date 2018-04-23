@@ -528,12 +528,13 @@ client.on("message", async message => {
 	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'creat', null, function () {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
-    return message.channel.send({embed});
+    return;
 
         const embed = new Discord.RichEmbed()
             .setTitle('Проверка ссылки в статусе:')
             .setDescription('members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.')
             .setFooter('Game🌀Space');
+		message.channel.send({embed});
         message.delete();
     }, '', 'узнать, у кого есть ссылка на сервер в статусе');
 
