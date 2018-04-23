@@ -695,7 +695,7 @@ client.on("message", async message => {
             text = 'По запросу '+message.author;
         message.channel.startTyping();
         message.channel.send(text,{files: [{
-                attachment: 'https://'+process.env.SITE_DOMAIN+'/profile.php?user='+member.user.id+'&nick='+encodeURIComponent(member.nickname)+'&secret='+encodeURIComponent(process.env.SECRET_KEY),
+                attachment: 'http://'+process.env.SITE_DOMAIN+'/profile.php?user='+member.user.id+'&nick='+encodeURIComponent(member.nickname)+'&secret='+encodeURIComponent(process.env.SECRET_KEY),
                 name: 'file.png'
             }]}).then(() => {message.channel.stopTyping(true)});
         message.delete();
