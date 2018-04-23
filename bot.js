@@ -529,7 +529,6 @@ client.on("message", async message => {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
     return message.channel.send({embed});
-    }
 
         const embed = new Discord.RichEmbed()
             .setTitle('Проверка ссылки в статусе:')
