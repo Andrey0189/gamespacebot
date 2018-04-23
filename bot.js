@@ -318,7 +318,7 @@ client.on("message", async message => {
     if (!siteOff)
     if (!talkedRecently.has(message.author.id)) {
         if (message.author.bot) return;
-        request('https://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (body.startsWith('<br')) { return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
                 let lvls = JSON.parse(body);
@@ -766,7 +766,7 @@ client.on("message", async message => {
         if (ment_member)
             member = ment_member;
         message.channel.startTyping();
-        request('https://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (body.startsWith('<br')) { message.channel.stopTyping(true);message.channel.send({embed: embed_error(`Ошибка отображения уровня`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения уровня пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
                 const arr = JSON.parse(body);
@@ -797,7 +797,7 @@ client.on("message", async message => {
         if (ment_member)
             member = ment_member;
         message.channel.startTyping();
-        request('https://'+process.env.SITE_DOMAIN+'/balance.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/balance.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (body.startsWith('<br')) { message.channel.send({embed: embed_error(`Ошибка отображения баланса`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения баланса пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
                 const money = client.emojis.get(emojis.money);
@@ -822,7 +822,7 @@ client.on("message", async message => {
         message.channel.startTyping();
         message.delete();
         let users = [];
-        request('https://'+process.env.SITE_DOMAIN+'/top.php?page='+encodeURIComponent(parseInt(args[0]))+'&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/top.php?page='+encodeURIComponent(parseInt(args[0]))+'&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (body.startsWith('<br')) { message.channel.stopTyping(true);message.channel.send({embed: embed_error(`Ошибка отображения топа пользователей`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения топа пользователей. Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             let data = JSON.parse(body);
             let footer = 'Страница '+data[3]+'/'+data[2];
@@ -940,7 +940,7 @@ client.on("message", async message => {
     add_command(['update_roles', 'обновить_роли', 'восстановить_роли', 'recover_roles', 'rr', 'ur'], true, message, command, args, 'e', null, function () {
         message.delete();
         message.channel.startTyping();
-        request('https://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (body.startsWith('<br')) {message.channel.stopTyping(true); message.channel.send({embed: embed_error(`Ошибка восстановления ролей`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка восстановления ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             const arr = JSON.parse(body);
             let bool = false;
