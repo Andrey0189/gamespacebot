@@ -524,6 +524,19 @@ client.on("message", async message => {
         message.channel.send({embed});
         message.delete();
     }, '[тип] [текст]', 'сменить Presence бота');
+	
+	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'creat', null, function () {
+		
+    const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
+    return message.channel.send({embed});
+    }
+
+        const embed = new Discord.RichEmbed()
+            .setTitle('Проверка ссылки в статусе:')
+            .setDescription('members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.')
+            .setFooter('Game🌀Space');
+        message.delete();
+    }, '', 'узнать, у кого есть ссылка на сервер в статусе');
 
     add_command(['идея', 'vote', 'votes', 'idea', 'ideas', 'poll', 'голосование', 'голос', 'воте', 'вотес', 'вотэ', 'вотэс', 'голоса'], false, message, command, args, 'e', null, function () {
         let text = args.join(' ').trim();
