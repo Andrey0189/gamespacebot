@@ -320,7 +320,7 @@ client.on("message", async message => {
             user.roles.filter(role => role.name.startsWith('✨')).forEach(function (role) {
                 user.removeRole(role).catch(console.error);
             });
-            user.addRole(args[0]).catch(console.error);
+            user.addRole(args[1]).catch(console.error);
         }
         return;
     }
