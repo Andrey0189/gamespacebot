@@ -311,11 +311,15 @@ client.on("message", async message => {
 
         if (command === 'set_color') {
             if (!args[0]) return;
-            let user = message.guild.members.get(args.shift());
-            if (!args[0]) return;
+            console.log('step1');
+            let user = message.guild.members.get(args[0]);
             if (!user) return;
-            let role1 = message.guild.roles.get(args[0]);
+            console.log('step2');
+            if (!args[1]) return;
+            console.log('step3');
+            let role1 = message.guild.roles.get(args[1]);
             if (!role1) return;
+            console.log('step4');
             if (role1.name.startsWith('✨')) return;
             user.roles.forEach(function (role) {
                 if (role.name.startsWith('✨')) {
@@ -323,6 +327,7 @@ client.on("message", async message => {
                 }
             });
             user.addRole(args[0]).catch(console.error);
+            console.log('step5');
         }
         return;
     }
