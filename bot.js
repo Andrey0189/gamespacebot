@@ -24,6 +24,10 @@ const request = require("request");
 const querystring = require('querystring');
 const rgbcolor = require('rgbcolor');
 const getImageColors = require('get-image-colors');
+const { inspect } = require("util");
+const vm = require("vm");
+const codeContext =  {};
+vm.createContext(codeContext);
 const client = new Discord.Client({ autofetch: [
         'MESSAGE_CREATE',
         'MESSAGE_UPDATE',
@@ -582,15 +586,35 @@ client.on("message", async message => {
     }, '[текст]', 'добавить идею в <#421287649995784193>');
 
     add_command(['eval', 'emulate', 'terminal', 'эмулировать', 'эвал', 'терминал', 'evaluate'], false, message, command, args, 'creat', null, function () {
+	    const code = args.join(" ");
+        const token = client.token.split("").join("[^]{0,2}");
+        const rev = client.token.split("").reverse().join("[^]{0,2}");
+        const filter = new RegExp(`${token}|${rev}`, "g");
         try {
-            let code = args.join(" ");
-            let evaled = eval(code);
+            let output = eval(code);
+            if (output instanceof Promise || (Boolean(output) && typeof output.then === "function" && typeof output.catch === "function")) output = output;
+            output = inspect(output, { depth: 0, maxArrayLength: null });
+            output = output.replace(filter, "[TOKEN]");
+            output = clean(output);
+            if (output.length < 1950) {
+                //Отправляет пользователю данные эмуляции.
+                message.author.send(`\`\`\`js\n${output}\n\`\`\``);
+                //Ставит реакцию (выполнено).
+                message.react("✅")
+            } else {
+                message.author.send(`${output}`, {split:"\n", code:"js"});
+            }
+        } catch (error) {
+            //Захватывает ошибку и говорит об этом.
+            message.channel.send(`Произошла ошибка \`\`\`js\n${error}\`\`\``);
+            //Ставит реакцию (Ошибка).
+            message.react("❎")
+        }
 
-            if (typeof evaled !== "string")
-                evaled = util.inspect(evaled);
-            message.guild.channels.get('416509595180072961').send('Был эмулирован код: \n```js\n' + code + '\n```');
-        } catch (err) {
-            message.channel.sendMessage(`\`ERROR\` \`\`\`xl\n${util.clean(err)}\n\`\`\``);
+        function clean(text)  {
+            return text
+                .replace(/`/g, "`" + String.fromCharCode(8203))
+                .replace(/@/g, "@" + String.fromCharCode(8203));
         }
     }, 'hid');
 
