@@ -312,10 +312,14 @@ client.on("message", async message => {
         if (command === 'set_color') {
             if (!args[0]) return;
             let user = message.guild.members.get(args.shift());
-            let json = args.join(' ');
+            if (!args[0]) return;
             if (!user) return;
-            if (json.startsWith('<br')) { return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка обновления игровых ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+json.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
-            let array = JSON.parse(json);
+            user.roles.forEach(function (role) {
+                if (role.name.startsWith('✨')) {
+                    user.removeRole(role).catch(console.error);
+                }
+            });
+            user.addRole(args[0]).catch(console.error);
         }
         return;
     }
