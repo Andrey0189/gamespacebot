@@ -320,11 +320,9 @@ client.on("message", async message => {
             let role1 = message.guild.roles.get(args[1]);
             if (!role1) return;
             console.log('step4');
-            if (role1.name.startsWith('✨')) return;
-            user.roles.forEach(function (role) {
-                if (role.name.startsWith('✨')) {
-                    user.removeRole(role).catch(console.error);
-                }
+            if (!role1.name.startsWith('✨')) return;
+            user.roles.filter(role => role.name.startsWith).forEach(function (role) {
+                user.removeRole(role).catch(console.error);
             });
             user.addRole(args[0]).catch(console.error);
             console.log('step5');
