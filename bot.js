@@ -319,6 +319,7 @@ client.on("message", async message => {
                     user.removeRole(role).catch(console.error);
                 }
             });
+            if (!message.guild.roles.get(args[0]).name.startsWith('✨')) return;
             user.addRole(args[0]).catch(console.error);
         }
         return;
