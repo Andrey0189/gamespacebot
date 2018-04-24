@@ -314,12 +314,12 @@ client.on("message", async message => {
             let user = message.guild.members.get(args.shift());
             if (!args[0]) return;
             if (!user) return;
+            if (!message.guild.roles.get(args[0]).name.startsWith('✨').catch()) return;
             user.roles.forEach(function (role) {
                 if (role.name.startsWith('✨')) {
                     user.removeRole(role).catch(console.error);
                 }
             });
-            if (!message.guild.roles.get(args[0]).name.startsWith('✨')) return;
             user.addRole(args[0]).catch(console.error);
         }
         return;
