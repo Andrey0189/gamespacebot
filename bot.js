@@ -314,7 +314,9 @@ client.on("message", async message => {
             let user = message.guild.members.get(args.shift());
             if (!args[0]) return;
             if (!user) return;
-            if (!message.guild.roles.get(args[0]).name.startsWith('✨').catch()) return;
+            let role1 = message.guild.roles.get(args[0]);
+            if (!role1) return;
+            if (role1.name.startsWith('✨')) return;
             user.roles.forEach(function (role) {
                 if (role.name.startsWith('✨')) {
                     user.removeRole(role).catch(console.error);
