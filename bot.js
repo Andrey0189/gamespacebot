@@ -248,7 +248,17 @@ client.on("messageReactionAdd", (reaction, user) => {
 // });
 
 client.on('ready', () => {
-	console.log('Bot loaded');
+	console.log('//------------------//');
+    console.log('Бот запущен успешно.');
+    console.log('');
+    console.log('Краткая информация:');
+    console.log('- Авторизован как ' + client.user.tag);
+    console.log('- Бот является участником ' + client.guilds.size + ' ' + declOfNum(client.guilds.size, ['сервера', 'серверов', 'серверов']));
+    console.log('- Пинг ' + client.ping + 'мс');
+    console.log('');
+    console.log('Автор ' + client.fetchUser('421030089732653057').tag);
+    console.log('Специально для сервера GameSpace. https://discord.io/gspace');
+    console.log('//------------------//');
 	client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
     // client.channels.get('417374192418160652').fetchMessage('421324005853888512');
 });
@@ -284,7 +294,6 @@ client.on("message", async message => {
             if (!user) return;
             if (json.startsWith('<br')) { return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка обновления игровых ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+json.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             let array = JSON.parse(json);
-            console.log(array);
             array.forEach(function (item) {
                 if (item[1] === '1') {
                     if (!user.roles.has(item[0]))
@@ -296,12 +305,19 @@ client.on("message", async message => {
             })
         }
 
+        if (command === 'set_color') {
+            if (!args[0]) return;
+            let user = message.guild.members.get(args.shift());
+            let json = args.join(' ');
+            if (!user) return;
+            if (json.startsWith('<br')) { return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка обновления игровых ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+json.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
+            let array = JSON.parse(json);
+        }
         return;
     }
 
     //Выставление реакций в #votes
     if (message.channel.id === '421287649995784193') {
-        console.log('caught '+message.id);
         return multipleReact(message, [emojis.za, emojis.neznayu, emojis.protiv]).catch();
     }
 
@@ -487,7 +503,6 @@ client.on("message", async message => {
         let new_args = args;
         const chat = new_args.shift();
         const sayMessage = new_args.join(" ");
-        console.log(chat);
         message.guild.channels.get(chat).send(sayMessage).catch(()=>{message.reply('ты ебобо?');});
         message.delete().catch(O_o=>{});
     }, 'hid');
@@ -559,12 +574,8 @@ client.on("message", async message => {
             let nick = message.author.username;
             if (message.member.nickname != null) nick = message.member.nickname;
             client.fetchWebhook(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN).then(webhook => {
-                webhook.send('', {username: nick, avatarURL: message.author.avatarURL, embeds: [embed]}).catch(err => {
-                    console.log(err)
-                });
-            }).catch(err => {
-                console.log(err)
-            });
+                webhook.send('', {username: nick, avatarURL: message.author.avatarURL, embeds: [embed]}).catch(console.error);
+            }).catch(console.error);
             message.channel.send(`🗳 Голосование пользователя ${message.author} успешно начато`);
             message.delete();
         });
@@ -840,7 +851,6 @@ client.on("message", async message => {
             let data = JSON.parse(body);
             let footer = 'Страница '+data[3]+'/'+data[2];
             let usrs = data[4];
-            console.log(body);
             usrs.forEach(function (item) {
                 if (!message.guild.members.get(item['id'].toString())) return;
                 users.push(message.guild.members.get(item['id'].toString()).toString() + ` (\`${message.guild.members.get(item['id'].toString()).user.tag}\`) - ${item['level']} уровень, ${item['xp']} опыта всего`);
@@ -1013,7 +1023,6 @@ client.on("message", async message => {
                     message.guild.channels.get('426756919777165312').send({embed});
                 });
             }
-            console.log(collector);
             collector.stop();
         });
     }, '[пользователь]', 'отключить опыт пользователю');
@@ -1048,5 +1057,6 @@ client.on("message", async message => {
 });
 
 //Авторизация бота токеном.
-client.login(process.env.BOT_TOKEN).catch(err => {console.log(err)});
+client.login(process.env.BOT_TOKEN).catch(console.error);
+//Защита от кражи токена.
 process.env.BOT_TOKEN = process.env.POSLANIYE;
