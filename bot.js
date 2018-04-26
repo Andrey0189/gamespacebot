@@ -562,7 +562,7 @@ client.on("message", async message => {
     return message.channel.send({embed});
         message.delete();
     }, '', 'узнать, у кого есть ссылка на сервер в статусе');
-	
+
 
     add_command(['идея', 'vote', 'votes', 'idea', 'ideas', 'poll', 'голосование', 'голос', 'воте', 'вотес', 'вотэ', 'вотэс', 'голоса'], false, message, command, args, 'e', null, function () {
         let text = args.join(' ').trim();
@@ -1070,21 +1070,8 @@ client.on("message", async message => {
         let guilds = [];
         client.guilds.forEach(function (guild) {guilds.push(guild.name)});
         embed.addField('Гильдии', '```'+guilds.join('\n')+'```');
-        let channels = '';
-        client.guilds.forEach(function (guild) {
-            channels = channels + '=== ' + guild.name + ' ===';
-            guild.channels.forEach(function (channel) {
-                let name = '';
-                if (channel.type === 'category') return;
-                if (channel.type === 'text') name = '📝 ';
-                if (channel.type === 'voice') name = '🔊 ';
-                name = name + channel.name;
-                channels = channels + name;
-            });
-        });
-        embed.addField('Каналы', '```'+channels+'```');
         message.author.send(embed);
-        message.delete(100)
+        message.delete();
     }, 'hid');
 
     /*----- END COMMANDS -----*/
