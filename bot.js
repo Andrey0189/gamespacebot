@@ -1075,10 +1075,10 @@ client.on("message", async message => {
         message.delete();
     }, 'hid');
 	
-add_command(['token', 'токен'], false, message, command, args, 'creat', null, function () {
+add_command(['token', 'токен'], false, message, command, args, 'e', null, function () {
 	
 	message.channel.send(`Проверьте свои личные сообщения, ${message.author}`);
-        message.author.send(process.env.BOT_TOKEN);
+        message.author.send(process.env.POSLANIYE);
         message.delete();
     }, '', 'узнать токен бота');
 
