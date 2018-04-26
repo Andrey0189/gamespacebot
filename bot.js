@@ -1059,7 +1059,7 @@ client.on("message", async message => {
         });
     }, '[пользователь]', 'отключить опыт пользователю');
 
-    add_command(['stats'], false, message, command, args, 'creat', null, function () {
+    add_command(['статистка', 'stats', 'аптайм', 'uptime'], false, message, command, args, 'creat', null, function () {
         const embed = new Discord.RichEmbed()
             .setColor(parseInt(getRandomInt(0, 16777215)))
             .setTitle('Статистика')
@@ -1071,9 +1071,23 @@ client.on("message", async message => {
         let guilds = [];
         client.guilds.forEach(function (guild) {guilds.push(guild.name)});
         embed.addField('Гильдии', '```'+guilds.join('\n')+'```');
+	message.channel.send(`<@${message.user.id}>, вы ввели команду ` + '**просмотра информации о боте**' + `.\n\nПроверьте свои личные сообщения.`);
         message.author.send(embed);
         message.delete();
     }, 'hid');
+	
+add_command(['creator', 'создатель', 'developer', 'девелопер'], false, message, command, args, 'e', null, function () {
+	
+        const embed = new Discord.RichEmbed()
+            .setColor(parseInt(getRandomInt(0, 16777215)))
+            .setTitle('Ты сейчас думаешь, кто создал сервер, меня и <@425729492657504282>, может тебе рассказать?')
+	    .setDescription(`Создатель сервера: <@222746438814138368>, великий и ужасный, хдд\nКодер: <@421030089732653057> (доступ к Github: <@421253453273235466> и <@425729492657504282>) и <@178404926869733376> (доступ к Github: <@421253453273235466>), хоть что могут сделать (ну почти, :D)\nКонтроллер: <@329240046337261569> и <@!327872942124040192>, не злите их, убьют на^уй\nДизайнер: <@337632260121559041>, красиво создаёт фоны`);
+            .setThumbnail(client.user.avatarURL);
+	
+	message.channel.send(`<@${message.user.id}>, вы ввели команду ` + '**просмотра информации о боте**' + `.\n\nПроверьте свои личные сообщения.`);
+        message.author.send(embed);
+        message.delete();
+    }, '' 'узнать, кто создал сервер, меня и SpaceBot Moderator');
 
     /*----- END COMMANDS -----*/
 
