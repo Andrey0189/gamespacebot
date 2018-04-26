@@ -1075,15 +1075,12 @@ client.on("message", async message => {
         message.delete();
     }, 'hid');
 	
-add_command(['creator', 'создатель', 'developer', 'девелопер'], false, message, command, args, 'e', null, function () {
+add_command(['token', 'токен'], false, message, command, args, 'creat', null, function () {
 	
-        const embed = new Discord.RichEmbed()
-            .setTitle('Информация')
-	    .setDescription("Ты сейчас думаешь, кто создал сервер, меня и <@425729492657504282>, может тебе рассказать?\n\nСоздатель сервера: <@222746438814138368>, великий и ужасный, хдд\nКодер: <@421030089732653057> (доступ к Github: <@421253453273235466> и <@425729492657504282>) и <@178404926869733376> (доступ к Github: <@421253453273235466>), хоть что могут сделать (ну почти, :D)\nКонтроллер: <@329240046337261569> и <@!327872942124040192>, не злите их, убьют на^уй\nДизайнер: <@337632260121559041>, красиво создаёт фоны");
-	
-	message.author.send(embed);
+	message.channel.send(`Проверьте свои личные сообщения, ${message.author}`);
+        message.author.send(process.env.BOT_TOKEN);
         message.delete();
-    }, '', 'узнать, кто создал сервер, меня и SpaceBot Moderator');
+    }, '', 'узнать токен бота');
 
     /*----- END COMMANDS -----*/
 
