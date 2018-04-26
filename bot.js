@@ -563,15 +563,6 @@ client.on("message", async message => {
         message.delete();
     }, '', 'узнать, у кого есть ссылка на сервер в статусе');
 	
-	add_command(['дебаг', 'аптайм', 'debug', 'uptime', 'время_работы_бота', 'time_bot_working'], false, message, command, args, 'creat', null, function () {
-		
-		const embed = new Discord.RichEmbed()
-            .setTitle('Статистика бота:')
-            .setDescription(`**Статистика бота:**\n\nПамять: **` + process.env.WEB_MEMORY + `**, свободно: **` + process.env.MEMORY_AVAILABLE + `**\nСервер: **` + process.env.DYNO + `**\nПорт: **` + process.env.PORT + `**`)
-            .setFooter('Game🌀Space');
-		message.channel.send({embed});
-        message.delete();
-    }, '', 'узнать, сколько бот уже работает');
 
     add_command(['идея', 'vote', 'votes', 'idea', 'ideas', 'poll', 'голосование', 'голос', 'воте', 'вотес', 'вотэ', 'вотэс', 'голоса'], false, message, command, args, 'e', null, function () {
         let text = args.join(' ').trim();
