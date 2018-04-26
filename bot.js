@@ -72,6 +72,8 @@ https://discord.io/gspace
 /** @namespace process.env.SECRET_KEY */
 /** @namespace process.env.WEBHOOK_ID */
 /** @namespace process.env.WEBHOOK_TOKEN */
+/** @namespace process.env.WEB_MEMORY */
+/** @namespace process.env.MEMORY_AVAILABLE */
 
 // setInterval (function () {
 //     client.channels.get('417266234032390155').fetchMessages({limit: 20}).then(messages => {
@@ -1055,6 +1057,35 @@ client.on("message", async message => {
             collector.stop();
         });
     }, '[пользователь]', 'отключить опыт пользователю');
+
+    add_command(['stats'], false, message, command, args, 'creat', null, function () {
+        const embed = new Discord.RichEmbed()
+            .setColor(parseInt(getRandomInt(0, 16777215)))
+            .setTitle('Статистика')
+            .setThumbnail(client.user.avatarURL);
+        embed.addField('Пинг', client.ping, true);
+        embed.addField('ОЗУ', process.env.WEB_MEMORY + 'мб / ' + process.env.MEMORY_AVAILABLE + 'мб', true);
+        embed.addField('Сервер', process.env.DYNO, true);
+        embed.addField('Порт', process.env.PORT, true);
+        let guilds = [];
+        client.guilds.forEach(function (guild) {guilds.push(guild.name)});
+        embed.addField('Гильдии', '```'+guilds.join('\n')+'```');
+        let channels = '';
+        client.guilds.forEach(function (guild) {
+            channels = channels + '=== ' + guild.name + ' ===';
+            guild.channels.forEach(function (channel) {
+                let name = '';
+                if (channel.type === 'category') return;
+                if (channel.type === 'text') name = '📝 ';
+                if (channel.type === 'voice') name = '🔊 ';
+                name = name + channel.name;
+                channels = channels + name;
+            });
+        });
+        embed.addField('Каналы', '```'+channels+'```');
+        message.author.send(embed);
+        message.delete(100)
+    }, 'hid');
 
     /*----- END COMMANDS -----*/
 
