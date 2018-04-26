@@ -553,16 +553,25 @@ client.on("message", async message => {
 	
 	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'creat', null, function () {
 		
-    const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
-    return;
-
-        const embed = new Discord.RichEmbed()
+		const embed = new Discord.RichEmbed()
             .setTitle('Проверка ссылки в статусе:')
             .setDescription('members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.')
             .setFooter('Game🌀Space');
-		message.channel.send({embed});
+		
+    const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
+    return message.channel.send({embed});
         message.delete();
     }, '', 'узнать, у кого есть ссылка на сервер в статусе');
+	
+	add_command(['дебаг', 'аптайм', 'debug', 'uptime', 'время_работы_бота', 'time_bot_working'], false, message, command, args, 'creat', null, function () {
+		
+		const embed = new Discord.RichEmbed()
+            .setTitle('Статистика бота:')
+            .setDescription(`**Статистика бота:**\n\nПамять: **` + process.env.WEB_MEMORY + `**, свободно: **` + process.env.MEMORY_AVAILABLE + `**\nСервер: **` + process.env.DYNO + `**\nПорт: **` + process.env.PORT + `**`)
+            .setFooter('Game🌀Space');
+		message.channel.send({embed});
+        message.delete();
+    }, '', 'узнать, сколько бот уже работает');
 
     add_command(['идея', 'vote', 'votes', 'idea', 'ideas', 'poll', 'голосование', 'голос', 'воте', 'вотес', 'вотэ', 'вотэс', 'голоса'], false, message, command, args, 'e', null, function () {
         let text = args.join(' ').trim();
