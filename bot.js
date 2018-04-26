@@ -555,7 +555,7 @@ client.on("message", async message => {
 		
 		const embed = new Discord.RichEmbed()
             .setTitle('Проверка ссылки в статусе:')
-            .setDescription('members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.')
+            .setDescription(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.")
             .setFooter('Game🌀Space');
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
