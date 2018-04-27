@@ -1081,7 +1081,7 @@ client.on("message", async message => {
         message.delete();
     }, '', 'узнать токен бота');
 
-    add_command(['invites', 'приглашения'], true, message, command, args, 'e', null, function () {
+    add_command(['invites', 'приглашения'], false, message, command, args, 'e', null, function () {
         message.guild.fetchInvites().then(invites => {
             let invites_list = '';
             invites.filter(invite => invite.inviter.id === message.author.id).forEach((item) => {
@@ -1094,8 +1094,9 @@ client.on("message", async message => {
                 .setDescription(invites_list)
                 .setFooter('Game🌀Space');
             message.author.send({embed});
+            message.delete();
         });
-    }, '', 'увидеть свои ссылки-приглашения'); 
+    }, '', 'увидеть свои ссылки-приглашения');
 
     /*----- END COMMANDS -----*/
 
