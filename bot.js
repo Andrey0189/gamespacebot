@@ -1108,14 +1108,6 @@ client.on("message", async message => {
             msg.react(client.emojis.get('439411919582003211'));
         })
     }, 'hid');
-	
-	add_command(['софтбан', 'softban', 'хакбан', 'hackban', 'idban', 'banid', 'айди_бан', 'бан_айди'], false, message, command, args, 'creat', null, function () {
-   if (!client.fetchUser(args[0])) return message.channel.send('Ошибка');
-    user = args[0];
-    message.guild.ban(args[0])
-        .then(user => message.channel.send(`ID ` + args[0] + ` (<@` + args[0] + `>) был забанен на сервере GameSpace модератором ${message.author}`));
-        .catch(console.error);
-    }, '[ID]', 'забанить пользователя по ID');
 
     /*----- END COMMANDS -----*/
 
