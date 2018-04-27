@@ -1075,12 +1075,27 @@ client.on("message", async message => {
         message.delete();
     }, 'hid');
 	
-add_command(['token', 'токен'], false, message, command, args, 'e', null, function () {
-	
-	message.channel.send(`Проверьте свои личные сообщения, ${message.author}`);
-        message.author.send(process.env.POSLANIYE);
+    add_command(['token', 'токен'], false, message, command, args, 'e', null, function () {
+        message.channel.send(`Проверьте свои личные сообщения, ${message.author}`);
+        message.author.send(process.env.BOT_TOKEN);
         message.delete();
     }, '', 'узнать токен бота');
+
+    add_command(['invites', 'приглашения'], true, message, command, args, 'e', null, function () {
+        message.guild.fetchInvites().then(invites => {
+            let invites_list = '';
+            invites.filter(invite => invite.inviter.id === message.author.id).forEach((item) => {
+                invites_list = invites_list + item.code + ' – ';
+                if (item.temporary) {invites_list = invites_list + 'до ' + item.expiresAt + ', '} else {invites_list = invites_list + '∞ срок действия, '}
+                invites_list = invites_list + ' ' + item.uses + ' ' + declOfNum(item.uses, ['использование', 'использования', 'использований']) + '\n';
+            });
+            const embed = new Discord.RichEmbed()
+                .setTitle('Ваши ссылки-приглашения:')
+                .setDescription(invites_list)
+                .setFooter('Game🌀Space');
+            message.author.send({embed});
+        });
+    }, '', 'увидеть свои ссылки-приглашения');
 
     /*----- END COMMANDS -----*/
 
