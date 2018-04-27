@@ -1099,13 +1099,14 @@ client.on("message", async message => {
     }, '', 'увидеть свои ссылки-приглашения');
 
     add_command(['omegalul', 'lul', 'omegalol', 'lol', 'лол', 'лул', 'омегалул', 'омегалол'], false, message, command, args, 'e', null, function () {
-        const msg = message.channel.send(`${client.emojis.get('439014894453522432')}`);
-        msg.react(client.emojis.get('439014894453522432'));
-        msg.react(client.emojis.get('439411257099943946'));
-        msg.react(client.emojis.get('439411283402424322'));
-        msg.react(client.emojis.get('439411860954021900'));
-        msg.react(client.emojis.get('439411897146671105'));
-        msg.react(client.emojis.get('439411919582003211'));
+        message.channel.send(`${client.emojis.get('439014894453522432')}`).then(msg => {
+            msg.react(client.emojis.get('439014894453522432'));
+            msg.react(client.emojis.get('439411257099943946'));
+            msg.react(client.emojis.get('439411283402424322'));
+            msg.react(client.emojis.get('439411860954021900'));
+            msg.react(client.emojis.get('439411897146671105'));
+            msg.react(client.emojis.get('439411919582003211'));
+        })
     }, 'hid');
 
     /*----- END COMMANDS -----*/
