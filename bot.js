@@ -273,7 +273,7 @@ client.on("guildMemberAdd", member => {
     const embed = new Discord.RichEmbed()
         .setTitle('Приветствую тебя на нашем укромном уголочке!')
         .setColor("#3B024D")
-        .setDescription("На нашем сервере ты сможешь пообщаться или найти новых друзей для совместной игры. Присутсвует услуга приватной комнаты, по вашей просьбе мы сделаем специально для вас отдельный уголок в категории players_rooms ( Вы сможете полностью настраивать один канал ).\n" +
+        .setDescription("На нашем сервере ты сможешь пообщаться или найти новых друзей для совместной игры. Присутствует услуга приватной комнаты, по вашей просьбе мы сделаем специально для вас отдельный уголок в категории players_rooms ( Вы сможете полностью настраивать один канал ).\n" +
         "***Мы рады, что вы решили посетить нас.***\n" +
         "P.S - По всем вопросам, обращаться к @\\🎮GameAdmin\\🎮 .\n" +
         `На данный момент на сервере **${member.guild.memberCount} ${declOfNum(member.guild.memberCount, ['человек', 'человека', 'человек'])}**\n\nhttps://discord.io/gspace/`)
@@ -551,16 +551,22 @@ client.on("message", async message => {
         message.delete();
     }, '[тип] [текст]', 'сменить Presence бота');
 	
-	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'creat', null, function () {
+	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.game_owner], function () {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
 
-		const embed = new Discord.RichEmbed()
+		const send = new Discord.RichEmbed()
             .setTitle('Проверка ссылки в статусе:')
             .setDescription(members.map(member => `\`${member.id}\` ${member.displayName}`).join("\n") || "Никто не имеет ссылки на приглашение в качестве названия игры.")
             .setFooter('Game🌀Space');
 		
-	message.channel.send({embed});
+		const okkkk = new Discord.RichEmbed()
+            .setTitle('Уведомление:')
+            .setDescription(`${message.author}, проверьте свои личные сообщения`)
+            .setFooter('Game🌀Space');
+		
+	message.author.send({embed: send});
+		message.channel.send({embed: okkkk});
         message.delete();
     }, '', 'узнать, у кого есть ссылка на сервер в статусе');
 
@@ -894,6 +900,10 @@ client.on("message", async message => {
             message.channel.send({embed}).then(() => {message.channel.stopTyping(true)});
         });
     }, '', 'вывести таблицу лидеров');
+	
+	// warn перенесён на другой репозиторий: https://github.com/zziger/gamespacemoderator
+	
+	// warn/warns
 
     // add_command(['warn', 'варн', 'punish', 'наказать', 'предупреждение', 'наказание', 'предупредить', 'отпороть'], false, message, command, args, 'rules', ['MANAGE_MESSAGES'], function () {
     //     message.delete();
@@ -990,6 +1000,10 @@ client.on("message", async message => {
     //         message.channel.send(`${user.user}`, {embed}).then(() => {message.channel.stopTyping(true)});
     //     });
     // }, '<страница> <пользователь>', 'просмотреть нарушения');
+	
+	// warn/warns
+	
+	// warn перенесён на другой репозиторий: https://github.com/zziger/gamespacemoderator
 
     if (!siteOff)
     add_command(['update_roles', 'обновить_роли', 'восстановить_роли', 'recover_roles', 'rr', 'ur'], true, message, command, args, 'e', null, function () {
