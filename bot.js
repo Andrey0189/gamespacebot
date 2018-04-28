@@ -19,53 +19,80 @@
 * http://creativecommons.org/licenses/by-nc-sa/4.0/
 *
 * */
+
+// Подключение Discord.js
 const Discord = require('discord.js');
-const util = require("util");
-const https = require("https");
+// Подключение request
 const request = require("request");
-const querystring = require('querystring');
+// Подключение rgbcolor
 const rgbcolor = require('rgbcolor');
+// Подключение get-image-colors
 const getImageColors = require('get-image-colors');
+// Подключение util
 const { inspect } = require("util");
+// Подключение vm
 const vm = require("vm");
+// Создание нового контекста
 const codeContext =  {};
 vm.createContext(codeContext);
+// Создание клиента Discord
 const client = new Discord.Client({ autofetch: [
-        'MESSAGE_CREATE',
-        'MESSAGE_UPDATE',
-        'MESSAGE_REACTION_ADD',
-        'MESSAGE_REACTION_REMOVE',
-    ] });
-const rule = {game_admin: "417312252463677451", game_owner: "417267817763831808", content_maker: "417267817763831808", game_sponsor: "417396657668358165", own: "419562566512017415", moder: "426411685595578382"};
-// Эклипс вернулся
+    'MESSAGE_CREATE',
+    'MESSAGE_UPDATE',
+    'MESSAGE_REACTION_ADD',
+    'MESSAGE_REACTION_REMOVE',
+]});
+// Основные роли, предоставляющие некоторые права
+const rule = {
+    own: "419562566512017415",
+    trusted_own: "430006994607538201",
+    ban_hammer: "417267817763831808",
+    game_admin: "417312252463677451",
+    moder: "426411685595578382"
+};
+// Массив людей, обходящих основные права бота
 const creators = ['178404926869733376', '168255014282854401', '421030089732653057'];
-// Аккаунт zziger#8809 в бане...
-// Проверка коммита с нетбука
-// const music_channels = ['', '415577705636167694', '415578104724193300', '415578300505915393', '415578533511823370', '415578661023121408'];
-const jvbot_channel = '421260737281785856';
-const emojis = {up:'418748638081318912', stop:'418748635820326912', shuffle:'418748638173462528', repeat1:'418748637531865089', repeat:'418748637649174535', play:'418748635765800961', pause:'418748635329855489', ok:'418748637502504972', forward:'418748554899881994', down:'418748613733122058', back:'418748554014752770', ABCD:'418748554518069249', abcd:'418748553985261568', abc:'418748552802598927', protiv:'419121914959626240', neznayu:'419121999277719562', za:'419122029854457866', obnimayu:'421647583551684609', money:'422055316792803349', error: '424467513578094592', facepalm: '429211566756462592'};
-// let music_bot_messages = ['', '', '', '', '', ''];
-// let music_bot_channels = ['', '', '', '', '', ''];
+// Основные эмодзи, доступные боту
+const emojis = {
+    up:'418748638081318912',
+    stop:'418748635820326912',
+    shuffle:'418748638173462528',
+    repeat1:'418748637531865089',
+    repeat:'418748637649174535',
+    play:'418748635765800961',
+    pause:'418748635329855489',
+    ok:'418748637502504972',
+    forward:'418748554899881994',
+    down:'418748613733122058',
+    back:'418748554014752770',
+    ABCD:'418748554518069249',
+    abcd:'418748553985261568',
+    abc:'418748552802598927',
+    protiv:'419121914959626240',
+    neznayu:'419121999277719562',
+    za:'419122029854457866',
+    obnimayu:'421647583551684609',
+    money:'422055316792803349',
+    error: '424467513578094592',
+    facepalm: '429211566756462592'
+};
+// Люди, которые получили опыт в течении минуты
 const talkedRecently = new Set();
+// Люди, которые уже обращались к боту. Используется для создания кд в 15 секунд
 const commandCooldown = new Set();
+// Каналы, в которых разрешено уведомление о новом левле
 const newLevelNotificationChannels = ['417266234032390155', '418096126957453337', '421625843320750080', '421664477662937098', '417674070046277632', '421558850681044993'];
+// Константа, отключаящая функции, которые связаны с сайтом
 const siteOff = false;
+// Каналы, в которых бот имеет право выполнять все команды
 const botFullRights = ['418096126957453337', '421558850681044993'];
-let help_commands = [];
+// Массив ролей за уровни
 const level_roles = [['2', '417389665042169876'], ['5', '417391646863523858'], ['10', '417391865038635010'], ['15', '417392325405442058'], ['20', '417393247162204160'], ['23', '417392902872891393'], ['25', '417392121541296128'], ['28', '417392180747829249'], ['30', '417392444750168075']];
+// Основные каналы
 const channels = {'errs': '432071031356915722'};
 
 
 // безразмерная пустота " ⃠ "
-
-/*
-/embed {title:Советуйте наш сервер друзьям!}{description:Передавайте друзьям **ссылку** на наш сервер, или **QR** код!
-
-*Ссылка:*
-https://discord.io/gspace
-
-*QR код:*}{image:https://discord.io/gspace/qr}{color:37074E}
-*/
 
 
 /** @namespace process.env.PREFIX */
@@ -76,30 +103,10 @@ https://discord.io/gspace
 /** @namespace process.env.WEBHOOK_TOKEN */
 /** @namespace process.env.WEB_MEMORY */
 /** @namespace process.env.MEMORY_AVAILABLE */
+/** @namespace process.env.POSLANIYE */
+/** @namespace process.env.DYNO */
+/** @namespace process.env.PORT */
 
-// setInterval (function () {
-//     client.channels.get('417266234032390155').fetchMessages({limit: 20}).then(messages => {
-//         messages.forEach(function (message) {
-//             message.embeds.forEach(function (embed) {
-//                 if (!embed || embed.title !== 'Советуйте наш сервер своим друзьям!' || message.author.id !== client.user.id) {
-//                     const embed = new Discord.RichEmbed()
-//                         .setTitle('Советуйте наш сервер своим друзьям!')
-//                         .setColor(parseInt(getRandomInt(0,16777214)))
-//                         .setDescription('Передавайте друзьям **ссылку** на наш сервер, или **QR** код!\n' +
-//                             '\n' +
-//                             '*Ссылка:*\n' +
-//                             'https://discord.io/gspace\n' +
-//                             '\n' +
-//                             '*QR код:*')
-//                         .setImage('https://discord.io/gspace/qr');
-//                     let msg = client.channels.get('417266234032390155').send({embed});
-//                     console.log('Share_message was sent. ID: '+msg.id);
-//                 }
-//             })
-//         });
-//     });
-//
-// }, 3600000);
 
 //Подбор формы слова в зависимости от числительного
 function declOfNum(number, titles) {
@@ -136,16 +143,12 @@ function embed_error(text) {
 
 //Функция, которая добавляет команду
 function add_command(aliases, onlyInBotChat, message, command, args, access_type, access_params, command_function, pattern = null, description = null) {
-
     if (onlyInBotChat) {
         if (!botFullRights.includes(message.channel.id)) return;
     }
-
     if (typeof aliases !== 'object')
         return console.error('Error: command aliases aren\'n array');
-
     let embed;
-
     let error = false;
     if (!creators.includes(message.author.id))
     if (access_type === 'rules') {
@@ -190,7 +193,6 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
         embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но Вы должны быть создателем бота для выполнения данной команды\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>`);
         error = true;
     }
-
     if (!error && pattern !== 'hid') {
         let cmd = '';
         if (pattern !== null)
@@ -202,11 +204,9 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
             cmd = cmd + ` — ${description}`;
         help_commands.push(cmd);
     }
-
     if (!aliases.includes(command)) return;
     if (error) return message.channel.send({embed});
-
-    if (!message.member.roles.some(r=>[rule.game_owner, rule.game_owner, rule.own].includes(r.id)))
+    if (!message.member.roles.some(r=>[rule.game_admin, rule.ban_hammer].includes(r.id)))
     if (!commandCooldown.has(message.author.id)) {
         commandCooldown.add(message.author.id);
         setTimeout(() => {
@@ -217,46 +217,23 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
     }
     command_function();
 }
- 
+
+
 String.prototype.replaceAll = function(search, replacement) {
     let target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
 
-client.on("messageReactionAdd", (reaction, user) => {
-
-    // if (music_channels.indexOf(reaction.message.guild.members.get(user.id).voiceChannelID) !== -1 && music_bot_messages.includes(reaction.message.id) && !user.bot) {
-    //     let bot_ = music_bot_messages.indexOf(reaction.message.id);
-    //     if (reaction.emoji.id === emojis.play) {
-    //         client.channels.get(jvbot_channel).send(`+jvdjbot+${bot_}+getSong`);
-    //         reaction.remove(user);
-    //     }
-    // }
-    let memb = reaction.message.guild.members.get(user.id);
-    if (user.bot) return;
-    if (reaction.message.id === '421324005853888512') {
-        if (reaction.emoji.name === '✅') {
-            if (memb.roles.has('417373000422391809'))
-                memb.removeRole('417373000422391809').catch(console.error);
-            if (!memb.roles.has('417312577018789899'))
-                memb.addRole('417312577018789899').catch(console.error);
-        } else if (reaction.emoji.name === '❌') {
-            memb.kick('Не согласен с правилами').catch(console.error);
-        }
-        reaction.remove(user);
+client.on("presenceUpdate", (old_user, new_user) => {
+    if (!old_user.roles.some(r=>['432401348903043073'].includes(r.id))) return;
+    if (!new_user.presence.game) return;
+    if (old_user.presence.game) {
+        if (old_user.presence.game.streaming) return;
     }
+    if (!new_user.presence.game.streaming) return;
+    client.channels.get('417266234032390155').send(`📺 Хей, ребят! ${old_user.user} начал стрим! Заходим! ${new_user.presence.game.url}`);
 });
-
-// client.on("presenceUpdate", (old_user, new_user) => {
-//     if (!old_user.roles.some(r=>['394521558283976705'].includes(r.id))) return;
-//     if (!new_user.presence.game) return;
-//     if (old_user.presence.game) {
-//         if (old_user.presence.game.streaming) return;
-//     }
-//     if (!new_user.presence.game.streaming) return;
-//     client.channels.get('419730941854875660').send(`📺 Хей, ребят! ${old_user.user} начал стрим! Заходим! ${new_user.presence.game.url}`);
-// });
 
 client.on('ready', () => {
 	console.log('//------------------//');
@@ -265,13 +242,11 @@ client.on('ready', () => {
     console.log('Краткая информация:');
     console.log('- Авторизован как ' + client.user.tag);
     console.log('- Бот является участником ' + client.guilds.size + ' ' + declOfNum(client.guilds.size, ['сервера', 'серверов', 'серверов']));
-    console.log('- Пинг ' + client.ping + 'мс');
-    console.log('');
-    console.log('Автор ' + client.fetchUser('421030089732653057').tag);
+    console.log('- Команды, для работы которых требуется сайт ' + siteOff ? 'выключены' : 'включены');
+    client.fetchUser('421030089732653057').then(user => console.log('Автор ' +  user.tag ));
     console.log('Специально для сервера GameSpace. https://discord.io/gspace');
     console.log('//------------------//');
 	client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
-    // client.channels.get('417374192418160652').fetchMessage('421324005853888512');
 });
 
 client.on("guildMemberAdd", member => {
@@ -394,7 +369,7 @@ client.on("message", async message => {
   	help_commands = [''];
 
   	/*----- START COMMANDS -----*/
-    add_command(['скажи', 'say', 's'], false, message, command, args, 'roles', [rule.game_owner], function () {
+    add_command(['скажи', 'say', 's'], false, message, command, args, 'roles', [rule.ban_hammer, rule.game_admin], function () {
         const sayMessage = args.join(" ");
         message.delete().catch(O_o=>{});
         const embed = embed_error(`${message.author}, неизвестная ошибка отправки сообщения в чат`);
@@ -511,7 +486,7 @@ client.on("message", async message => {
         message.delete();
     }, '', 'информация об экономике');
 
-    add_command(['remote_say', 'rs'], false, message, command, args, 'roles', [rule.game_owner], function () {
+    add_command(['remote_say', 'rs'], false, message, command, args, 'roles', [rule.ban_hammer], function () {
         if (message.channel.id = undefined) {
             const error = embed_error('Ошибка отправки сообщения.');
             return message.channel.send({error});
@@ -556,7 +531,7 @@ client.on("message", async message => {
         message.delete();
     }, '[тип] [текст]', 'сменить Presence бота');
 	
-	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.moder, rule.game_owner, rule.game_admin], function () {
+	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.moder, rule.ban_hammer, rule.game_admin], function () {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
 
@@ -905,110 +880,6 @@ client.on("message", async message => {
             message.channel.send({embed}).then(() => {message.channel.stopTyping(true)});
         });
     }, '', 'вывести таблицу лидеров');
-	
-	// warn перенесён на другой репозиторий: https://github.com/zziger/gamespacemoderator
-	
-	// warn/warns
-
-    // add_command(['warn', 'варн', 'punish', 'наказать', 'предупреждение', 'наказание', 'предупредить', 'отпороть'], false, message, command, args, 'rules', ['MANAGE_MESSAGES'], function () {
-    //     message.delete();
-    //     let new_args = args;
-    //     new_args.shift();
-    //     let reason = new_args.join(' ').trim();
-    //
-    //     let user = message.mentions.members.first();
-    //     if (user.user.id === message.author.id) return message.channel.send({embed: embed_error(`${user.user}, извините, но вы не можете наказать самого себя`)});
-    //     if (!user) return message.reply({embed: embed_error('Пользователь не является участником сервера, или не существует')});
-    //     let reasontext = '';
-    //     if (reason !== null && typeof reason !== undefined && reason !== '') reasontext = ` с причиной \`${reason}\``;
-    //     if (reason === null || typeof reason === undefined || reason === '') reason = 'Причина не указана.';
-    //     let accepting = message.channel.send(`Вы уверены, что хотите выписать предупреждение пользователю \`${user.user.tag}\`${reasontext}?\n\n**Напишите \`да\`, чтобы подтведить.**`);
-    //     const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 60000 });
-    //     collector.on('collect', msg => {
-    //         if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
-    //             message.channel.startTyping();
-    //             message.delete();
-    //             request(`https://${process.env.SITE_DOMAIN}/warn.php?id=${user.user.id}&reason=${encodeURIComponent(reason)}&secret=${encodeURIComponent(process.env.SECRET_KEY)}&user=${message.author.id}`, function (error, response, body) {
-    //                 let data = JSON.parse(body);
-    //                 let footer = 'Game🌀Space #'+data.id;
-    //                 if (reason === null || typeof reason === 'undefined') reason = 'Причина не указана.';
-    //                 let embed = new Discord.RichEmbed()
-    //                     .setTitle('Предупреждение')
-    //                     // .setDescription(`**Пользователь:** ${user.user}\n**Модератор:** ${message.author}\n**Причина:**\n\n${reason}`)
-    //                     .addField('Пользователь', `${user.user} (\`${user.user.tag}\`)`, true)
-    //                     .addField('Модератор', `${message.author} (\`${message.author.tag}\`)`, true)
-    //                     .setFooter(footer)
-    //                     .setColor('F1C40F');
-    //                 if (reason !== null && typeof reason !== undefined && reason !== '') embed.addField('Причина', `${reason}`);
-    //                 message.channel.send(`${user.user}`, {embed}).then(() => {message.channel.stopTyping(true)});
-    //                 message.guild.channels.get('426756919777165312').send({embed});
-    //             });
-    //         }
-    //         console.log(collector);
-    //         collector.stop();
-    //     });
-    // }, '[пользователь] <причина>', 'выписать пользователю предупреждение');
-    //
-    // add_command(['нарушения', 'наказания', 'варны', 'предупреждения', 'муты', 'punishments', 'warns', 'mutes'], false, message, command, args, 'e', null, function () {
-    //     message.delete();
-    //     let user = message.mentions.members.first();
-    //     let requested = '';
-    //     let user_molodec = `${message.author}, можете гордиться, вы - молодец!`;
-    //     if (user) {
-    //         if (!message.member.hasPermission('MANAGE_MESSAGES', false, true, true))
-    //             return message.channel.send({embed: embed_error('Вы не имеете права `MANAGE_MESSAGES`, которое требуется для просмотра чужих нарушений\n\nЕсли Вы считаете, что это не так - обратитесь к <@168255014282854401>')})
-    //         requested = `, запрошенные пользователем ${message.author} (\`${message.author.tag}\`)`;
-    //         user_molodec = `${user} - молодец!`;
-    //     } else {
-    //         user = message.member;
-    //     }
-    //     let page = args[0];
-    //     if (!isNumeric(page)) page = 1;
-    //     request(`https://${process.env.SITE_DOMAIN}/punishments.php?&secret=${encodeURIComponent(process.env.SECRET_KEY)}&user=${user.user.id}`, function (error, response, body) {
-    //         let data1 = JSON.parse(body);
-    //         let data = [''].concat(data1);
-    //         let punishments = '';
-    //         console.log(data1);
-    //         let limit = 5;
-    //         let all_pages = Math.ceil(data.length/limit);
-    //         console.log(all_pages);
-    //         let current_page = parseInt(page);
-    //         if (current_page > all_pages || current_page < 1 || !isNumeric(page))
-    //             current_page = 1;
-    //         console.log(current_page);
-    //         let all_data = data.slice(1+((current_page-1)*limit), (limit+1)+((current_page-1)*limit));
-    //         console.log(all_data);
-    //         let user_text = '';
-    //         if (user !== message.member) user_text = ` ${user}`;
-    //         let next_page = ``;
-    //         if (current_page < all_pages) next_page = `Для просмотра следующей страницы введите:\n${process.env.PREFIX}${command} ${current_page+1}${user_text}`;
-    //         let footer = 'Стр. '+current_page+'/'+all_pages+'; '+data.filter(pun => pun['type'] === 'warn' && pun['deleted'] === false).length+' '+declOfNum(data.filter(pun => pun['type'] === 'warn' && pun['deleted'] === false).length, ['варн', 'варна', 'варнов'])+'; '+data.filter(pun1=>pun1['type'] === 'mute' && pun1['deleted'] === false).length+' '+declOfNum(data.filter(pun1=>pun1['type'] === 'mute' && pun1['deleted'] === false).length, ['мут', 'мута', 'мутов']);
-    //         all_data.forEach(function (item, num) {
-    //             if (item['deleted']) return;
-    //             if (item === [] || item === '') return;
-    //             let type;
-    //             switch (item['type']) {
-    //                 case 'warn':
-    //                     type = 'Варн';
-    //                     break;
-    //                 default:
-    //                     type = 'Варн';
-    //             }
-    //            punishments = punishments + '***' + type + '***  (ID: `' + item['id'] + '`)\n\n**Модератор:** ' + message.guild.members.get(item['user_from']).toString() + '\n**Причина:** `' + item['reason'].replace(/` /g, '\'') + '`\n\n';
-    //         });
-    //         if (punishments === '' && current_page === 1) punishments = `Нарушений нет. ${user_molodec} :thumbsup::skin-tone-2:\n\n`;
-    //         let embed = new Discord.RichEmbed()
-    //             .setTitle('Список нарушений')
-    //             .setDescription(`Данные о пользователе ${user.user} (\`${user.user.tag}\`)${requested}\n\n${punishments}${next_page}`)
-    //             .setFooter(footer)
-    //             .setColor('F1C40F');
-    //         message.channel.send(`${user.user}`, {embed}).then(() => {message.channel.stopTyping(true)});
-    //     });
-    // }, '<страница> <пользователь>', 'просмотреть нарушения');
-	
-	// warn/warns
-	
-	// warn перенесён на другой репозиторий: https://github.com/zziger/gamespacemoderator
 
     if (!siteOff)
     add_command(['update_roles', 'обновить_роли', 'восстановить_роли', 'recover_roles', 'rr', 'ur'], true, message, command, args, 'e', null, function () {
