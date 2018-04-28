@@ -10,6 +10,8 @@
 * Бот написан специально для сервера GameSpace в Discord.
 * Ссылка-приглашение на сервер: https://discord.io/gspace
 *
+* Репозиторий SpaceBot Moderator: https://github.com/zziger/gamespacemoderator
+*
 * Copyright 2018 © GameSpace. Все права защищены.
 * Нарушение авторских прав преследуется законом.
 *
