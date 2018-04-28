@@ -1,6 +1,6 @@
 {
-  "name": "JonedVoiceBot",
-  "description": "Bot for Dicord JonedVoice server",
+  "name": "spacebot",
+  "description": "SpaceBot for GameSpace server",
   "version": "1.7.1",
   "main": "bot.js",
   "scripts": {
