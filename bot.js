@@ -36,7 +36,7 @@ const client = new Discord.Client({ autofetch: [
         'MESSAGE_REACTION_ADD',
         'MESSAGE_REACTION_REMOVE',
     ] });
-const rule = {game_admin: "417312252463677451", game_owner: "417267817763831808", content_maker: "417267817763831808", game_sponsor: "417396657668358165", own: "419562566512017415"};
+const rule = {game_admin: "417312252463677451", game_owner: "417267817763831808", content_maker: "417267817763831808", game_sponsor: "417396657668358165", own: "419562566512017415", moder: "426411685595578382"};
 // Эклипс вернулся
 const creators = ['178404926869733376', '168255014282854401', '421030089732653057'];
 // Аккаунт zziger#8809 в бане...
@@ -553,7 +553,7 @@ client.on("message", async message => {
         message.delete();
     }, '[тип] [текст]', 'сменить Presence бота');
 	
-	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.game_owner], function () {
+	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.moder], function () {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
 
