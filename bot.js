@@ -553,7 +553,7 @@ client.on("message", async message => {
         message.delete();
     }, '[тип] [текст]', 'сменить Presence бота');
 	
-	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.moder], function () {
+	add_command(['чекнуть_инвайты', 'checkinvite'], false, message, command, args, 'roles', [rule.moder, rule.game_owner, rule.game_admin], function () {
 		
     const members = message.guild.members.filter(member => member.user.presence.game && /(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(member.user.presence.game.name));
 
