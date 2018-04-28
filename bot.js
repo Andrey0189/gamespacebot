@@ -173,14 +173,17 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
             let a = 'ни одной из ролей';
             let roles = '';
             let required = 'которые требуются';
-            access_params.forEach(function (item) {
-                roles = roles + message.guild.roles.get(item);
+            access_params.forEach(function (item, number, arr) {
+                if (number === arr.size-2)
+                roles = roles + message.guild.roles.get(item) + 'или ';
+                else
+                roles = roles + message.guild.roles.get(item) + ', ';
             });
             if (access_params.length === 1) {
                 a = 'роли';
                 required = 'которая требуется';
             }
-            embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но у Вас нет ${a} ${roles}, ${required} для выполнения данной команды\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>`);
+            embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но у Вас нет ${a} ${roles}${required} для выполнения данной команды\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>`);
             error = true;
         }
     } else if (access_type === 'creat') {
