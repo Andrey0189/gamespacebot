@@ -242,10 +242,13 @@ client.on('ready', () => {
     console.log('Краткая информация:');
     console.log('- Авторизован как ' + client.user.tag);
     console.log('- Бот является участником ' + client.guilds.size + ' ' + declOfNum(client.guilds.size, ['сервера', 'серверов', 'серверов']));
-    console.log('- Команды, для работы которых требуется сайт ' + siteOff ? 'выключены' : 'включены');
-    client.fetchUser('421030089732653057').then(user => console.log('Автор ' +  user.tag ));
-    console.log('Специально для сервера GameSpace. https://discord.io/gspace');
-    console.log('//------------------//');
+    console.log('- Команды, для работы которых требуется сайт ' + (siteOff ? 'включены' : 'выключены'));
+    console.log('');
+    client.fetchUser('421030089732653057').then(user => {
+        console.log('Автор ' +  user.tag );
+        console.log('Специально для сервера GameSpace. https://discord.io/gspace');
+        console.log('//------------------//');
+    });
 	client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
 });
 
