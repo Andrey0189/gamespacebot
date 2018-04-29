@@ -268,6 +268,8 @@ client.on("guildMemberAdd", member => {
 });
 
 client.on("message", async message => {
+	// Небольшой логгер (?!), который будет отправлять сообщения, что пишут во всех каналах, доступных боту
+	console.log(`${message.author.tag} написал в канал "${message.channel.name}": ` + message.content);
     //Системные команды
     if (message.channel.id === '421260737281785856') {
         if(!message.author.bot) return;
