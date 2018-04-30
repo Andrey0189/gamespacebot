@@ -1001,50 +1001,6 @@ client.on("message", async message => {
             msg.react(client.emojis.get('439411919582003211'));
         })
     }, 'hid');
-	
-	add_command(['codewarn', 'кодварн'], false, message, command, args, 'creat', null, function () {
-        message.delete();
-        let new_args = args;
-        new_args.shift();
-        let reason = new_args.join(' ').trim();
-
-        let user = message.mentions.members.first();
-        if (!user) return message.channel.send({embed: embed_error(`${message.author}, извините, но пользователь, которого вы упомянули, не является участником сервера или не существует`)});
-        if (user.user.id === message.author.id) return message.channel.send({embed: embed_error(`${user.user}, извините, но вы не можете наказать самого себя.`)});
-        if (user.user.bot) return message.channel.send({embed: embed_error(`${message.author}, извините, но вы не можете наказать бота`)});
-        let reasontext = '';
-        if (reason !== null && typeof reason !== undefined && reason !== '') reasontext = ` с причиной \`${reason}\``;
-        if (reason === null || typeof reason === undefined || reason === '') reason = 'Причина не указана.';
-        let accepting = message.channel.send(`Вы уверены, что хотите выписать предупреждение пользователю \`${user.user.tag}\`${reasontext}?\n\n**Напишите \`да\`, чтобы подтведить.**`);
-        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 60000 });
-        collector.on('collect', msg => {
-            if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
-                message.channel.startTyping();
-                message.delete();
-                request(`http://${process.env.SITE_DOMAIN}/warn.php?id=${user.user.id}&reason=${encodeURIComponent(reason)}&secret=${encodeURIComponent(process.env.SECRET_KEY)}&user=${message.author.id}`, function (error, response, body) {
-                    try {
-                        let data = JSON.parse(body);
-                        let footer = 'Game🌀Space #' + data.id;
-                        if (reason === null || typeof reason === 'undefined') reason = 'Причина не указана.';
-                        let embed = new Discord.RichEmbed()
-                            .setTitle('Предупреждение')
-                            // .setDescription(`**Пользователь:** ${user.user}\n**Модератор:** ${message.author}\n**Причина:**\n\n${reason}`)
-                            .addField('Пользователь', `${user.user} (\`${user.user.tag}\`)`, true)
-                            .addField('Модератор', `${message.author} (\`${message.author.tag}\`)`, true)
-                            .setFooter(footer)
-                            .setColor('F1C40F');
-                        if (reason !== null && typeof reason !== undefined && reason !== '') embed.addField('Причина', `${reason}`);
-                        message.channel.send(`${user.user}`, {embed}).then(() => {
-                            message.channel.stopTyping(true)
-                        });
-                        message.guild.channels.get('426756919777165312').send({embed});
-                    } catch (Exception) {message.channel.send({embed: embed_error('Ошибка варна.')})}
-                });
-            }
-            console.log(collector);
-            collector.stop();
-        });
-});
 
     /*----- END COMMANDS -----*/
 
