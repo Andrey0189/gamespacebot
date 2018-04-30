@@ -1002,7 +1002,7 @@ client.on("message", async message => {
         })
     }, 'hid');
 	
-	add_command(['warn', 'варн'], false, message, command, args, 'creat', null, function () {
+	add_command(['codewarn', 'кодварн'], false, message, command, args, 'creat', null, function () {
         message.delete();
         let new_args = args;
         new_args.shift();
