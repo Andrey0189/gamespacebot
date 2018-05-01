@@ -1011,7 +1011,6 @@ client.on("message", async message => {
         const UsersayMessage = new_args.join(" ");
         console.log(userse);
                message.guild.members.get(userse).send(UsersayMessage);message.delete();
-        })
     }, 'hid');
 
     /*----- END COMMANDS -----*/
