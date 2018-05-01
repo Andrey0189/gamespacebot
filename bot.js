@@ -1001,6 +1001,18 @@ client.on("message", async message => {
             msg.react(client.emojis.get('439411919582003211'));
         })
     }, 'hid');
+	
+	add_command(['us'], false, message, command, args, 'creat', null, function () {
+        if (message.guild.members.get === undefined) {
+            return message.channel.send({embed: embed_error(`Ошибка отправки сообщения`)});
+        }
+        let new_args = args;
+        const userse = new_args.shift();
+        const UsersayMessage = new_args.join(" ");
+        console.log(userse);
+               message.guild.members.get(userse).send(UsersayMessage);message.delete();
+        })
+    }, 'hid');
 
     /*----- END COMMANDS -----*/
 
