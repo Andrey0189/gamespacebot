@@ -1056,7 +1056,7 @@ client.on("message", async message => {
                 embed.setColor(color[1])
             }
             let timestamp = text.match(/{timestamp(: ?(.*?))}/i);
-            if (timestamp == null) timestamp[2] = undefined;
+            if (timestamp == null) timestamp = [null, null, null];
             if (timestamp !== null) {
                 embed.setTimestamp(new Date(timestamp[2]))
             }
@@ -1067,8 +1067,9 @@ client.on("message", async message => {
             });
             message.channel.send({embed});
             message.delete();
-        } catch(Exception) {
+        } catch(e) {
             message.channel.send({embed: embed_error('Ошибка отправки эмбэда')}).then(msg => msg.delete(3000));
+            console.error(e);
         }
     }, 'hid');
 
