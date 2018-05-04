@@ -1057,8 +1057,10 @@ client.on("message", async message => {
             }
             let timestamp = text.match(/{timestamp(: ?(.*?))?}/i);
             if (timestamp !== null) {
-                if (timestamp[2] === undefined) timestamp[2] = null;
-                embed.setTimestamp(new Date(timestamp[2]))
+                if (timestamp[2] === undefined || timestamp[2] === null)
+                embed.setTimestamp(new Date());
+                else
+                embed.setTimestamp(new Date(timestamp[2]));
             }
             let fields = text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi)
             if (fields !== null) {
