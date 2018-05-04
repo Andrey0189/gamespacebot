@@ -1055,9 +1055,9 @@ client.on("message", async message => {
             if (color !== null) {
                 embed.setColor(color[1])
             }
-            let timestamp = text.match(/{timestamp(: ?(.*?))}/i);
-            if (timestamp == null) timestamp = [null, null, null];
+            let timestamp = text.match(/{timestamp(: ?(.*?))?}/i);
             if (timestamp !== null) {
+                if (timestamp[2] === undefined) timestamp[2] = null;
                 embed.setTimestamp(new Date(timestamp[2]))
             }
             text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi).forEach((item) => {
