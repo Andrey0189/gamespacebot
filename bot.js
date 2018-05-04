@@ -1015,7 +1015,7 @@ client.on("message", async message => {
 
     add_command(['embedsay'], false, message, command, args, 'roles', [rule.game_admin], function () {
         try {
-            let text = args.join(" ");
+            let text = args.join(" ").replace(/\n/g, "\\n");
             let embed = new Discord.RichEmbed();
             let footer = text.match(/{footer:(.*?)( \| icon: (.*?))?}/i);
             if (footer !== null) {
@@ -1049,7 +1049,7 @@ client.on("message", async message => {
             }
             let description = text.match(/{description:(.*?)}/i);
             if (description !== null) {
-                embed.setDescription(description[1])
+                embed.setDescription(description[1].replace(/\\n/g, '\n'))
             }
             let color = text.match(/{color:(.*?)}/i);
             if (color !== null) {
