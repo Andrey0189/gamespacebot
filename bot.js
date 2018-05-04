@@ -1060,11 +1060,13 @@ client.on("message", async message => {
                 if (timestamp[2] === undefined) timestamp[2] = null;
                 embed.setTimestamp(new Date(timestamp[2]))
             }
-            text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi).forEach((item) => {
+            let fields = text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi)
+            if (fields !== null) {
+                fields.forEach((item) => {
                 if (item[1] == null || item[2] == null || typeof item[1] === "undefined" || typeof item[2] === "undefined") return;
                 let matches = item.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/i);
                 embed.addField(matches[1], matches[2], (matches[3] != null));
-            });
+            });}
             message.channel.send({embed});
             message.delete();
         } catch(e) {
