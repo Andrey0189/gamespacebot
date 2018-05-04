@@ -1018,41 +1018,41 @@ client.on("message", async message => {
             let text = args.join(" ");
             let embed = new Discord.RichEmbed();
             let footer = text.match(/{footer:(.*?)( \| icon: (.*?))?}/i);
-            if (typeof footer[1] !== "undefined") {
+            if (footer !== null) {
                 embed.setFooter(footer[1], footer[3])
             }
             let image = text.match(/{image:(.*?)}/i);
-            if (typeof image[1] !== "undefined") {
+            if (image !== null) {
                 embed.attachFile({
                     attachment: image[1],
                     file: image[1].substring(image[1].lastIndexOf('/') + 1)
                 }).setImage(image[1].substring(image[1].lastIndexOf('/') + 1));
             }
             let thumb = text.match(/{thumbnail:(.*?)}/i);
-            if (typeof thumb[1] !== "undefined") {
+            if (thumb !== null) {
                 embed.attachFile({
                     attachment: thumb[1],
                     file: thumb[1].substring(thumb[1].lastIndexOf('/') + 1)
                 }).setImage(thumb[1].substring(thumb[1].lastIndexOf('/') + 1));
             }
             let author = text.match(/{author:(.*?)( \| icon: (.*?))?( \| url: (.*?))?}/i);
-            if (typeof author[1] !== "undefined") {
+            if (author !== null) {
                 embed.setAuthor(author[1], author[3], author[5])
             }
             let title = text.match(/{title:(.*?)}/i);
-            if (typeof title[1] !== "undefined") {
+            if (title !== null) {
                 embed.setTitle(title[1])
             }
             let url = text.match(/{url:(.*?)}/i);
-            if (typeof url[1] !== "undefined") {
+            if (url !== null) {
                 embed.setURL(url[1])
             }
             let description = text.match(/{description:(.*?)}/i);
-            if (typeof description[1] !== "undefined") {
+            if (description !== null) {
                 embed.setDescription(description[1])
             }
             let color = text.match(/{color:(.*?)}/i);
-            if (typeof color[1] !== "undefined") {
+            if (color !== null) {
                 embed.setColor(color[1])
             }
             message.channel.send({embed});
