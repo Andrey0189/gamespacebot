@@ -1055,7 +1055,18 @@ client.on("message", async message => {
             if (color !== null) {
                 embed.setColor(color[1])
             }
+            let timestamp = text.match(/{timestamp(: ?(.*?))}/i);
+            if (timestamp == null) timestamp[2] = undefined;
+            if (timestamp !== null) {
+                embed.setTimestamp(new Date(timestamp[2]))
+            }
+            text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi).forEach((item) => {
+                if (item[1] == null || item[2] == null || typeof item[1] === "undefined" || typeof item[2] === "undefined") return;
+                let matches = item.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/i);
+                embed.addField(matches[1], matches[2], (matches[3] != null));
+            });
             message.channel.send({embed});
+            message.delete();
         } catch(Exception) {
             message.channel.send({embed: embed_error('Ошибка отправки эмбэда')}).then(msg => msg.delete(3000));
         }
