@@ -777,7 +777,7 @@ client.on("message", async message => {
         if (!args[0]) return;
         let color = new rgbcolor(args.join(' '));
         if (!color.ok) return;
-        const att = new Discord.Attachment('https://'+process.env.SITE_DOMAIN+'/color.php?red='+color.r+'&green='+color.g+'&blue='+color.b+'&secret='+encodeURIComponent(process.env.SECRET_KEY), 'color.png');
+        const att = new Discord.Attachment('http://'+process.env.SITE_DOMAIN+'/color.php?red='+color.r+'&green='+color.g+'&blue='+color.b+'&secret='+encodeURIComponent(process.env.SECRET_KEY), 'color.png');
         const embed = new Discord.RichEmbed()
             .setTitle(`Цвет: ${args.join(' ')}`)
             .attachFile(att)
