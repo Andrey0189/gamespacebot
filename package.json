@@ -11,6 +11,7 @@
     "request": "2.81.0",
     "rgbcolor": "1.0.1",
     "get-image-colors": "1.8.1",
-    "ffmpeg": "0.0.4"
+    "ffmpeg": "0.0.4",
+    "ffmpeg-binaries": "3.2.2-3”
   }
 }
