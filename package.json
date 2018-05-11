@@ -12,6 +12,6 @@
     "rgbcolor": "1.0.1",
     "get-image-colors": "1.8.1",
     "node-opus": "0.3.0",
-    "google-tts-api": "0.0.2"
+    "text-to-mp3": "1.0.4"
   }
 }
