@@ -397,7 +397,7 @@ client.on("message", async message => {
             clear_count(message.channel, parseInt(args[0]));
         });
 
-    }, '[99 > кол-во > 2 или упоминание]', 'очистить определенное количество сообщений');
+    }, '[кол-во]', 'очистить определенное количество сообщений');
 
     add_command(['аватарка', 'avatar', 'av', 'ав'], false, message, command, args, 'e', null, function() {
         let member = message.mentions.members.first();
