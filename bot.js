@@ -139,7 +139,7 @@ function clear_count (channel, count, count_all = 0) {
     } else {
         channel.bulkDelete(count).then(messages => {
             count_all = count_all + messages.size;
-            channel.send(`del. ${count_all} ${declOfNum(count_all, ['сообщение','сообщения','сообщений'])}.`).then((msg) => {msg.delete(3000);});
+            channel.send(`Удалено ${count_all} ${declOfNum(count_all, ['сообщение','сообщения','сообщений'])}.`).then((msg) => {msg.delete(3000);});
         });
     }
 }
