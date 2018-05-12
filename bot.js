@@ -24,6 +24,8 @@
 const Discord = require('discord.js');
 // Подключение request
 const request = require("request");
+// Подключение googleTTS api
+const googleTTS = require('google-tts-api');
 // Подключение rgbcolor
 const rgbcolor = require('rgbcolor');
 // Подключение get-image-colors
@@ -128,6 +130,19 @@ function getRandomInt(min, max) {
 async function multipleReact(message, arr) {
     if (arr !== []) {
         await message.react(arr.shift()).catch(console.error).then(function () {multipleReact(message,arr).catch(console.error);});
+    }
+}
+
+//Функция для очистки определенного кол-ва сообщений в чате
+function clear_count (channel, count, count_all = 0) {
+    if (count > 100) {
+        count_all = count_all + 100;
+        channel.bulkDelete(100).then(() => {clear_count(channel, count-100, count_all)});
+    } else {
+        channel.bulkDelete(count).then(messages => {
+            count_all = count_all + messages.size;
+            channel.send(`del. ${count_all} ${declOfNum(count_all, ['сообщение','сообщения','сообщений'])}.`).then((msg) => {msg.delete(3000);});
+        });
     }
 }
 
@@ -380,23 +395,9 @@ client.on("message", async message => {
     }, '[текст]', 'написать сообщение от имени бота');
 
     add_command(['очистить', 'clear', 'del', 'clr'], false, message, command, args, 'rules', ['MANAGE_MESSAGES'], function () {
-        if (message.mentions.members.first()) {
-            let msgs = message.channel.fetchMessages({limit:98}).then(messages => messages.filter().channel.bulkDelete(messages));
-
-        } else {
-            let content = message.content.slice(process.env.PREFIX.length + 8);
-            let messagecount = parseInt(args[0]);
-            let msc = messagecount;
-            if (messagecount > 2 && messagecount < 99) {
-                message.channel.fetchMessages({limit: messagecount + 1}).then(messages => message.channel.bulkDelete(messages));
-                let lol = declOfNum(msc, ['сообщение', 'сообщения', 'сообщений']);
-                message.channel.send(`Удалено ${msc} ${lol}!`).then(msg => {msg.delete(5000)});
-                message.delete();
-            } else {
-                const embed = embed_error(`${message.author}, ошибка очистки сообщений, \`${content}\` либо меньше чем 2, либо больше чем 99, либо не является числом`);
-                message.channel.send(embed);
-            }
-        }
+        message.delete().then(() => {
+            clear_count(message.channel, parseInt(args[0]));
+        });
 
     }, '[99 > кол-во > 2 или упоминание]', 'очистить определенное количество сообщений');
 
