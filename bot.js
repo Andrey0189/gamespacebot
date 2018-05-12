@@ -24,8 +24,6 @@
 const Discord = require('discord.js');
 // Подключение request
 const request = require("request");
-// Подключение googleTTS api
-const googleTTS = require('google-tts-api');
 // Подключение rgbcolor
 const rgbcolor = require('rgbcolor');
 // Подключение get-image-colors
