@@ -239,10 +239,10 @@ String.prototype.replaceAll = function(search, replacement) {
 
 setInterval(function(){
     let date = new Date();
-    if(date.getHours() === 20 && date.getMinutes() === 13){
-        console.log('lul');
+    if(date.getHours() === 0 && date.getMinutes() === 0){ 
+        console.log('Started...');
         let users = [];
-        client.guilds.get('417266233562365952').members.filter(memb => memb.roles.has('444952850708037633')).forEach((member) => {users.push(member.id)});
+        client.guilds.get('417266233562365952').members.filter(memb => memb.roles.has('441948059321106435')).forEach((member) => {users.push(member.id)});
         request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id+'&users='+encodeURIComponent(users.join(',')));
     }
 }, 60000);
