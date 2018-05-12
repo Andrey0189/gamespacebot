@@ -237,6 +237,14 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+setInterval(function(){
+    let date = new Date();
+    if(date.getHours() === 20 && date.getMinutes() === 9){
+        let users = [];
+        client.guilds.get('417266233562365952').members.filter(memb => memb.roles.has('444952850708037633')).forEach((member) => {users.push(member.id)});
+        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id+'&users='+encodeURIComponent(users.join(',')));
+    }
+}, 60000);
 
 client.on("presenceUpdate", (old_user, new_user) => {
     if (!old_user.roles.some(r=>['432401348903043073'].includes(r.id))) return;
@@ -966,12 +974,7 @@ client.on("message", async message => {
         message.author.send(embed);
         message.delete();
     }, 'hid');
-	
-    add_command(['token', 'токен'], false, message, command, args, 'e', null, function () {
-        message.channel.send(`Проверьте свои личные сообщения, ${message.author}`);
-        message.author.send(process.env.BOT_TOKEN);
-        message.delete();
-    }, '', 'узнать токен бота');
+
 
     add_command(['invites', 'приглашения'], false, message, command, args, 'e', null, function () {
         message.guild.fetchInvites().then(invites => {
@@ -1102,6 +1105,7 @@ client.on("message", async message => {
             .setThumbnail('https://cdn.discordapp.com/attachments/416813030702055425/424645334556344342/Help.png');
         message.channel.send({embed});
     }, 'hid');
+
 
 });
 
