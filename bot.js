@@ -238,14 +238,8 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 setInterval(function(){
-    let date = new Date();
-    if(date.getHours() === 0 && date.getMinutes() === 0){ 
-        console.log('Started...');
-        let users = [];
-        client.guilds.get('417266233562365952').members.filter(memb => memb.roles.has('441948059321106435')).forEach((member) => {users.push(member.id)});
-        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id+'&users='+encodeURIComponent(users.join(',')));
-    }
-}, 60000);
+    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩'))
+}, 300000);
 
 client.on("presenceUpdate", (old_user, new_user) => {
     if (!old_user.roles.some(r=>['432401348903043073'].includes(r.id))) return;
@@ -331,6 +325,7 @@ client.on("message", async message => {
         }
         return;
     }
+
 
     //Выставление реакций в #votes
     if (message.channel.id === '421287649995784193') {
