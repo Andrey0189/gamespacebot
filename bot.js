@@ -241,7 +241,12 @@ String.prototype.replaceAll = function(search, replacement) {
 setInterval(function(){
     client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩'))
 }, 300000);
-
+client.on("guildMemberUpdate", (old_memb, new_memb) => {
+    if (new_memb.displayName.startsWith('!')) new_memb.setNickname('💩').catch();
+});
+client.on("userUpdate", (old_user, new_user) => {
+    if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname('💩').catch();
+});
 client.on("presenceUpdate", (old_user, new_user) => {
     if (!old_user.roles.some(r=>['432401348903043073'].includes(r.id))) return;
     if (!new_user.presence.game) return;
