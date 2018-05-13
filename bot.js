@@ -1079,6 +1079,99 @@ client.on("message", async message => {
             console.error(e);
         }
     }, 'hid');
+	
+	add_command(['mute', 'мут', 'заклеить_рот', 'заткнуть', 'заткнись', 'закройся'], false, message, command, args, 'rules', ['MANAGE_MESSAGES'], function () {
+        message.delete();
+        let new_args = args;
+        new_args.shift();
+        let time_formatted = new_args.shift();
+        let reason = new_args.join(' ').trim();
+
+        function getSeconds(str) {
+            let seconds = 0;
+            let years = str.match(/(\d+)\s*y/);
+            let months = str.match(/(\d+)\s*M/);
+            let weeks = str.match(/(\d+)\s*w/);
+            let days = str.match(/(\d+)\s*d/);
+            let hours = str.match(/(\d+)\s*h/);
+            let minutes = str.match(/(\d+)\s*m/);
+            let secs = str.match(/(\d+)\s*s/);
+            if (years) { seconds += parseInt(years[1])*31556926; }
+            if (months) { seconds += parseInt(months[1])*2592000; }
+            if (weeks) { seconds += parseInt(weeks[1])*604800; }
+            if (days) { seconds += parseInt(days[1])*86400; }
+            if (hours) { seconds += parseInt(hours[1])*3600; }
+            if (minutes) { seconds += parseInt(minutes[1])*60; }
+            if (secs) { seconds += parseInt(secs[1]); }
+            return seconds;
+        }
+        function getTimeInWords(str) {
+            let text = '';
+            let years = str.match(/(\d+)\s*y/);
+            let months = str.match(/(\d+)\s*M/);
+            let weeks = str.match(/(\d+)\s*w/);
+            let days = str.match(/(\d+)\s*d/);
+            let hours = str.match(/(\d+)\s*h/);
+            let minutes = str.match(/(\d+)\s*m/);
+            let secs = str.match(/(\d+)\s*s/);
+            if (years) { text += years[1]+' '+declOfNum(parseInt(years[1]), ['год ', 'года ', 'лет ']) }
+            if (months) { text += months[1]+' '+declOfNum(parseInt(months[1]), ['месяц ', 'месяца ', 'месяцев ']) }
+            if (weeks) { text += weeks[1]+' '+declOfNum(parseInt(weeks[1]), ['неделю ', 'недели ', 'недель ']) }
+            if (days) { text += days[1]+' '+declOfNum(parseInt(days[1]), ['день ', 'дня ', 'дней']) }
+            if (hours) { text += hours[1]+' '+declOfNum(parseInt(hours[1]), ['час ', 'часа ', 'часов ']) }
+            if (minutes) { text += minutes[1]+' '+declOfNum(parseInt(minutes[1]), ['минуту ', 'минуты ', 'минут ']) }
+            if (secs) { text += secs[1]+' '+declOfNum(parseInt(secs[1]), ['секунду ', 'секунды ', 'секунд ']) }
+            return text;
+        }
+        let time = getSeconds(time_formatted);
+        if (time === 0) return message.channel.send({embed: embed_error(`${message.author}, извините, но вы не можете замутить человека на 0 секунд.`)});
+
+        let user = message.mentions.members.first();
+        if (!user) return message.channel.send({embed: embed_error(`${message.author}, извините, но пользователь, которого вы упомянули, не является участником сервера или не существует`)});
+        // if (user.user.id === message.author.id) return message.channel.send({embed: embed_error(`${user.user}, извините, но вы не можете замутить самого себя.`)});
+        if (user.user.bot) return message.channel.send({embed: embed_error(`${message.author}, извините, но вы не можете наказать бота`)});
+        let reasontext = '';
+        if (reason !== null && typeof reason !== undefined && reason !== '') reasontext = ` с причиной \`${reason}\``;
+        if (reason === null || typeof reason === undefined || reason === '') reason = 'Причина не указана.';
+        let accepting = message.channel.send(`Вы уверены, что хотите замутить пользователя \`${user.user.tag}\` на ${getTimeInWords(time_formatted)}${reasontext}?\n\n**Напишите \`да\`, чтобы подтведить.**`);
+        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 60000 });
+        collector.on('collect', msg => {
+            if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
+                message.channel.startTyping();
+                message.delete();
+                request(`http://${process.env.SITE_DOMAIN}/mute.php?id=${user.user.id}&time=${time*1000}&reason=${encodeURIComponent(reason)}&secret=${encodeURIComponent(process.env.SECRET_KEY)}&user=${message.author.id}`, function (error, response, body) {
+                    try {
+                    let data = JSON.parse(body);
+                    let footer = 'Game🌀Space #'+data.id;
+                    if (reason === null || typeof reason === 'undefined') reason = 'Причина не указана.';
+                    let embed = new Discord.RichEmbed()
+                        .setTitle('Мут')
+                        .addField('Пользователь', `${user.user} (\`${user.user.tag}\`)`, true)
+                        .addField('Модератор', `${message.author} (\`${message.author.tag}\`)`, true)
+                        .addField('Длительность', getTimeInWords(time_formatted), true)
+                        .setFooter(footer)
+                        .setColor('C34E4E');
+                    let dm_embed = new Discord.RichEmbed()
+                        .setTitle('Мут')
+                        .setDescription('Вы были замучены на сервере GameSpace')
+                        .addField('Модератор', `${message.author} (\`${message.author.tag}\`)`, true)
+                        .addField('Длительность', getTimeInWords(time_formatted), true)
+                        .setFooter(footer)
+                        .setColor('C34E4E');
+                    if (reason !== null && typeof reason !== undefined && reason !== '') {embed.addField('Причина', `${reason}`);dm_embed.addField('Причина', `${reason}`);}
+                    message.channel.send(`${user.user}`, {embed}).then(() => {message.channel.stopTyping(true)}).then(() => {if (message.author.id === user.user.id) message.channel.send(`${message.author}, не ну ты и долбоеб братишка, земля тебе пухом... ${client.emojis.get(emojis.facepalm)}`)});
+                    message.guild.channels.get('426756919777165312').send({embed});
+                    user.send({embed});
+                    user.addRole('427148609776254986').catch(console.error);
+                    console.log(time);
+                    unmute(user, data.id, time*1000).catch(console.error);
+                    } catch (Exception) {message.channel.send({embed: embed_error('Ошибка мута.')})}
+                });
+            }
+            console.log(collector);
+            collector.stop();
+        });
+});
 
     /*----- END COMMANDS -----*/
 
