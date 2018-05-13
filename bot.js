@@ -239,7 +239,7 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 setInterval(function(){
-    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩'))
+    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩').catch())
 }, 300000);
 client.on("guildMemberUpdate", (old_memb, new_memb) => {
     if (new_memb.displayName.startsWith('!')) new_memb.setNickname('💩').catch();
