@@ -340,7 +340,7 @@ client.on("message", async message => {
             let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
             if (!word) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {message.delete();msg.delete(3000)});return;}
             let charAt = 1;
-            while (['ъ', 'ь', 'ы', '-', '', ' '].includes(word.charAt(word.length - charAt)).toLowerCase()) {
+            while (['ъ', 'ь', 'ы', '-', '', ' '].includes(word.charAt(word.length - charAt).toLowerCase())) {
                 charAt++;
             }
             if (charAt >= word.length) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {message.delete();msg.delete(3000)});return;}
