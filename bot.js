@@ -335,9 +335,8 @@ client.on("message", async message => {
 
     if (message.channel.id === '445108574688116746' && !message.author.bot) {
         message.channel.fetchMessages({limit: 2}).then(msgs => {
-            if (msgs.last().author.bot) return message.delete();
             if (msgs.last().author.id === message.author.id) {message.author.send(`${client.emojis.get(emojis.error)} Играть самому с собой нельзя :D`).then((msg) => {message.delete();});return;}
-            let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
+            let word = msgs.last().edits[msgs.last().edits.length-1].content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
             if (!word) {message.author.send(`${client.emojis.get(emojis.error)} Где слово?? о_О`).then((msg) => {message.delete();});return;}
             let charAt = 1;
             while (['ъ', 'ь', 'ы', '-', '', ' '].includes(word.charAt(word.length - charAt).toLowerCase())) {
