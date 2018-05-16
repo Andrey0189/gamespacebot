@@ -333,20 +333,6 @@ client.on("message", async message => {
     }
 
 
-    //Выставление реакций в #votes
-    if (message.channel.id === '421287649995784193') {
-        return multipleReact(message, [emojis.za, emojis.neznayu, emojis.protiv]).catch();
-    }
-
-    //Игнорирование некоторых типов каналов
-    if (['dm', 'group', 'category', 'voice'].includes(message.channel.type)) return;
-
-    //Авто-покидание чужих серверов
-    if (!['417266233562365952', '416813030232424462', '432496701614325762'].includes(message.guild.id)) {
-        message.guild.leave().catch();
-        return;
-    }
-
     if (message.channel.id === '445108574688116746') {
         message.channel.fetchMessages({limit: 2}).then(msgs => {
             let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
@@ -363,6 +349,20 @@ client.on("message", async message => {
             }
 
         })
+    }
+
+    //Выставление реакций в #votes
+    if (message.channel.id === '421287649995784193') {
+        return multipleReact(message, [emojis.za, emojis.neznayu, emojis.protiv]).catch();
+    }
+
+    //Игнорирование некоторых типов каналов
+    if (['dm', 'group', 'category', 'voice'].includes(message.channel.type)) return;
+
+    //Авто-покидание чужих серверов
+    if (!['417266233562365952', '416813030232424462', '432496701614325762'].includes(message.guild.id)) {
+        message.guild.leave().catch();
+        return;
     }
     //Добавление опыта
     if (!siteOff)
