@@ -347,6 +347,23 @@ client.on("message", async message => {
         return;
     }
 
+    if (message.channel.id === '445108574688116746') {
+        message.channel.fetchMessages({limit: 2}).then(msgs => {
+            let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
+            if (!word) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О`).then((msg) => {message.delete();msg.delete(5000)});return;}
+            let charAt = 1;
+            while (['ъ', 'ь', '-', '', ' '].includes(word.charAt(word.length - charAt))) {
+                charAt++;
+            }
+            if (charAt >= word.length) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О`).then((msg) => {message.delete();msg.delete(5000)});return;}
+            if (word.charAt(word.length - charAt) !== message.content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1].charAt(0)) {
+                message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, ваше слово должно начинаться с \`${word.charAt(word.length - charAt)}\``).then((msg) => {
+                    message.delete();msg.delete(5000);
+                });
+            }
+
+        })
+    }
     //Добавление опыта
     if (!siteOff)
     if (!talkedRecently.has(message.author.id)) {
