@@ -350,7 +350,8 @@ client.on("message", async message => {
                 });
             }
 
-        })
+        });
+        return;
     }
 
     //Выставление реакций в #votes
