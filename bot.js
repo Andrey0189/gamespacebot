@@ -336,17 +336,17 @@ client.on("message", async message => {
     if (message.channel.id === '445108574688116746' && !message.author.bot) {
         message.channel.fetchMessages({limit: 2}).then(msgs => {
             if (msgs.last().author.bot) return message.delete();
-            if (msgs.last().author.id === message.author.id) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, играть самому с собой нельзя :D *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {message.delete();msg.delete(3000)});return;}
+            if (msgs.last().author.id === message.author.id) {message.author.send(`${client.emojis.get(emojis.error)} Играть самому с собой нельзя :D`).then((msg) => {message.delete();});return;}
             let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
-            if (!word) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {message.delete();msg.delete(3000)});return;}
+            if (!word) {message.author.send(`${client.emojis.get(emojis.error)} Где слово?? о_О`).then((msg) => {message.delete();});return;}
             let charAt = 1;
             while (['ъ', 'ь', 'ы', '-', '', ' '].includes(word.charAt(word.length - charAt).toLowerCase())) {
                 charAt++;
             }
-            if (charAt >= word.length) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {message.delete();msg.delete(3000)});return;}
+            if (charAt >= word.length) {message.author.send(`${client.emojis.get(emojis.error)} Где слово?? о_О`).then((msg) => {message.delete();});return;}
             if (word.charAt(word.length - charAt).toLowerCase() !== message.content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1].charAt(0).toLowerCase()) {
-                message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, ваше слово должно начинаться с \`${word.charAt(word.length - charAt).toLowerCase()}\`. *P.S. дождитесь пропадения ошибки, чтоб писать слова*`).then((msg) => {
-                    message.delete();msg.delete(3000);
+                message.author.send(`${client.emojis.get(emojis.error)} Ваше слово должно начинаться с \`${word.charAt(word.length - charAt).toLowerCase()}\``).then((msg) => {
+                    message.delete();
                 });
             }
 
