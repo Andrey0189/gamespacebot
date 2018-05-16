@@ -241,6 +241,9 @@ String.prototype.replaceAll = function(search, replacement) {
 setInterval(function(){
     client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩').catch())
 }, 300000);
+client.on("messageUpdate", (old_mess, new_mess) => {
+    if (old_mess.channel.id === '445108574688116746' && !old_mess.author.bot) return new_mess.delete();
+});
 client.on("guildMemberUpdate", (old_memb, new_memb) => {
     if (new_memb.displayName.startsWith('!')) new_memb.setNickname('💩').catch();
 });
