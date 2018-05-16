@@ -335,6 +335,7 @@ client.on("message", async message => {
 
     if (message.channel.id === '445108574688116746' && !message.author.bot) {
         message.channel.fetchMessages({limit: 2}).then(msgs => {
+            if (msgs.last().author.bot) return;
             let word = msgs.last().content.match(/([А-Яа-яa-zA-Zё\-]+).?(.*?)?/im)[1];
             if (!word) {message.channel.send(`${client.emojis.get(emojis.error)} ${message.author}, где слово?? о_О`).then((msg) => {message.delete();msg.delete(5000)});return;}
             let charAt = 1;
