@@ -164,7 +164,7 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
         return console.error('Error: command aliases aren\'n array');
     let embed;
     let error = false;
-    if (!creators.includes(message.author.id))
+    if (!creators.includes(message.author.id) && !message.member.roles.has('419562566512017415'))
     if (access_type === 'rules') {
         let rights_arr = [];
         let err = false;
