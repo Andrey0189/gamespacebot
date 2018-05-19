@@ -769,7 +769,6 @@ client.on("message", async message => {
         let text = '';
         if (member.user.id !== message.author.id)
             text = 'По запросу '+message.author;
-        message.channel.startTyping();
         message.channel.send(text,{files: [{
                 attachment: 'http://'+process.env.SITE_DOMAIN+'/profile.php?user='+member.user.id+'&nick='+encodeURIComponent(member.nickname)+'&secret='+encodeURIComponent(process.env.SECRET_KEY),
                 name: 'file.png'
@@ -841,7 +840,6 @@ client.on("message", async message => {
         let member = message.member;
         if (ment_member)
             member = ment_member;
-        message.channel.startTyping();
         request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (body.startsWith('<br')) { message.channel.stopTyping(true);message.channel.send({embed: embed_error(`Ошибка отображения уровня`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения уровня пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
@@ -856,10 +854,8 @@ client.on("message", async message => {
                     .setColor(parseInt(getRandomInt(0,16777214)));
                 if (member.user.id === message.author.id) {
                     message.channel.send({embed});
-                    message.channel.stopTyping(true);
                 } else {
                     message.reply({embed});
-                    message.channel.stopTyping(true);
                 }
             }
         });
@@ -872,7 +868,6 @@ client.on("message", async message => {
         let member = message.member;
         if (ment_member)
             member = ment_member;
-        message.channel.startTyping();
         request('http://'+process.env.SITE_DOMAIN+'/balance.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (body.startsWith('<br')) { message.channel.send({embed: embed_error(`Ошибка отображения баланса`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения баланса пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
@@ -884,10 +879,8 @@ client.on("message", async message => {
                     .setColor(parseInt(getRandomInt(0,16777214)));
                 if (member.user.id === message.author.id) {
                     message.channel.send({embed});
-                    message.channel.stopTyping(true);
                 } else {
                     message.reply({embed});
-                    message.channel.stopTyping(true);
                 }
             }
         });
@@ -895,7 +888,6 @@ client.on("message", async message => {
 
     if (!siteOff)
     add_command(['топ', 'топы', 'т', 'лидеры', 'лидер', 'лидерборд', 'лидербоард', 'top', 'leader', 'leaders', 'leaderboard', 'tops'], true, message, command, args, 'e', null, function () {
-        message.channel.startTyping();
         message.delete();
         let users = [];
         request('http://'+process.env.SITE_DOMAIN+'/top.php?page='+encodeURIComponent(parseInt(args[0]))+'&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
@@ -918,7 +910,6 @@ client.on("message", async message => {
     if (!siteOff)
     add_command(['update_roles', 'обновить_роли', 'восстановить_роли', 'recover_roles', 'rr', 'ur'], true, message, command, args, 'e', null, function () {
         message.delete();
-        message.channel.startTyping();
         request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (body.startsWith('<br')) {message.channel.stopTyping(true); message.channel.send({embed: embed_error(`Ошибка восстановления ролей`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка восстановления ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             const arr = JSON.parse(body);
@@ -965,7 +956,6 @@ client.on("message", async message => {
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 60000 });
         collector.on('collect', msg => {
             if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
-                message.channel.startTyping();
                 message.delete();
                 request(`https://${process.env.SITE_DOMAIN}/noxp.php?id=${user.user.id}&secret=${encodeURIComponent(process.env.SECRET_KEY)}&user=${message.author.id}`, function (error, response, body) {
                     let footer = 'Game🌀Space';
