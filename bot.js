@@ -83,8 +83,8 @@ const talkedRecently = new Set();
 const commandCooldown = new Set();
 // Каналы, в которых разрешено уведомление о новом левле
 const newLevelNotificationChannels = ['417266234032390155', '418096126957453337', '421625843320750080', '421664477662937098', '417674070046277632', '421558850681044993'];
-// Константа, отключаящая функции, которые связаны с сайтом
-const siteOff = false;
+// Переменная, отключаящая функции, которые связаны с сайтом
+let siteOff = false;
 // Каналы, в которых бот имеет право выполнять все команды
 const botFullRights = ['418096126957453337', '421558850681044993'];
 // Массив ролей за уровни
@@ -241,15 +241,19 @@ String.prototype.replaceAll = function(search, replacement) {
 setInterval(function(){
     client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩').catch())
 }, 300000);
+
 client.on("messageUpdate", (old_mess, new_mess) => {
     if (old_mess.channel.id === '445108574688116746' && !old_mess.author.bot) {new_mess.delete();return new_mess.author.send(`${client.emojis.get(emojis.error)} В канале ${new_mess.channel} нельзя изменять сообщения!`);}
 });
+
 client.on("guildMemberUpdate", (old_memb, new_memb) => {
     if (new_memb.displayName.startsWith('!')) new_memb.setNickname('💩').catch();
 });
+
 client.on("userUpdate", (old_user, new_user) => {
     if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname('💩').catch();
 });
+
 client.on("presenceUpdate", (old_user, new_user) => {
     if (!old_user.roles.some(r=>['432401348903043073'].includes(r.id))) return;
     if (!new_user.presence.game) return;
@@ -890,7 +894,7 @@ client.on("message", async message => {
     add_command(['топ', 'топы', 'т', 'лидеры', 'лидер', 'лидерборд', 'лидербоард', 'top', 'leader', 'leaders', 'leaderboard', 'tops'], true, message, command, args, 'e', null, function () {
         message.delete();
         let users = [];
-        request('http://'+process.env.SITE_DOMAIN+'/top.php?page='+encodeURIComponent(parseInt(args[0]))+'&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'/top.php?page='+encodeURIComponent(parseInt(args[0]).toString())+'&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (body.startsWith('<br')) { message.channel.stopTyping(true);message.channel.send({embed: embed_error(`Ошибка отображения топа пользователей`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения топа пользователей. Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             let data = JSON.parse(body);
             let footer = 'Страница '+data[3]+'/'+data[2];
@@ -910,20 +914,27 @@ client.on("message", async message => {
     if (!siteOff)
     add_command(['update_roles', 'обновить_роли', 'восстановить_роли', 'recover_roles', 'rr', 'ur'], true, message, command, args, 'e', null, function () {
         message.delete();
-        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        let member = message.mentions.members.first();
+        if (member) {
+            if (!message.member.hasPermission('MANAGE_MESSAGES', false, true, true) && member.id !== message.author.id)
+                return message.channel.send({embed: embed_error('Вы не имеете права `MANAGE_MESSAGES`, которое требуется для просмотра чужих нарушений\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>')});
+        } else {
+            member = message.member;
+        }
+        request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
             if (body.startsWith('<br')) {message.channel.stopTyping(true); message.channel.send({embed: embed_error(`Ошибка восстановления ролей`)}); return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка восстановления ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
             const arr = JSON.parse(body);
             let bool = false;
             level_roles.forEach(function (item) {
                 if (arr[0] >= item[0]) {
-                    if (!message.member.roles.has(item[1])) {
-                        message.member.addRole(item[1]).catch(console.error);
-                        message.author.send(`Вы получили роль \`${message.guild.roles.get(item[1]).name}\``);
+                    if (!member.roles.has(item[1])) {
+                        member.addRole(item[1]).catch(console.error);
+                        member.send(`Вы получили роль \`${message.guild.roles.get(item[1]).name}\``);
                         bool = true;
                     }
                 } else {
-                    if (message.member.roles.has(item[1])) {
-                        message.member.removeRole(item[1]).catch(console.error);
+                    if (member.roles.has(item[1])) {
+                        member.removeRole(item[1]).catch(console.error);
                     }
                 }
             });
