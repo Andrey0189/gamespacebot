@@ -941,11 +941,11 @@ client.on("message", async message => {
             let embed;
             if (bool)
                 embed = new Discord.RichEmbed()
-                    .setDescription(`${message.member}, ваши роли за уровни были успешно восстановлены`)
+                    .setDescription(`${member}, ваши роли за уровни были успешно восстановлены`)
                     .setColor('3FB97C');
             else
                 embed = new Discord.RichEmbed()
-                    .setDescription(`${message.member}, у вас уже есть все ваши роли за уровни`)
+                    .setDescription(`${member}, у вас уже есть все ваши роли за уровни`)
                     .setColor('C34E4E');
 
             message.channel.send({embed})
