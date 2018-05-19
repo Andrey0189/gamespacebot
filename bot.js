@@ -91,7 +91,7 @@ const botFullRights = ['418096126957453337', '421558850681044993'];
 const level_roles = [[2, '417389665042169876'], [5, '417391646863523858'], [10, '417391865038635010'], [15, '417392325405442058'], [20, '417393247162204160'], [23, '417392902872891393'], [25, '417392121541296128'], [28, '417392180747829249'], [30, '417392444750168075']];
 // Основные каналы
 const channels = {'errs': '432071031356915722'};
-
+let tasks = [];
 
 // безразмерная пустота " ⃠ "
 
@@ -279,6 +279,9 @@ client.on('ready', () => {
         console.log('//------------------//');
     });
 	client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
+    request('http://'+process.env.SITE_DOMAIN+'/get_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+        tasks = body;
+    });
 });
 
 client.on("guildMemberAdd", member => {
