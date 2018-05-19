@@ -282,7 +282,7 @@ client.on('ready', () => {
 client.on('ready', () => {
     client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
     request('http://'+process.env.SITE_DOMAIN+'/get_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
-        tasks = JSON.decode(body).catch();
+        tasks = JSON.parse(body).catch();
     });
 });
 
