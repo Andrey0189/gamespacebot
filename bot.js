@@ -278,9 +278,11 @@ client.on('ready', () => {
         console.log('Специально для сервера GameSpace. https://discord.io/gspace');
         console.log('//------------------//');
     });
-	client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
+});
+client.on('ready', () => {
+    client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
     request('http://'+process.env.SITE_DOMAIN+'/get_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
-        tasks = body;
+        tasks = JSON.decode(body).catch();
     });
 });
 
