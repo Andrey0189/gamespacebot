@@ -417,6 +417,13 @@ client.on("message", async message => {
     //Игнорирование ботов
 	if(message.author.bot) return;
 
+    tasks.forEach((task) => {
+        if (task[2]['action']['action'] !== 'send_message') return;
+        if (task[2]['action']['content_type'] === 'regex') {
+            if (message.content.match(task[2]['action']['content'])) console.log(`Task done: ${task[0]}#${task[1]}`)
+        }
+    });
+
     //Проверка на содержания сообщением префикса, создание констант args и command
     if(message.content.indexOf(process.env.PREFIX) !== 0) return;
 	const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
