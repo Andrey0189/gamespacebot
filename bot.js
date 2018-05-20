@@ -420,7 +420,7 @@ client.on("message", async message => {
     tasks.forEach((task) => {
         if (task[2]['action']['action'] !== 'send_message') return;
         if (task[2]['action']['content_type'] === 'regex') {
-            if (message.content.match(task[2]['action']['content'])) console.log(`Task done: ${task[0]}#${task[1]}`)
+            if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) console.log(`Task done: ${task[0]}#${task[1]}`)
         }
     });
 
