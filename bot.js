@@ -128,7 +128,7 @@ function getRandomInt(min, max) {
 //Функция, добавляющая несколько реакций под сообщением
 async function multipleReact(message, arr) {
     if (arr !== []) {
-        await message.react(arr.shift()).catch(console.error).then(function () {multipleReact(message,arr).catch(console.error);});
+        await message.react(arr.shift()).catch(console.error).then(function () {multipleReact(message,arr).catch();});
     }
 }
 
