@@ -239,7 +239,7 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 setInterval(function(){
-    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname('💩').catch())
+    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname(member.displayName.substr(1)).catch())
 }, 300000);
 
 client.on("messageUpdate", (old_mess, new_mess) => {
@@ -247,11 +247,11 @@ client.on("messageUpdate", (old_mess, new_mess) => {
 });
 
 client.on("guildMemberUpdate", (old_memb, new_memb) => {
-    if (new_memb.displayName.startsWith('!')) new_memb.setNickname('💩').catch();
+    if (new_memb.displayName.startsWith('!')) new_memb.setNickname(new_memb.displayName.substr(1)).catch();
 });
 
 client.on("userUpdate", (old_user, new_user) => {
-    if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname('💩').catch();
+    if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname(client.guilds.get('417266233562365952').members.get(new_user.id).displayName.substr(1)).catch();
 });
 
 client.on("presenceUpdate", (old_user, new_user) => {
@@ -281,7 +281,7 @@ client.on('ready', () => {
 });
 client.on('ready', () => {
     client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
-    request('http://'+process.env.SITE_DOMAIN+'/get_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+    request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
         try {tasks = JSON.parse(body);} catch (e) {console.log('//--- tasks get failed ---//');}
     });
 });
