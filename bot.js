@@ -239,7 +239,7 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 setInterval(function(){
-    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname(member.displayName.substr(1)).catch())
+    client.guilds.get('417266233562365952').members.filter(memb => memb.displayName.startsWith('!')).forEach(member => member.setNickname(member.displayName.replace(/^!+/gi, '')).catch())
 }, 300000);
 
 client.on("messageUpdate", (old_mess, new_mess) => {
@@ -247,11 +247,11 @@ client.on("messageUpdate", (old_mess, new_mess) => {
 });
 
 client.on("guildMemberUpdate", (old_memb, new_memb) => {
-    if (new_memb.displayName.startsWith('!')) new_memb.setNickname(new_memb.displayName.substr(1)).catch();
+    if (new_memb.displayName.startsWith('!')) new_memb.setNickname(new_memb.displayName.replace(/^!+/gi, '')).catch();
 });
 
 client.on("userUpdate", (old_user, new_user) => {
-    if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname(client.guilds.get('417266233562365952').members.get(new_user.id).displayName.substr(1)).catch();
+    if (client.guilds.get('417266233562365952').members.get(new_user.id).displayName.startsWith('!')) client.guilds.get('417266233562365952').members.get(new_user.id).setNickname(client.guilds.get('417266233562365952').members.get(new_user.id).displayName.replace(/^!+/gi, '')).catch();
 });
 
 client.on("presenceUpdate", (old_user, new_user) => {
