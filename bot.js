@@ -203,6 +203,11 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
             embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но у Вас нет ${a} ${roles}${required} для выполнения данной команды\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>`);
             error = true;
         }
+    } else if (access_type === 'beta') {
+        if (!message.member.roles.has('448443783785349120')) {
+            embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но Вы должны быть бета-тестером бота для выполнения данной команды\n\nЕсли Вы хотите стать бета-тестером - обратитесь к <@421030089732653057>`);
+            error = true;
+        }
     } else if (access_type === 'creat') {
         embed = embed_error(`${message.author} (\`${message.author.tag}\`), извините, но Вы должны быть создателем бота для выполнения данной команды\n\nЕсли Вы считаете, что это не так - обратитесь к <@421030089732653057>`);
         error = true;
@@ -1139,7 +1144,7 @@ client.on("message", async message => {
         }
     }, 'hid');
 
-    add_command(['daily'], false, message, command, args, 'creat', null, function () {
+    add_command(['daily'], false, message, command, args, 'beta', null, function () {
         let money = client.emojis.get(emojis.money);
         let blank = client.emojis.get('435119671143038986');
         let all = [];
