@@ -1161,8 +1161,8 @@ client.on("message", async message => {
                             .setColor('36393E')
                             .setTitle(':bell: Ежедневные задания')
                             .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
-                            .addField('Задание 2', `${all[1][0]}*\n${blank}\n${all[1][1]}\n${blank}\n${blank}\n${all[0][2]}`, true)
-                            .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[0][2]}`, true)
+                            .addField('Задание 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${blank}\n${all[1][2]}`, true)
+                            .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[2][2]}`, true)
                     )
                 });
             } catch (e) {console.log(`Get ${message.author.id} tasks error: ${e}`)}
