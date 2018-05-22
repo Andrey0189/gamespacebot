@@ -232,6 +232,42 @@ function add_command(aliases, onlyInBotChat, message, command, args, access_type
     command_function();
 }
 
+function getSizeCoef (text) {
+    let cap = text.match(/[A-ZА-ЯІЇЄ]/g);
+    if (!cap) cap = [];
+    let sma = text.match(/[ a-zа-яії'є\-]/g);
+    if (!sma) sma = [];
+    let emo = text.match(/[\u{1f300}-\u{1f5ff}\u{1f900}-\u{1f9ff}\u{1f600}-\u{1f64f}\u{1f680}-\u{1f6ff}\u{2600}-\u{26ff}\u{2700}-\u{27bf}\u{1f1e6}-\u{1f1ff}\u{1f191}-\u{1f251}\u{1f004}\u{1f0cf}\u{1f170}-\u{1f171}\u{1f17e}-\u{1f17f}\u{1f18e}\u{3030}\u{2b50}\u{2b55}\u{2934}-\u{2935}\u{2b05}-\u{2b07}\u{2b1b}-\u{2b1c}\u{3297}\u{3299}\u{303d}\u{00a9}\u{00ae}\u{2122}\u{23f3}\u{24c2}\u{23e9}-\u{23ef}\u{25b6}\u{23f8}-\u{23fa}]/ug);
+    if (!emo) emo = [];
+    let tot = text.length - (cap.length + sma.length + emo.length);
+    return cap.length + sma.length * 0.5 + emo.length * 2 + tot;
+}
+
+function newLines (text) {
+    let arr = text.split(/ +/g);
+    let res = [];
+    let summstr = '';
+    arr.forEach((itemstr, num, arr) => {
+        if (itemstr.split(/\n/g).length === 2) {
+            let arrr = itemstr.split(/\n/g);
+            res.push(summstr+' '+arrr[0]);
+            itemstr = arrr[1];
+            summstr = '';
+        }
+        let item = getSizeCoef(itemstr);
+        let summ = getSizeCoef(summstr);
+        if ((summ + item) <= 12) {
+            summstr += ' '+itemstr;
+        } else {
+            res.push(summstr);
+            summstr = ' '+itemstr;
+        }
+    });
+    res.push(summstr);
+    res.forEach((item, num) => {res[num] = res[num].trim()});
+    return res;
+}
+
 
 String.prototype.replaceAll = function(search, replacement) {
     let target = this;
@@ -1101,7 +1137,7 @@ client.on("message", async message => {
                 else
                 embed.setTimestamp(new Date(timestamp[2]));
             }
-            let fields = text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi)
+            let fields = text.match(/{field: ?(.*?) \| value: ?(.*?)( \| inline)?}/gi);
             if (fields !== null) {
                 fields.forEach((item) => {
                 if (item[1] == null || item[2] == null || typeof item[1] === "undefined" || typeof item[2] === "undefined") return;
@@ -1114,6 +1150,32 @@ client.on("message", async message => {
             message.channel.send({embed: embed_error('Ошибка отправки эмбэда')}).then(msg => msg.delete(3000));
             console.error(e);
         }
+    }, 'hid');
+
+    add_command(['daily'], false, message, command, args, 'creat', null, function () {
+        let money = client.emojis.get(emojis.money);
+        let blank = client.emojis.get('435119671143038986');
+        let all = [];
+        all[0] = newLines(':pencil: Написать в чат "гост - овощ"\n 3 или 2 раза.');
+        all[1] = newLines(':pencil: Написать в чат решение примера\n\`(228+1337)/10\`\nС точностью до **0.1**');
+        let max = 0;
+        all.forEach((item, num) => {
+            if (item.size > max) max = item.size;
+        });
+        all.forEach((item, num) => {
+            if (max > item.size) {
+                let diff = max-item.size;
+                item.concat(Array.from({length: diff}, () => '\n'))
+            }
+        });
+            embed: (new Discord.RichEmbed()
+                    .setColor('36393E')
+                    .setTitle(':bell: Ежедневные задания')
+                    .addField('Задание 1', `***__Овощной салат :salad:__***\n${blank}\n${all[0].join('\n')}\n\n${blank}\n${blank}\n🏆 Награда:  **80**${money}`, true)
+                    .addField('Задание 2', `***__Математика :1234:__***\n${blank}\n${all[1].join('\n')}\n${blank}\n${blank}\n🏆 Награда:  **70**${money}`, true)
+                    .addField('Задание 3', `${blank}\n${blank}\nЗадания нет.\nПриходи завтра!\n${blank}\n${blank}\n${blank}`, true)
+            )
+        });
     }, 'hid');
 
 
