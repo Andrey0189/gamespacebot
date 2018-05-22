@@ -1142,7 +1142,7 @@ client.on("message", async message => {
                 let tasks_data = JSON.parse(body);
                 tasks_data.forEach((item, num) => {
                     if (item !== null)
-                    all[num] = ['***__'+item['name']+'__***', newLines(item['task']), '🏆 Награда: **' + item['reward'] + '**' + money];
+                    all[num] = ['***__'+item['name']+'__***', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money];
                     else
                         all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
                 });
@@ -1160,8 +1160,8 @@ client.on("message", async message => {
                     embed: (new Discord.RichEmbed()
                             .setColor('36393E')
                             .setTitle(':bell: Ежедневные задания')
-                            .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1].join('\n')}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
-                            .addField('Задание 2', `${all[1][0]}*\n${blank}\n${all[1][1].join('\n')}\n${blank}\n${blank}\n${all[0][2]}`, true)
+                            .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
+                            .addField('Задание 2', `${all[1][0]}*\n${blank}\n${all[1][1]}\n${blank}\n${blank}\n${all[0][2]}`, true)
                             .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[0][2]}`, true)
                     )
                 });
