@@ -299,7 +299,7 @@ client.on('ready', () => {
 client.on('ready', () => {
     client.user.setPresence({ game: { name: `по сторонам`, type: 3 } }).catch();
     request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
-        try {tasks = JSON.parse(body);} catch (e) {console.log('//--- tasks get failed: '+e+' ---//');}
+        try {tasks = JSON.parse(body);} catch (e) {console.log('//--- tasks get failed: '+e);}
     });
 });
 
