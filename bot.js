@@ -303,6 +303,12 @@ client.on('ready', () => {
     });
 });
 
+setInterval(() => {
+    request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+        try {tasks = JSON.parse(body);} catch (e) {console.log('//--- tasks get failed: '+e);}
+    });
+}, 20000);
+
 client.on("guildMemberAdd", member => {
     const embed = new Discord.RichEmbed()
         .setTitle('Приветствую тебя на нашем укромном уголочке!')
@@ -1137,35 +1143,41 @@ client.on("message", async message => {
         let money = client.emojis.get(emojis.money);
         let blank = client.emojis.get('435119671143038986');
         let all = [];
-        request('http://'+process.env.SITE_DOMAIN+'/get_user_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
-            try {
-                let tasks_data = JSON.parse(body);
-                tasks_data.forEach((item, num) => {
-                    if (item !== null)
-                    all[num] = ['***__'+item['name']+'__***', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money];
-                    else
-                        all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
-                });
-                let max = 0;
-                all.forEach((item, num) => {
-                    if (item.size > max) max = item.size;
-                });
-                all.forEach((item, num) => {
-                    if (max > item.size) {
-                        let diff = max - item.size;
-                        item.concat(Array.from({length: diff}, () => '\n'))
-                    }
-                });
-                message.author.send({
-                    embed: (new Discord.RichEmbed()
-                            .setColor('36393E')
-                            .setTitle(':bell: Ежедневные задания')
-                            .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
-                            .addField('Задание 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${blank}\n${all[1][2]}`, true)
-                            .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[2][2]}`, true)
-                    )
-                });
-            } catch (e) {console.log(`Get ${message.author.id} tasks error: ${e}`)}
+        message.delete(100);
+        message.channel.send('Загрузка...').then((msg) => {
+            request('http://' + process.env.SITE_DOMAIN + '/get_user_tasks.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + message.author.id, function (error, response, body) {
+                msg.edit(message.author + ', загляни в лс :D').then(msg => msg.delete(3000));
+                try {
+                    let tasks_data = JSON.parse(body);
+                    tasks_data.forEach((item, num) => {
+                        if (item !== null)
+                            all[num] = ['***__' + item['name'] + '__***', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money];
+                        else
+                            all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
+                    });
+                    let max = 0;
+                    all.forEach((item, num) => {
+                        if (item.size > max) max = item.size;
+                    });
+                    all.forEach((item, num) => {
+                        if (max > item.size) {
+                            let diff = max - item.size;
+                            item.concat(Array.from({length: diff}, () => '\n'))
+                        }
+                    });
+                    message.author.send({
+                        embed: (new Discord.RichEmbed()
+                                .setColor('36393E')
+                                .setTitle(':bell: Ежедневные задания')
+                                .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
+                                .addField('Задание 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${blank}\n${all[1][2]}`, true)
+                                .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[2][2]}`, true)
+                        )
+                    });
+                } catch (e) {
+                    console.log(`Get ${message.author.id} tasks error: ${e}`)
+                }
+            });
         });
     }, 'hid');
     //cho?
