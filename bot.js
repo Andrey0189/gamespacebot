@@ -1168,6 +1168,7 @@ client.on("message", async message => {
                 item.concat(Array.from({length: diff}, () => '\n'))
             }
         });
+        message.author.send({
             embed: (new Discord.RichEmbed()
                     .setColor('36393E')
                     .setTitle(':bell: Ежедневные задания')
