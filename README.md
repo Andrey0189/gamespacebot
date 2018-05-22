@@ -9,4 +9,4 @@ http://creativecommons.org/licenses/by-nc-sa/4.0/
 # Благодарность
 Огромное спасибо моему другу Eclipse, который помогал мне кодить этого бота.<br>
 Discord: Eclipse#5372<br>
-Site: http://eclipse.gwrd.cf/
+Site: http://eclipsedev.cf
