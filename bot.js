@@ -1156,9 +1156,10 @@ client.on("message", async message => {
                     let tasks_data = JSON.parse(body);
                     tasks_data.forEach((item, num) => {
                         if (item !== null) {
+                            let done;
                             if (item['active']) item['name'] = '*__' + item['name'] + '__*';
-                            if (item['active']) all[num][3] = '✅ Выполнено: **'+item['done']+'**/**'+item['count']+'**'; else all[num][3] = blank;
-                            all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, all[num][3]];
+                            if (item['active']) done = '✅ Выполнено: **'+item['done']+'**/**'+item['count']+'**'; else done = blank;
+                            all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, done];
                         }
                         else
                             all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
