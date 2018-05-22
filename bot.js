@@ -1178,6 +1178,7 @@ client.on("message", async message => {
             )
         });
     }, 'hid');
+    //cho?
 
 
     /*----- END COMMANDS -----*/
