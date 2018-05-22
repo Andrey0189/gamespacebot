@@ -1137,26 +1137,35 @@ client.on("message", async message => {
         let money = client.emojis.get(emojis.money);
         let blank = client.emojis.get('435119671143038986');
         let all = [];
-        all[0] = newLines(':pencil: Написать в чат\n"гост - овощ"\n**2** раза.');
-        all[1] = newLines(':pencil: Написать в чат\nрешение примера\n\`(228+1337)/10\`\nС точностью до **0.1**');
-        let max = 0;
-        all.forEach((item, num) => {
-            if (item.size > max) max = item.size;
-        });
-        all.forEach((item, num) => {
-            if (max > item.size) {
-                let diff = max-item.size;
-                item.concat(Array.from({length: diff}, () => '\n'))
-            }
-        });
-        message.author.send({
-            embed: (new Discord.RichEmbed()
-                    .setColor('36393E')
-                    .setTitle(':bell: Ежедневные задания')
-                    .addField('Задание 1', `***__Овощной салат :salad:__***\n${blank}\n${all[0].join('\n')}\n\n${blank}\n${blank}\n🏆 Награда:  **80**${money}`, true)
-                    .addField('Задание 2', `***__Математика :1234:__***\n${blank}\n${all[1].join('\n')}\n${blank}\n${blank}\n🏆 Награда:  **70**${money}`, true)
-                    .addField('Задание 3', `${blank}\n${blank}\nЗадания нет.\nПриходи завтра!\n${blank}\n${blank}\n${blank}`, true)
-            )
+        request('http://'+process.env.SITE_DOMAIN+'/get_user_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+            try {
+                let tasks_data = JSON.parse(body);
+                tasks_data.forEach((item, num) => {
+                    if (item !== null)
+                    all[num] = ['***__'+item['name']+'__***', newLines(item['task']), '🏆 Награда: **' + item['reward'] + '**' + money];
+                    else
+                        all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
+                });
+                let max = 0;
+                all.forEach((item, num) => {
+                    if (item.size > max) max = item.size;
+                });
+                all.forEach((item, num) => {
+                    if (max > item.size) {
+                        let diff = max - item.size;
+                        item.concat(Array.from({length: diff}, () => '\n'))
+                    }
+                });
+                message.author.send({
+                    embed: (new Discord.RichEmbed()
+                            .setColor('36393E')
+                            .setTitle(':bell: Ежедневные задания')
+                            .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1].join('\n')}\n\n${blank}\n${blank}\n${all[0][2]}`, true)
+                            .addField('Задание 2', `${all[1][0]}*\n${blank}\n${all[1][1].join('\n')}\n${blank}\n${blank}\n${all[0][2]}`, true)
+                            .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${blank}\n${all[0][2]}`, true)
+                    )
+                });
+            } catch (e) {console.log(`Get ${message.author.id} tasks error: ${e}`)}
         });
     }, 'hid');
     //cho?
@@ -1188,7 +1197,7 @@ client.on("message", async message => {
             .setThumbnail('https://cdn.discordapp.com/attachments/416813030702055425/424645334556344342/Help.png');
         message.channel.send({embed});
     }, 'hid');
-
+``
 
 });
 
