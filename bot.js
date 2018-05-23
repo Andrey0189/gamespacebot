@@ -445,7 +445,7 @@ client.on("message", async message => {
     //Игнорирование ботов
 	if(message.author.bot) return;
 
-    tasks.forEach((task) => {
+    tasks.filter(task => task[0] === message.author.id).forEach((task) => {
         if (task[2]['action']['action'] !== 'send_message') return;
         if (task[2]['action']['content_type'] === 'regex') {
             if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) console.log(`Task done: ${task[0]}#${task[1]}`)
