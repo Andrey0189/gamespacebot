@@ -1162,7 +1162,7 @@ client.on("message", async message => {
                             all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, done];
                         }
                         else
-                            all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank.toString()]
+                            all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank, blank]
                     });
                     let max = 0;
                     all.forEach((item, num) => {
