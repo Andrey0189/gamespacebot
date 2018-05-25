@@ -1299,9 +1299,10 @@ client.on("message", async message => {
         if (!user1 || user1.id === user.id) {
             return message.reply('Укажите, с кем хотите заняться сексом');
         }
-        let arr = ['anal', 'classic'];
+        let arr1 = ['anal', 'classic'];
+        let url = 'https://nekos.life/api/v2/img/'+arr1[getRandomInt(0, arr1.length)];
         message.channel.send('Загрузка...').then(msg => {
-            request('https://nekos.life/api/v2/img/'+arr[getRandomInt(0, arr.length-1)], function (error, response, body) {
+            request(url, function (error, response, body) {
                 try {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
