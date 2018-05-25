@@ -1208,6 +1208,7 @@ client.on("message", async message => {
             user = client.user;
             user1 = message.author;
         }
+        let msg = message.channel.send('Загрузка...');
         request('https://nekos.life/api/hug', function (error, response, body) {
            try {
                let arr = JSON.parse(body);
@@ -1216,7 +1217,7 @@ client.on("message", async message => {
                    .attachFile(new Discord.Attachment(arr['url'], 'hug.gif'))
                    .setImage('attachment://hug.gif')
                    .setColor('RANDOM');
-               message.channel.send(`${user1}`, {embed});
+               msg.edit(`${user1}`, {embed});
            } catch (e) {console.log(e)}
         });
     }, 'hid');
