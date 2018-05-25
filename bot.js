@@ -1208,17 +1208,18 @@ client.on("message", async message => {
             user = client.user;
             user1 = message.author;
         }
-        let msg = message.channel.send('Загрузка...');
-        request('https://nekos.life/api/hug', function (error, response, body) {
-           try {
-               let arr = JSON.parse(body);
-               let embed = new Discord.RichEmbed()
-                   .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял ${user1} ${client.emojis.get(emojis.hugl)}`)
-                   .attachFile(new Discord.Attachment(arr['url'], 'hug.gif'))
-                   .setImage('attachment://hug.gif')
-                   .setColor('RANDOM');
-               msg.edit(`${user1}`, {embed});
-           } catch (e) {console.log(e)}
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/hug', function (error, response, body) {
+                try {
+                    let arr = JSON.parse(body);
+                    let embed = new Discord.RichEmbed()
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .attachFile(new Discord.Attachment(arr['url'], 'hug.gif'))
+                        .setImage('attachment://hug.gif')
+                        .setColor('RANDOM');
+                    msg.edit(`${user1}`, {embed});
+                } catch (e) {console.log(e)}
+            });
         });
     }, 'hid');
 
