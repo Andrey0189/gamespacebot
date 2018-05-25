@@ -1198,13 +1198,12 @@ client.on("message", async message => {
             });
         });
     }, 'hid');
-    //cho?
 
-    add_command(['hug', 'обнять', 'обнимашки', 'hugs', 'хуг', 'хугс', 'хаг', 'хагс'], false, message, command, args, 'beta', null, function () {
+    add_command(['hug', 'обнять', 'обнимашки', 'hugs', 'хуг', 'хугс', 'хаг', 'хагс'], false, message, command, args, 'e', null, function () {
         message.delete();
         let user = message.author;
         let user1 = message.mentions.users.first();
-        if (!user1) {
+        if (!user1 || user1.id === user.id) {
             user = client.user;
             user1 = message.author;
         }
@@ -1213,15 +1212,61 @@ client.on("message", async message => {
                 try {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
-                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .setTitle(':3')
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял(а) ${user1} ${client.emojis.get(emojis.hugl)}`)
                         .setImage(arr['url'])
                         .setColor('RANDOM');
                     msg.edit(`${user1}`, {embed});
                 } catch (e) {console.log(e)}
             });
         });
-    }, 'hid');
+    }, '<пользователь>');
 
+    add_command(['pat', 'погладить', 'успокоить'], false, message, command, args, 'e', null, function () {
+        message.delete();
+        let user = message.author;
+        let user1 = message.mentions.users.first();
+        if (!user1 || user1.id === user.id) {
+            user = client.user;
+            user1 = message.author;
+        }
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/pat', function (error, response, body) {
+                try {
+                    let arr = JSON.parse(body);
+                    let embed = new Discord.RichEmbed()
+                        .setTitle(':3')
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} погладил(а) по голове ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .setImage(arr['url'])
+                        .setColor('RANDOM');
+                    msg.edit(`${user1}`, {embed});
+                } catch (e) {console.log(e)}
+            });
+        });
+    }, '<пользователь>');
+
+    add_command(['kiss', 'поцеловать', 'поцелуй'], false, message, command, args, 'e', null, function () {
+        message.delete();
+        let user = message.author;
+        let user1 = message.mentions.users.first();
+        if (!user1 || user1.id === user.id) {
+            user = client.user;
+            user1 = message.author;
+        }
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/kiss', function (error, response, body) {
+                try {
+                    let arr = JSON.parse(body);
+                    let embed = new Discord.RichEmbed()
+                        .setTitle(':3')
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} поцеловал(а) ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .setImage(arr['url'])
+                        .setColor('RANDOM');
+                    msg.edit(`${user1}`, {embed});
+                } catch (e) {console.log(e)}
+            });
+        });
+    }, '<пользователь>');
 
     /*----- END COMMANDS -----*/
 
