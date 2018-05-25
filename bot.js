@@ -841,10 +841,10 @@ client.on("message", async message => {
         message.delete();
     }, '[вопрос]', 'хорошо обдумоть вопрос');
 
-    add_command(['обнимашки', 'hug', 'обними', 'hugs'], false, message, command, args, 'e', null, function() {
-        const emoj = client.emojis.get(emojis.obnimayu);
-        message.channel.send(`${emoj} ${message.author}`);
-    }, '', 'обнять бота');
+    // add_command(['обнимашки', 'hug', 'обними', 'hugs'], false, message, command, args, 'e', null, function() {
+    //     const emoj = client.emojis.get(emojis.obnimayu);
+    //     message.channel.send(`${emoj} ${message.author}`);
+    // }, '', 'обнять бота');
 
     if (!siteOff)
     add_command(['цвет', 'color', 'show_color', 'sc', 'покажи_цвет'], true, message, command, args, 'e', null, function () {
@@ -1192,10 +1192,16 @@ client.on("message", async message => {
     //cho?
 
     add_command(['hug', 'обнять', 'обнимашки', 'hugs', 'хуг', 'хугс', 'хаг', 'хагс'], false, message, command, args, 'beta', null, function () {
+        let user = message.author;
+        let user1 = message.mentions.users.first();
+        if (!user1) {
+            user = client.user;
+            user1 = message.author;
+        }
         request('https://nekos.life/api/hug', function (error, response, body) {
            try {
                let arr = JSON.parse(body);
-               message.channel.send(text,{files: [{
+               message.channel.send(`${user} обнял ${user1}`, {files: [{
                    attachment: arr['URL'],
                    name: 'hug.gif'
                }]});
