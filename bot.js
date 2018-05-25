@@ -448,7 +448,15 @@ client.on("message", async message => {
     tasks.filter(task => task[0] === message.author.id).forEach((task) => {
         if (task[2]['action']['action'] !== 'send_message') return;
         if (task[2]['action']['content_type'] === 'regex') {
-            if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) console.log(`Task done: ${task[0]}#${task[1]}`)
+            if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) {
+                request('http://'+process.env.SITE_DOMAIN+'/do_task.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+task[0]+'&task='+task[1], function (error, response, body) {
+                    try {
+                        let arr = JSON.parse(body);
+                        if (arr[0] === arr[1]) message.channel.send('Нифига ты баклажан')
+                    } catch(e) {message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения топа пользователей. Содержание ошибки:\n`+e)});}
+                });
+
+            }
         }
     });
 
@@ -546,16 +554,16 @@ client.on("message", async message => {
                 '- А так же обналичить счет `s!withdraw <сумма>`**\n' +
                 '\n' +
                 '**Способы получения денег**\n' +
-                '**- Писать сообщения в чате (2-5 Jd \\💸)**\n' +
+                '**- Писать сообщения в чате (2-5 Jd 🍍)**\n' +
                 '*P.S- Можете не спамить, установлена спам-защита. Деньги не будут начисляются.*\n' +
                 '**- Работа `s!work`\n' +
                 '- Удача `s!slut`**\n' +
                 '*P.S- имеет шанс 80% на удачу*\n' +
-                '***Успешно- вы получите (200-500 Jd\\💸)***\n' +
+                '***Успешно- вы получите (200-500 🍍)***\n' +
                 '**Провал- у вас заберут до 10% имеющихся денег\n' +
                 '- Криминал [s!crime]**\n' +
                 '*P.S- имеет шанс 50% на удачу.*\n' +
-                '***Успешно- вы получите (400-1500 Jd\\💸)***\n' +
+                '***Успешно- вы получите (400-1500 🍍)***\n' +
                 '**Провал- у вас заберут до 40% имеющихся денег**\n' +
                 '~~**- Кража денег у других игроков [s!rob @ник]**~~\n' +
                 '\n' +
@@ -1202,7 +1210,7 @@ client.on("message", async message => {
            try {
                let arr = JSON.parse(body);
                message.channel.send(`${user} обнял ${user1}`, {files: [{
-                   attachment: arr['URL'],
+                   attachment: arr['url'],
                    name: 'hug.gif'
                }]});
            } catch (e) {console.log(e)}
@@ -1236,7 +1244,6 @@ client.on("message", async message => {
             .setThumbnail('https://cdn.discordapp.com/attachments/416813030702055425/424645334556344342/Help.png');
         message.channel.send({embed});
     }, 'hid');
-``
 
 });
 
