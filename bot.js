@@ -1208,7 +1208,7 @@ client.on("message", async message => {
             user1 = message.author;
         }
         message.channel.send('Загрузка...').then(msg => {
-            request('https://nekos.life/api/hug', function (error, response, body) {
+            request('https://nekos.life/api/v2/img/hug', function (error, response, body) {
                 try {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
@@ -1220,7 +1220,7 @@ client.on("message", async message => {
                 } catch (e) {console.log(e)}
             });
         });
-    }, '<пользователь>');
+    }, '<пользователь>', 'обнять пользователя');
 
     add_command(['pat', 'погладить', 'успокоить'], false, message, command, args, 'e', null, function () {
         message.delete();
@@ -1231,7 +1231,7 @@ client.on("message", async message => {
             user1 = message.author;
         }
         message.channel.send('Загрузка...').then(msg => {
-            request('https://nekos.life/api/pat', function (error, response, body) {
+            request('https://nekos.life/api/v2/img/pat', function (error, response, body) {
                 try {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
@@ -1243,7 +1243,7 @@ client.on("message", async message => {
                 } catch (e) {console.log(e)}
             });
         });
-    }, '<пользователь>');
+    }, '<пользователь>', 'погладить пользователя по голове');
 
     add_command(['kiss', 'поцеловать', 'поцелуй'], false, message, command, args, 'e', null, function () {
         message.delete();
@@ -1254,7 +1254,7 @@ client.on("message", async message => {
             user1 = message.author;
         }
         message.channel.send('Загрузка...').then(msg => {
-            request('https://nekos.life/api/kiss', function (error, response, body) {
+            request('https://nekos.life/api/v2/img/kiss', function (error, response, body) {
                 try {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
@@ -1266,7 +1266,70 @@ client.on("message", async message => {
                 } catch (e) {console.log(e)}
             });
         });
-    }, '<пользователь>');
+    }, '<пользователь>', 'поцеловать пользователя');
+
+    add_command(['slap', 'пощёчина'], false, message, command, args, 'e', null, function () {
+        message.delete();
+        let user = message.author;
+        let user1 = message.mentions.users.first();
+        if (!user1 || user1.id === user.id) {
+            user = client.user;
+            user1 = message.author;
+        }
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/v2/img/slap', function (error, response, body) {
+                try {
+                    let arr = JSON.parse(body);
+                    let embed = new Discord.RichEmbed()
+                        .setTitle('>:{')
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} дал(а) пощёчину ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .setImage(arr['url'])
+                        .setColor('RANDOM');
+                    msg.edit(`${user1}`, {embed});
+                } catch (e) {console.log(e)}
+            });
+        });
+    }, '<пользователь>', 'дать пользователю пощёчину');
+
+    add_command(['fuck', 'sex', 'трахнуть', 'секс', 'выебать'], false, message, command, args, 'e', null, function () {
+        message.delete();
+        if (!message.channel.nsfw) return message.channel.send('Такое можно только в <#421664477662937098>!').then(msg => msg.delete(5000));
+        let user = message.author;
+        let user1 = message.mentions.users.first();
+        if (!user1 || user1.id === user.id) {
+            return message.reply('Укажите, с кем хотите заняться сексом');
+        }
+        let arr = ['anal', 'classic'];
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/v2/img/'+arr[getRandomInt(0, arr.length-1)], function (error, response, body) {
+                try {
+                    let arr = JSON.parse(body);
+                    let embed = new Discord.RichEmbed()
+                        .setTitle('...')
+                        .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} выебал(а) ${user1} ${client.emojis.get(emojis.hugl)}`)
+                        .setImage(arr['url'])
+                        .setColor('RANDOM');
+                    msg.edit(`${user1}`, {embed});
+                } catch (e) {console.log(e)}
+            });
+        });
+    }, '<пользователь>', 'заняться сексом с пользователем');
+
+    add_command(['gasm', 'orgasm'], false, message, command, args, 'e', null, function () {
+        message.delete();
+        message.channel.send('Загрузка...').then(msg => {
+            request('https://nekos.life/api/v2/img/gasm', function (error, response, body) {
+                try {
+                    msg.delete();
+                    let arr = JSON.parse(body);
+                    message.channel.send({files: [{
+                        attachment: arr['url'],
+                        name: arr['url'].substring(arr['url'].lastIndexOf('/')+1)
+                    }]});
+                } catch (e) {console.log(e)}
+            });
+        });
+    }, '', 'отправить картинку оргазма');
 
     /*----- END COMMANDS -----*/
 
