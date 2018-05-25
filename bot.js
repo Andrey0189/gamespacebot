@@ -1214,8 +1214,7 @@ client.on("message", async message => {
                     let arr = JSON.parse(body);
                     let embed = new Discord.RichEmbed()
                         .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял ${user1} ${client.emojis.get(emojis.hugl)}`)
-                        .attachFile(new Discord.Attachment(arr['url'], 'hug.gif'))
-                        .setImage('attachment://hug.gif')
+                        .setImage(arr['url'])
                         .setColor('RANDOM');
                     msg.edit(`${user1}`, {embed});
                 } catch (e) {console.log(e)}
