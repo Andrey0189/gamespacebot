@@ -1191,6 +1191,18 @@ client.on("message", async message => {
     }, 'hid');
     //cho?
 
+    add_command(['hug', 'обнять', 'обнимашки', 'hugs', 'хуг', 'хугс', 'хаг', 'хагс'], false, message, command, args, 'beta', null, function () {
+        request('https://nekos.life/api/hug', function (error, response, body) {
+           try {
+               let arr = JSON.parse(body);
+               message.channel.send(text,{files: [{
+                   attachment: arr['URL'],
+                   name: 'hug.gif'
+               }]});
+           } catch (e) {console.log(e)}
+        });
+    }, 'hid');
+
 
     /*----- END COMMANDS -----*/
 
