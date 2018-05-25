@@ -75,7 +75,8 @@ const emojis = {
     obnimayu:'421647583551684609',
     money:'422055316792803349',
     error: '424467513578094592',
-    facepalm: '429211566756462592'
+    facepalm: '429211566756462592',
+    hugl: '449573567852707841'
 };
 // Люди, которые получили опыт в течении минуты
 const talkedRecently = new Set();
@@ -1209,10 +1210,12 @@ client.on("message", async message => {
         request('https://nekos.life/api/hug', function (error, response, body) {
            try {
                let arr = JSON.parse(body);
-               message.channel.send(`${user} обнял ${user1}`, {files: [{
-                   attachment: arr['url'],
-                   name: 'hug.gif'
-               }]});
+               let embed = new Discord.RichEmbed()
+                   .setDescription(`${client.emojis.get(emojis.obnimayu)} ${user} обнял ${user1} ${client.emojis.get(emojis.hugl)}`)
+                   .attachFile(new Discord.Attachment(arr['url'], 'hug.gif'))
+                   .setImage('attachment://hug.gif')
+                   .setColor('RANDOM');
+               message.channel.send(`${user1}`, {embed});
            } catch (e) {console.log(e)}
         });
     }, 'hid');
