@@ -1201,6 +1201,7 @@ client.on("message", async message => {
     //cho?
 
     add_command(['hug', 'обнять', 'обнимашки', 'hugs', 'хуг', 'хугс', 'хаг', 'хагс'], false, message, command, args, 'beta', null, function () {
+        message.delete();
         let user = message.author;
         let user1 = message.mentions.users.first();
         if (!user1) {
