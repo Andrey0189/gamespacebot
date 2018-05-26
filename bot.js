@@ -453,20 +453,21 @@ client.on("message", async message => {
                 request('http://'+process.env.SITE_DOMAIN+'/do_task.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+task[0]+'&task='+task[1], function (error, response, body) {
                     try {
                         let arr = JSON.parse(body);
-                        if (arr[0] !== arr[1]) message.reply('выполнено: **'+arr[0]+'**/**'+arr[1]+'**').then(msg=>msg.delete(5000));
+                        if (arr[0] !== arr[1]) message.reply('выполнено: **'+arr[0]+'**/**'+arr[1]+'**').then(msg=>msg.delete(3000));
                         else if (arr[0] === arr[1]) {
                             let item = arr[2];
                             console.log(arr);
                             let money = client.emojis.get(emojis.money);
                             let blank = client.emojis.get('435119671143038986');
                             let all = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, '✅ __***Задание выполнено!***__'];
-                                message.author.send({
-                                    embed: (new Discord.RichEmbed()
-                                            .setColor('36393E')
-                                            .setTitle('❗ Задание завершено')
-                                            .setDescription(`${all[0]}\n${blank}\n${all[1]}\n${blank}\n${all[3]}\n${all[2]}`)
-                                    )
-                                });
+                            message.author.send({
+                                embed: (new Discord.RichEmbed()
+                                        .setColor('36393E')
+                                        .setTitle('❗ Задание завершено')
+                                        .setDescription(`${all[0]}\n${blank}\n${all[1]}\n${blank}\n${all[3]}\n${all[2]}`)
+                                )
+                            });
+                            message.reply('задание выполнено.').then(msg=>msg.delete(3000));
                         }
                     } catch(e) {message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка выполнения дейлика. Содержание ошибки:\n`+e)});}
                 });
