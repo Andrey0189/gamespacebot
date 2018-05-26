@@ -498,7 +498,7 @@ client.on("message", async message => {
                             let money = client.emojis.get(emojis.money);
                             let blank = client.emojis.get('435119671143038986');
                             let all = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, '✅ __***Задание выполнено!***__'];
-                                message.author.send({
+                                message.channel.send({
                                     embed: (new Discord.RichEmbed()
                                             .setColor('36393E')
                                             .setTitle('❗ Задание завершено')
