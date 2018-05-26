@@ -403,7 +403,7 @@ client.on("message", async message => {
     if (['dm', 'group', 'category', 'voice'].includes(message.channel.type)) return;
 
     //Авто-покидание чужих серверов
-    if (!['417266233562365952', '416813030232424462', '432496701614325762'].includes(message.guild.id)) {
+    if (!['417266233562365952', '416813030232424462', '432496701614325762', '449895829336227861'].includes(message.guild.id)) {
         message.guild.leave().catch();
         return;
     }
