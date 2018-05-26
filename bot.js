@@ -492,7 +492,7 @@ client.on("message", async message => {
                                                 .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${all[2][3]}\n${all[2][2]}`, true)
                                         )
                                     });
-                                } catch (e) {}
+                                } catch (e) {console.log(e)}
                             });
                         }
                     } catch(e) {message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения топа пользователей. Содержание ошибки:\n`+e)});}
