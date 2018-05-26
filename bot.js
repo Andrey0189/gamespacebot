@@ -455,6 +455,7 @@ client.on("message", async message => {
                         let arr = JSON.parse(body);
                         if (arr[0] !== arr[1]) message.reply('выполнено: **'+arr[0]+'**/**'+arr[1]+'**').then(msg=>msg.delete(5000));
                         else if (arr[0] === arr[1]) {
+                            console.log(1);
                             // request('http://' + process.env.SITE_DOMAIN + '/get_user_tasks.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + message.author.id, function (error, response, body1) {
                             //     try {
                             //         let tasks_data = JSON.parse(body1);
