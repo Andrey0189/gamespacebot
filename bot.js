@@ -455,39 +455,44 @@ client.on("message", async message => {
                         let arr = JSON.parse(body);
                         if (arr[0] !== arr[1]) message.reply('выполнено: **'+arr[0]+'**/**'+arr[1]+'**').then(msg=>msg.delete(5000));
                         else if (arr[0] === arr[1]) {
-                            let tasks_data = JSON.parse(body)
-                            let money = client.emojis.get(emojis.money);
-                            let blank = client.emojis.get('435119671143038986');
-                            let all = [];
-                            tasks_data.forEach((item, num) => {
-                                if (item !== null) {
-                                    let done;
-                                    if (item['active']) item['name'] = '*__' + item['name'] + '__*';
-                                    if (item['active']) done = '✅ Выполнено: **'+item['done']+'**/**'+item['count']+'**'; else done = blank;
-                                    all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, done];
-                                }
-                                else
-                                    all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank, blank]
-                            });
-                            let max = 0;
-                            all.forEach((item, num) => {
-                                if (item.size > max) max = item.size;
-                            });
-                            all.forEach((item, num) => {
-                                if (max > item.size) {
-                                    let diff = max - item.size;
-                                    item.concat(Array.from({length: diff}, () => '\n'))
-                                }
-                            });
-                            all[task[1]][3] = '✅ __***Задание выполнено!***__';
-                            message.author.send({
-                                embed: (new Discord.RichEmbed()
-                                        .setColor('36393E')
-                                        .setTitle(':bell: Ежедневные задания')
-                                        .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${all[0][3]}\n${all[0][2]}`, true)
-                                        .addField('Задание 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${all[1][3]}\n${all[1][2]}`, true)
-                                        .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${all[2][3]}\n${all[2][2]}`, true)
-                                )
+                            request('http://' + process.env.SITE_DOMAIN + '/get_user_tasks.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + message.author.id, function (error, response, body1) {
+                                try {
+                                    let tasks_data = JSON.parse(body1);
+                                    tasks_data[task[1]] = arr[2];
+                                    let money = client.emojis.get(emojis.money);
+                                    let blank = client.emojis.get('435119671143038986');
+                                    let all = [];
+                                    tasks_data.forEach((item, num) => {
+                                        if (item !== null) {
+                                            let done;
+                                            if (item['active']) item['name'] = '*__' + item['name'] + '__*';
+                                            if (item['active']) done = '✅ Выполнено: **' + item['done'] + '**/**' + item['count'] + '**'; else done = blank;
+                                            all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, done];
+                                        }
+                                        else
+                                            all[num] = [blank.toString(), 'Задания нет.\nПриходи завтра!', blank, blank]
+                                    });
+                                    let max = 0;
+                                    all.forEach((item, num) => {
+                                        if (item.size > max) max = item.size;
+                                    });
+                                    all.forEach((item, num) => {
+                                        if (max > item.size) {
+                                            let diff = max - item.size;
+                                            item.concat(Array.from({length: diff}, () => '\n'))
+                                        }
+                                    });
+                                    all[task[1]][3] = '✅ __***Задание выполнено!***__';
+                                    message.author.send({
+                                        embed: (new Discord.RichEmbed()
+                                                .setColor('36393E')
+                                                .setTitle(':bell: Ежедневные задания')
+                                                .addField('Задание 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${all[0][3]}\n${all[0][2]}`, true)
+                                                .addField('Задание 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${all[1][3]}\n${all[1][2]}`, true)
+                                                .addField('Задание 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${all[2][3]}\n${all[2][2]}`, true)
+                                        )
+                                    });
+                                } catch (e) {}
                             });
                         }
                     } catch(e) {message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка отображения топа пользователей. Содержание ошибки:\n`+e)});}
