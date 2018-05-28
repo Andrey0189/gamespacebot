@@ -1347,6 +1347,11 @@ client.on("message", async message => {
         });
     }, '', 'отправить картинку оргазма');
 
+    add_command(['limit'], false, message, command, args, 'e', null, function () {
+        if (!args[0] || parseInt(args[0]) > 99 || parseInt(args[0]) < 0) return message.channel.send('Ошибка');
+        message.guild.channels.get('418442535472726026').setUserLimit(parseInt(args[0])).catch();
+    });
+
     /*----- END COMMANDS -----*/
 
     //Команда help. Все остальные команды должны быть определены до неё.
