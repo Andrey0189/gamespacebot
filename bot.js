@@ -674,7 +674,9 @@ client.on("message", async message => {
             let nick = message.author.username;
             if (message.member.nickname != null) nick = message.member.nickname;
             client.fetchWebhook(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN).then(webhook => {
-                webhook.send('', {username: nick, avatarURL: message.author.avatarURL, embeds: [embed]}).catch(console.error);
+                webhook.send('', {username: nick, avatarURL: message.author.avatarURL, embeds: [embed]}).then((msg)=>{
+request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id+'&message='+msg.id+'&text='+encodeURIComponent(args.join(' ')));
+}).catch(console.error);
             }).catch(console.error);
             message.channel.send(`🗳 Голосование пользователя ${message.author} успешно начато`);
             message.delete();
@@ -698,7 +700,7 @@ client.on("message", async message => {
                 //Ставит реакцию (выполнено).
                 message.react("✅")
             } else {
-                message.author.send(`${output}`, {split:"\n", code:"js"});
+                messagea.author.send(`${output}`, {split:"\n", code:"js"});
             }
         } catch (error) {
             //Захватывает ошибку и говорит об этом.
