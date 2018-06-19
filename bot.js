@@ -675,7 +675,7 @@ client.on("message", async message => {
             if (message.member.nickname != null) nick = message.member.nickname;
             client.fetchWebhook(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN).then(webhook => {
                 webhook.send('', {username: nick, avatarURL: message.author.avatarURL, embeds: [embed]}).then((msg)=>{
-request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id+'&message='+msg.id+'&text='+encodeURIComponent(args.join(' ')));
+request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+msg.id+'&text='+encodeURIComponent(args.join(' ')));
 }).catch(console.error);
             }).catch(console.error);
             message.channel.send(`🗳 Голосование пользователя ${message.author} успешно начато`);
