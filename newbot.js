@@ -48,8 +48,10 @@ fs.readdir("./commands/", (err, files) => {
 props.info.code = props;
 props.info.category = c;
         client.commands.set(props.info.command, props.info );
-        if (fi == fa.length - 1 && ci == ca.length - 1) 
-        console.log(`-----\nБот запущен\nВсего ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
+        if (fi == fa.length - 1 && ci == ca.length - 1) {
+        	let letter;
+        	if (commandCount == 1) letter = 'а'; else letter = 'о';
+        console.log(`-----\nБот запущен\nВсего загружен${letter} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
     });
     });
     });
