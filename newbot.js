@@ -57,3 +57,5 @@ props.info.category = c;
     });
     
 });
+client.login(process.env.BOT_TOKEN).catch(console.error);
+process.env.BOT_TOKEN = process.env.POSLANIYE;
