@@ -6,6 +6,7 @@ const inspect  = require("util");
 const vm = require("vm");
 const fs = require ("fs");
 const codeContext =  {};
+const prefix = ".";
 vm.createContext(codeContext);
 const client = new Discord.Client({ autofetch: [
     'MESSAGE_CREATE',
@@ -56,6 +57,14 @@ props.info.category = c;
     });
     });
     
+});
+client.on('message', async (message) => {
+    if (message.content.indexOf(prefix) !== 0) return;
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    
+    let commandfile = client.commands.filter(m => command.match(new RegExp(m.command, 'im'))).first();
+    if (commandfile) commandfile.run(client, message, command, args, commandfile.info);
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);
 process.env.BOT_TOKEN = process.env.POSLANIYE;
