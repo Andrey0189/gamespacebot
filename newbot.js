@@ -41,7 +41,7 @@ fs.readdir("./commands/", (err, files) => {
     jsfile = cmds.filter(c => c.endsWith('.js'));
     jsfile.forEach((f, fi, fa) => {
         let props = require(`./commands/${c}/${f}`);
-        let commandName = f.slice(-2);
+        let commandName = f.replace(/\.js$/i, '');
 
         console.log(`Команда ${commandName} загружена`);
         commandCount++;
