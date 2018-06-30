@@ -4,6 +4,7 @@ const rgbcolor = require('rgbcolor');
 const getImageColors = require('get-image-colors');
 const inspect  = require("util");
 const vm = require("vm");
+const fs = require ("fs");
 const codeContext =  {};
 vm.createContext(codeContext);
 const client = new Discord.Client({ autofetch: [
