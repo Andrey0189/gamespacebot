@@ -25,7 +25,7 @@ require('./func.js');
 client.commands = new Discord.Collection();
 client.categories = [];
 
-fs.readdir("./categories/", (err, files) => {
+fs.readdir("./commands/", (err, files) => {
 
     let commandCount = 0;
 
