@@ -34,12 +34,12 @@ fs.readdir("./commands/", (err, files) => {
         console.log("Категорий нет.");
         return;
     }
-    files.forEach((c) => {
+    files.forEach((c, ci, ca) => {
     console.log(`Категория ${c} загружена`);
     client.categories.push(c);
     fs.readdir("./commands/"+c+"/", (err, cmds) => {
     jsfile = cmds.filter(c => c.endsWith('.js'));
-    jsfile.forEach((f) => {
+    jsfile.forEach((f, fi, fa) => {
         let props = require(`./commands/${c}/${f}`);
         let commandName = f.slice(-2);
 
@@ -48,8 +48,10 @@ fs.readdir("./commands/", (err, files) => {
 props.info.code = props;
 props.info.category = c;
         client.commands.set(props.info.command, props.info );
+        if (fi == fa.length - 1 && ci == ca.length - 1) 
+        console.log(`-----\nБот запущен\nВсего ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
     });
     });
     });
-    console.log(`-----\nБот запущен\nВсего ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
+    
 });
