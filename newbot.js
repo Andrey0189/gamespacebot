@@ -43,7 +43,7 @@ fs.readdir("./commands/", (err, files) => {
         let props = require(`./commands/${c}/${f}`);
         let commandName = f.slice(-2);
 
-        console.log(`Команда ${f} загружена`);
+        console.log(`Команда ${commandName} загружена`);
         commandCount++;
 props.info.code = props;
 props.info.category = c;
@@ -51,7 +51,7 @@ props.info.category = c;
         if (fi == fa.length - 1 && ci == ca.length - 1) {
         	let letter;
         	if (commandCount == 1) letter = 'а'; else letter = 'о';
-        console.log(`-----\nБот запущен\nВсего загружен${letter} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
+        console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
     });
     });
     });
