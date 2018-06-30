@@ -64,6 +64,7 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
     
     let commandfile = client.commands.filter(m => command.match(new RegExp(m.command, 'im'))).first();
+    console.log(commandfile);
     if (commandfile) commandfile.run(client, message, command, args, commandfile.info);
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);
