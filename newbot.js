@@ -20,7 +20,7 @@ const rule = {
     game_admin: "417312252463677451",
     moder: "426411685595578382"
 };
-require('./func.js');
+const func = require('./func.js');
 
 client.commands = new Discord.Collection();
 client.categories = [];
@@ -51,5 +51,5 @@ props.info.category = c;
     });
     });
     });
-    console.log(`-----\nБот запущен\nВсего ${commandCount} ${declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
+    console.log(`-----\nБот запущен\nВсего ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
 });
