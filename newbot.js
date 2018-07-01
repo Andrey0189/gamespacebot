@@ -110,7 +110,7 @@ client.on('message', async (message) => {
 	            cmds += ' '+prefix+cmd.name+'\n';
             })
         });
-        message.channel.send(`\`\`\`asciidoc\n=${lang.toUpperCase()}=    ${client.member.displayName}#${client.user.discriminator}\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
+        message.channel.send(`\`\`\`asciidoc\n=${lang.toUpperCase()}=    ${message.member.displayName}#${message.author.discriminator}\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
     let commandfile = client.commands.filter(m => {
