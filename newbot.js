@@ -63,6 +63,18 @@ client.on('message', async (message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     
+    if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
+    	message.delete();
+        let cmds = '';
+        client.categories.forEach((caregory) => {
+            cmds += category + ':\n';
+            client.commands.filter(m => m.category == category).forEach(cmd => {
+	            cmds += '    '+prefix+cmd.name;
+            })
+        });
+        message.channel.send(`\`\`\`asciidoc\nСписок команд:\n\n${cmds}\`\`\``);
+        return;
+    }
     let commandfile = client.commands.filter(m => command.match(new RegExp(m.command, 'im'))).first();
     console.log(commandfile);
     if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info);

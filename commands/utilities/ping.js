@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 const func = require('../../func.js');
 
 module.exports.info = {
-	command: '^(ping|п[и|і|i]нг)$'
+	command: '^(ping|п[и|і|i]нг)$',
+	name: 'ping'
 };
 module.exports.run = async function (client, message, command, args, info) {
 	message.delete();
