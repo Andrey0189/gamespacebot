@@ -22,7 +22,7 @@ module.exports.info = {
 let lang = {
     'ru': {
         'main_server': 'Основной сервер',
-        'api_server': 'Основной сервер',
+        'api_server': 'API сервер',
         'ms': 'мс',
         'ping': 'Пинг',
         'calculation': 'Расчет',

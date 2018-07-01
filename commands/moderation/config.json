@@ -1,0 +1,9 @@
+{
+  "name": {
+    "ru": "Модерация",
+    "ua": "Модерація",
+    "en": "Moderation",
+    "pl": "Umiar"
+  },
+  "regex": "(мод[е|э]ра(ц|тс|тор)[i|і|и]я|moderat[i|e]on|umiar)"
+}

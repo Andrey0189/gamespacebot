@@ -24,7 +24,7 @@ const rule = {
 const func = require('./func.js');
 
 client.commands = new Discord.Collection();
-client.categories = [];
+client.categories = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
 
@@ -36,25 +36,27 @@ fs.readdir("./commands/", (err, files) => {
         return;
     }
     files.forEach((c, ci, ca) => {
-    console.log(`Категория ${c} загружена`);
-    client.categories.push(c);
-    fs.readdir("./commands/"+c+"/", (err, cmds) => {
-    let jsfile = cmds.filter(c => c.endsWith('.js'));
-    jsfile.forEach((f, fi, fa) => {
-        let props = require(`./commands/${c}/${f}`);
-        let commandName = f.replace(/\.js$/i, '');
+        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${c} не загружена: не обнаружен файл конфигурации категории.`);
+        let cat_info = require("./commands/"+c+"/config.json");
+        console.log(`Категория ${c} загружена`);
+        client.categories.set(c, cat_info);
+        fs.readdir("./commands/"+c+"/", (err, cmds) => {
+        let jsfile = cmds.filter(c => c.endsWith('.js'));
+            jsfile.forEach((f, fi, fa) => {
+                let props = require(`./commands/${c}/${f}`);
+                let commandName = f.replace(/\.js$/i, '');
 
-        console.log(`Команда ${commandName} загружена`);
-        commandCount++;
-props.info.code = props;
-props.info.category = c;
-        client.commands.set(props.info.command, props.info );
-        if (fi === fa.length - 1 && ci === ca.length - 1) {
-        	let letter;
-        	if (commandCount === 1) letter = 'а'; else letter = 'о';
-        console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
-    });
-    });
+                console.log(`Команда ${commandName} загружена`);
+                commandCount++;
+                props.info.code = props;
+                props.info.category = c;
+                client.commands.set(props.info.command, props.info );
+                if (fi === fa.length - 1 && ci === ca.length - 1) {
+                    let letter;
+                    if (commandCount === 1) letter = 'а'; else letter = 'о';
+                console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
+            });
+        });
     });
     
 });
@@ -90,7 +92,7 @@ client.on('message', async (message) => {
     if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
     	message.delete();
         let cmds = '';
-        client.categories.forEach((category) => {
+        client.categories.forEach((category, cat_info) => {
             cmds += category + ':\n';
             client.commands.filter(m => m.category === category).forEach(cmd => {
 	            cmds += ' '+prefix+cmd.name+'\n';

@@ -1,0 +1,9 @@
+{
+  "name": {
+    "ru": "Инструменты",
+    "ua": "Інструменти",
+    "en": "Utilities",
+    "pl": "Narzędzia"
+  },
+  "regex": "([i|і|и]нструменты?|utiliti?es|na[rz|zh][ę|en|e]dzi?a)"
+}
