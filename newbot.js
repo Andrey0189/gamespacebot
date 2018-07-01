@@ -66,7 +66,7 @@ client.on('message', async (message) => {
     if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
     	message.delete();
         let cmds = '';
-        client.categories.forEach((caregory) => {
+        client.categories.forEach((category) => {
             cmds += category + ':\n';
             client.commands.filter(m => m.category == category).forEach(cmd => {
 	            cmds += '    '+prefix+cmd.name;
