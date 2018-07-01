@@ -83,7 +83,7 @@ let lang_phrases = {
     }
 };
 client.on('message', async (message) => {
-    let lang = 'ru';
+    let lang = 'pl';
     let l = lang_phrases[lang];
     if (message.content.indexOf(prefix) !== 0) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -93,7 +93,7 @@ client.on('message', async (message) => {
     	message.delete();
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
-            cmds += cat + ':\n';
+            cmds += cat_info['name'][lang] + ':\n';
             client.commands.filter(m => m.category === cat).forEach(cmd => {
 	            cmds += ' '+prefix+cmd.name+'\n';
             })
