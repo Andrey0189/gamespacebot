@@ -25,6 +25,18 @@ const func = require('./func.js');
 
 client.commands = new Discord.Collection();
 client.categories = new Discord.Collection();
+client.langs = new Discord.Collection();
+
+client.on('ready', () => {
+    request('http://'+process.env.SITE_DOMAIN+'/langs.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+        try {
+            let arr = JSON.parse(body);
+            arr.forEach((obj) => {
+                client.langs.set(obj.id, obj.lang);
+            });
+        } catch (e) {console.error(e)}
+    });
+});
 
 fs.readdir("./commands/", (err, files) => {
 
@@ -83,7 +95,7 @@ let lang_phrases = {
     }
 };
 client.on('message', async (message) => {
-    let lang = 'pl';
+    let lang = client.langs.get(message.author.id) || 'ru';
     let l = lang_phrases[lang];
     if (message.content.indexOf(prefix) !== 0) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
