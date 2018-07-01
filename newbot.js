@@ -58,7 +58,31 @@ props.info.category = c;
     });
     
 });
+let lang_phrases = {
+    'ru': {
+        'help': {
+            'list': 'Список команд',
+        }
+    },
+    'ua': {
+        'help': {
+            'list': 'Список команд',
+        }
+    },
+    'en': {
+        'help': {
+            'list': 'List of commands',
+        }
+    },
+    'pl': {
+        'help': {
+            'list': 'Lista poleceń',
+        }
+    }
+};
 client.on('message', async (message) => {
+    let lang = 'ru';
+    let l = lang_phrases[lang];
     if (message.content.indexOf(prefix) !== 0) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
@@ -69,17 +93,17 @@ client.on('message', async (message) => {
         client.categories.forEach((category) => {
             cmds += category + ':\n';
             client.commands.filter(m => m.category === category).forEach(cmd => {
-	            cmds += '    '+prefix+cmd.name+'\n';
+	            cmds += ' '+prefix+cmd.name+'\n';
             })
         });
-        message.channel.send(`\`\`\`asciidoc\nСписок команд:\n\n${cmds}\`\`\``);
+        message.channel.send(`\`\`\`asciidoc\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
     let commandfile = client.commands.filter(m => {
         return command.match(new RegExp(m.command, 'im'));
     }).first();
     console.log(commandfile);
-    if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info);
+    if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info, lang);
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);
 process.env.BOT_TOKEN = process.env.POSLANIYE;
