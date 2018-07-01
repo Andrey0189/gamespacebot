@@ -102,15 +102,16 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
     
     if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
-    	message.delete();
+        message.delete();
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
+            if (client.commands.filter(m => m.category === cat && m.hidden === false).length === 0) return;
             cmds += cat_info['name'][lang] + ':\n';
-            client.commands.filter(m => m.category === cat).forEach(cmd => {
-	            cmds += ' '+prefix+cmd.name+'\n';
+            client.commands.filter(m => m.category === cat && m.hidden === false).forEach(cmd => {
+                cmds += ' ' + prefix + cmd.name + ' — '+cmd.lang[lang].description+'\n';
             })
         });
-        message.channel.send(`\`\`\`asciidoc\n=${lang.toUpperCase()}=    ${message.member.displayName}#${message.author.discriminator}\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
+        message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
     let commandfile = client.commands.filter(m => {
