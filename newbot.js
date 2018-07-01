@@ -69,7 +69,7 @@ client.on('message', async (message) => {
         client.categories.forEach((category) => {
             cmds += category + ':\n';
             client.commands.filter(m => m.category == category).forEach(cmd => {
-	            cmds += '    '+prefix+cmd.name;
+	            cmds += '    '+prefix+cmd.name+'\n';
             })
         });
         message.channel.send(`\`\`\`asciidoc\nСписок команд:\n\n${cmds}\`\`\``);
