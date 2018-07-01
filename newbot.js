@@ -39,7 +39,7 @@ fs.readdir("./commands/", (err, files) => {
     console.log(`Категория ${c} загружена`);
     client.categories.push(c);
     fs.readdir("./commands/"+c+"/", (err, cmds) => {
-    jsfile = cmds.filter(c => c.endsWith('.js'));
+    let jsfile = cmds.filter(c => c.endsWith('.js'));
     jsfile.forEach((f, fi, fa) => {
         let props = require(`./commands/${c}/${f}`);
         let commandName = f.replace(/\.js$/i, '');
@@ -49,9 +49,9 @@ fs.readdir("./commands/", (err, files) => {
 props.info.code = props;
 props.info.category = c;
         client.commands.set(props.info.command, props.info );
-        if (fi == fa.length - 1 && ci == ca.length - 1) {
+        if (fi === fa.length - 1 && ci === ca.length - 1) {
         	let letter;
-        	if (commandCount == 1) letter = 'а'; else letter = 'о';
+        	if (commandCount === 1) letter = 'а'; else letter = 'о';
         console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
     });
     });
@@ -68,14 +68,16 @@ client.on('message', async (message) => {
         let cmds = '';
         client.categories.forEach((category) => {
             cmds += category + ':\n';
-            client.commands.filter(m => m.category == category).forEach(cmd => {
+            client.commands.filter(m => m.category === category).forEach(cmd => {
 	            cmds += '    '+prefix+cmd.name+'\n';
             })
         });
         message.channel.send(`\`\`\`asciidoc\nСписок команд:\n\n${cmds}\`\`\``);
         return;
     }
-    let commandfile = client.commands.filter(m => command.match(new RegExp(m.command, 'im'))).first();
+    let commandfile = client.commands.filter(m => {
+        return command.match(new RegExp(m.command, 'im'));
+    }).first();
     console.log(commandfile);
     if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info);
 });
