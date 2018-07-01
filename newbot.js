@@ -105,10 +105,10 @@ client.on('message', async (message) => {
         message.delete();
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
-            if (client.commands.filter(m => m.category === cat && m.hidden === false).length === 0) return;
+            if (client.commands.filter(m => m.category === cat && !m.hidden).length === 0) return;
             cmds += cat_info['name'][lang] + ':\n';
-            client.commands.filter(m => m.category === cat && m.hidden === false).forEach(cmd => {
-                cmds += ' ' + prefix + cmd.name + ' — '+cmd.lang[lang].description+'\n';
+            client.commands.filter(m => m.category === cat && !m.hidden).forEach(cmd => {
+                cmds += ' ' + prefix + cmd.name + ' — ' + cmd.lang[lang].description + '\n';
             })
         });
         message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
