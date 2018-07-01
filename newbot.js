@@ -92,9 +92,9 @@ client.on('message', async (message) => {
     if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
     	message.delete();
         let cmds = '';
-        client.categories.forEach((category, cat_info) => {
-            cmds += category + ':\n';
-            client.commands.filter(m => m.category === category).forEach(cmd => {
+        client.categories.forEach((cat_info, cat) => {
+            cmds += cat + ':\n';
+            client.commands.filter(m => m.category === cat).forEach(cmd => {
 	            cmds += ' '+prefix+cmd.name+'\n';
             })
         });
