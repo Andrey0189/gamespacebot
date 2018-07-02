@@ -33,9 +33,10 @@ let lang_phrases = {
     }
 };
 module.exports.generateErrorMessage = function (lang, client, text1, text2) {
+    let language = lang;
     lang = lang_phrases[lang];
     let embed = new Discord.RichEmbed()
-        .setTitle(`${lang['error']}! [${lang.toUpperCase()}]`)
+        .setTitle(`${lang['error']}! [${language.toUpperCase()}]`)
         .setDescription(`${client.emojis.get('424467513578094592')} **${text1}**\n${client.emojis.get('427513198544158720')} ${text2}\n\n${lang['questions']} <@421030089732653057>`)
         .setColor('#e74c3c');
     return {embed}
