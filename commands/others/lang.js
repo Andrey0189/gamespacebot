@@ -45,7 +45,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     else if (args[0].match(/([rр][uу]|рус?с?к?и?й?|рос?с?и?я?|russ?ian?|р[оу]сс?[іi](йський|я))/im)) lang = 'ru';
     else if (args[0].match(/([eеэа][nн]|англ?([иіi](я|йсь?кий))?|амер[иіi]кан(сь?кий)?|(вел[иіi]ко-? ?)?бр[иіi]тан(ия|сь?кий)|eng?(lish)?|american?|(great-? ?)?britain(ian)?|[iіиеэє]нгл[iіие][шж])/im)) lang = 'en';
     else if (args[0].match(/([pп][lл]|pol(i(sh|sz))?|пол(иш|ь?ский|ян[дт]ский|ян[дт])?|polskiy?)/im)) lang = 'pl';
-    else return message.channel.send(func.generateErrorMessage(language, client, `Ошибка! Помилка! Error! Pomyłka!`, `Язык \`${args[0]}\` не существует!\n[^]Мова \`${args[0]}\` не існує!\n[^]Language \`${args[0]}\` not exists!\nJęzyk \`${args[0]}\` nie istnieje!`));
+    else return message.channel.send(func.generateErrorMessage(language, client, `Ошибка! Помилка! Error! Pomyłka!`, `Язык \`${args[0]}\` не существует!\n[^]Мова \`${args[0]}\` не існує!\n[^]Language \`${args[0]}\` not exists!\n[^]Język \`${args[0]}\` nie istnieje!`));
     request('http://'+process.env.SITE_DOMAIN+'/set_lang.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&lang='+lang, function (error, response, body) {
         if (lang === 'ru') {
             if (client.langs.has(message.author.id)) client.langs.delete(message.author.id);
