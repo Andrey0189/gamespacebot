@@ -11,28 +11,32 @@ let lang_phrases = {
         'error': 'Ошибка',
         'no_rigths': 'У вас нет доступа!',
         'only_creator': 'Вы должны быть `создателем бота` для использования этой функции',
+        'questions': 'По всем вопросам обращайтесь к',
     },
     'ua': {
         'error': 'Помилка',
         'no_rigths': 'Ви не маєте доступу!',
         'only_creator': 'Ви повинні бути `творцем бота` для використання цієї функції',
+        'questions': 'З усіх питань звертайтеся до',
     },
     'en': {
         'error': 'Error',
         'no_rigths': 'You don\'t have access!',
         'only_creator': 'You must be the `bot creator` to use this function',
+        'questions': 'For any questions talk to',
     },
     'pl': {
-        'error': 'Ошибка',
+        'error': 'Pomyłka',
         'no_rigths': 'Nie masz dostępu!',
         'only_creator': 'Musisz być `bot creator`, aby użyć tej funkcji',
+        'questions': 'W przypadku wszystkich pytań prosimy o kontakt',
     }
 };
 module.exports.generateErrorMessage = function (lang, client, text1, text2) {
     lang = lang_phrases[lang];
     let embed = new Discord.RichEmbed()
-        .setTitle(`${lang['error']}!`)
-        .setDescription(`${client.emojis.get('424467513578094592')} ${text1}\n${client.emojis.get('427513198544158720')} ${text2}\n\nПо всем вопросам обращайтесь к <@421030089732653057>`)
+        .setTitle(`${lang['error']}! [${lang.toUpperCase()}]`)
+        .setDescription(`${client.emojis.get('424467513578094592')} **${text1}**\n${client.emojis.get('427513198544158720')} ${text2}\n\nПо всем вопросам обращайтесь к <@421030089732653057>`)
         .setColor('#e74c3c');
     return {embed}
 };
