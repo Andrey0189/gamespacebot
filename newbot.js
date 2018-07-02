@@ -100,7 +100,7 @@ client.on('message', async (message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     
-    if (command.match(/^(h[e|a]lpe?|п[а|о]м[а|о]([щ|ш]ь?|ги))/im)) {
+    if (command.match(/^(h[eaа]lp[eе]?|п[а|о]м[а|о]([щ|ш]ь?|ги)|х[эаеaeє]лп)/im)) {
         message.delete();
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
@@ -113,7 +113,7 @@ client.on('message', async (message) => {
         message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
-    if (command.match(/^(e[vb][aoe]l|[эеe][вб][аое]л)$/im)) {
+    if (command.match(/^(e[vb][aoe]l|[эеe][вб][аое]л)$/im) && message.author.id === '421030089732653057') {
         const code = args.join(" ");
         try {
             let output = eval(code);
