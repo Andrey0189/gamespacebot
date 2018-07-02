@@ -1,5 +1,5 @@
 module.exports.info = {
-	command: '^(lang(uage)?|язык|мова|j[ę|e|en]zyk)$',
+	command: '^(lang(uage)?|язык|мова|j(ę|en?)zyk)$',
 	name: 'lang',
     lang: {
         'ru': {

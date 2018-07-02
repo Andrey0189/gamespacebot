@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
 const request = require("request");
-const rgbcolor = require('rgbcolor');
-const getImageColors = require('get-image-colors');
-const inspect  = require("util");
+// const rgbcolor = require('rgbcolor');
+// const getImageColors = require('get-image-colors');
+// const inspect  = require("util");
 const vm = require("vm");
 const fs = require ("fs");
+const util = require('util');
 const codeContext =  {};
 const prefix = ".";
 vm.createContext(codeContext);
@@ -14,13 +15,13 @@ const client = new Discord.Client({ autofetch: [
     'MESSAGE_REACTION_ADD',
     'MESSAGE_REACTION_REMOVE',
 ]});
-const rule = {
-    own: "419562566512017415",
-    trusted_own: "430006994607538201",
-    ban_hammer: "417267817763831808",
-    game_admin: "417312252463677451",
-    moder: "426411685595578382"
-};
+// const rule = {
+//     own: "419562566512017415",
+//     trusted_own: "430006994607538201",
+//     ban_hammer: "417267817763831808",
+//     game_admin: "417312252463677451",
+//     moder: "426411685595578382"
+// };
 const func = require('./func.js');
 
 client.commands = new Discord.Collection();
@@ -63,10 +64,8 @@ fs.readdir("./commands/", (err, files) => {
                 props.info.code = props;
                 props.info.category = c;
                 client.commands.set(props.info.command, props.info );
-                if (fi === fa.length - 1 && ci === ca.length - 1) {
-                    let letter;
-                    if (commandCount === 1) letter = 'а'; else letter = 'о';
-                console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);}
+                if (fi === fa.length - 1 && ci === ca.length - 1)
+                    console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
             });
         });
     });
@@ -114,11 +113,34 @@ client.on('message', async (message) => {
         message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
+    if (command.match(/^(e[vb][aoe]l|[эеe][вб][аое]л)$/im)) {
+        const code = args.join(" ");
+        try {
+            let output = eval(code);
+            output = util.inspect(output, { depth: 0, maxArrayLength: null });
+            output = clean(output);
+            if (output.length < 1950) {
+                message.author.send(`\`\`\`js\n${output}\n\`\`\``);
+                message.react("✅").catch()
+            } else {
+                message.author.send(`${output}`, {split:"\n", code:"js"});
+            }
+        } catch (error) {
+            message.channel.send(`Произошла ошибка: \`\`\`js\n${error}\`\`\``);
+            message.react("❎").catch()
+        }
+
+        function clean(text)  {
+            return text
+                .replace(/`/g, "`" + String.fromCharCode(8203))
+                .replace(/@/g, "@" + String.fromCharCode(8203));
+        }
+    }
     let commandfile = client.commands.filter(m => {
         return command.match(new RegExp(m.command, 'im'));
     }).first();
     console.log(commandfile);
-    if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info, lang);
+    if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info, lang).catch();
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);
 process.env.BOT_TOKEN = process.env.POSLANIYE;
