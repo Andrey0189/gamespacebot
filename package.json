@@ -2,9 +2,9 @@
   "name": "SpaceBot",
   "description": "Bot for Discord server GameSpace",
   "version": "3.0.0",
-  "main": "newbot.js",
+  "main": "bot.js",
   "scripts": {
-    "start": "node newbot.js"
+    "start": "node bot.js"
   },
   "engines": {
     "npm": "6.0.1"
