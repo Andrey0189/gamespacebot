@@ -6,65 +6,26 @@ module.exports.declOfNum = function (number, titles) {
 module.exports.getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
-let lang_phrases = {
-    'ru': {
-        'error': 'Ошибка',
-        'no_rigths': 'У вас нет доступа!',
-        'only_creator': 'Вы должны быть `создателем бота` для использования этой функции',
-        'questions': 'По всем вопросам обращайтесь к',
-        '!role': 'Вы должны не иметь роль ',
-        'role': 'Вы должны иметь роль ',
-        'any_roles': 'Вы должны иметь хотя бы одну из ролей:',
-        'all_roles': 'Вы должны иметь все из этих ролей:',
-        '!right': 'Вы должны не иметь право ',
-        'right': 'Вы должны иметь право ',
-        'any_rights': 'Вы должны иметь хотя бы одно из этих прав:',
-        'all_rights': 'Вы должны иметь все из этих прав:',
-    },
-    'ua': {
-        'error': 'Помилка',
-        'no_rigths': 'Ви не маєте доступу!',
-        'only_creator': 'Ви повинні бути `творцем бота` для використання цієї функції',
-        'questions': 'З усіх питань звертайтеся до',
-        '!role': 'Ви повинні не мати роль ',
-        'role': 'Ви повинні мати роль ',
-        'any_roles': 'Ви повинні мати хоча б одну з ролей:',
-        'all_roles': 'Ви повинні мати всі з цих ролей:',
-        '!right': 'Ви повинні не мати права ',
-        'right': 'Ви повинні мати право ',
-        'any_rights': 'Ви повинні мати хоча б одне з цих прав:',
-        'all_rights': 'Ви повинні мати всі з цих прав:',
-    },
-    'en': {
-        'error': 'Error',
-        'no_rigths': 'You don\'t have access!',
-        'only_creator': 'You must be the `bot creator` to use this function',
-        'questions': 'For any questions talk to',
-        '!role': 'You mustn\'t have a role ',
-        'role': 'You must have a role ',
-        'any_roles': 'You must have at least one of the roles:',
-        'all_roles': 'You must have all of these roles:',
-        '!right': 'You mustn\'t have a right ',
-        'right': 'You must have a right ',
-        'any_rights': 'You must have at least one of the rights:',
-        'all_rights': 'You must have all of these rights:',
-    },
-    'pl': {
-        'error': 'Pomyłka',
-        'no_rigths': 'Nie masz dostępu!',
-        'only_creator': 'Musisz być `bot creator`, aby użyć tej funkcji',
-        'questions': 'W przypadku wszystkich pytań prosimy o kontakt',
-        '!role': 'Nie możesz mieć roli ',
-        'role': 'Musisz mieć rolę ',
-        'any_roles': 'Musisz mieć co najmniej jedną z ról:',
-        'all_roles': 'Musisz mieć wszystkie te role:',
-        '!right': 'Nie możesz mieć prawa ',
-        'right': 'Musisz mieć prawo ',
-        'any_rights': 'Musisz mieć co najmniej jedno z tych praw:',
-        'all_rights': 'Musisz mieć wszystkie te prawa:',
-    }
-};
 module.exports.generateErrorMessage = function (lang, client, text1, text2) {
+    let lang_phrases = {
+        'ru': {
+            'error': 'Ошибка',
+            'no_rigths': 'У вас нет доступа!',
+            'questions': 'По всем вопросам обращайтесь к',
+        },
+        'ua': {
+            'error': 'Помилка',
+            'questions': 'З усіх питань звертайтеся до',
+        },
+        'en': {
+            'error': 'Error',
+            'questions': 'For any questions talk to',
+        },
+        'pl': {
+            'error': 'Pomyłka',
+            'questions': 'W przypadku wszystkich pytań prosimy o kontakt',
+        }
+    };
     let language = lang;
     lang = lang_phrases[lang];
     text2 = text2.replace(/\[\^]/gim, client.emojis.get('427513198544158720'));
@@ -75,6 +36,59 @@ module.exports.generateErrorMessage = function (lang, client, text1, text2) {
     return {embed}
 };
 module.exports.hasMemberRights = function (channel, member, access_type, access_params, lang) {
+    let lang_phrases = {
+        'ru': {
+            'no_rigths': 'У вас нет доступа!',
+            'only_creator': 'Вы должны быть `создателем бота` для использования этой функции',
+            '!role': 'Вы должны не иметь роль ',
+            'role': 'Вы должны иметь роль ',
+            'any_roles': 'Вы должны иметь хотя бы одну из ролей:',
+            'all_roles': 'Вы должны иметь все из этих ролей:',
+            '!right': 'Вы должны не иметь право ',
+            'right': 'Вы должны иметь право ',
+            'any_rights': 'Вы должны иметь хотя бы одно из этих прав:',
+            'all_rights': 'Вы должны иметь все из этих прав:',
+        },
+        'ua': {
+            'error': 'Помилка',
+            'no_rigths': 'Ви не маєте доступу!',
+            'only_creator': 'Ви повинні бути `творцем бота` для використання цієї функції',
+            '!role': 'Ви повинні не мати роль ',
+            'role': 'Ви повинні мати роль ',
+            'any_roles': 'Ви повинні мати хоча б одну з ролей:',
+            'all_roles': 'Ви повинні мати всі з цих ролей:',
+            '!right': 'Ви повинні не мати права ',
+            'right': 'Ви повинні мати право ',
+            'any_rights': 'Ви повинні мати хоча б одне з цих прав:',
+            'all_rights': 'Ви повинні мати всі з цих прав:',
+        },
+        'en': {
+            'error': 'Error',
+            'no_rigths': 'You don\'t have access!',
+            'only_creator': 'You must be the `bot creator` to use this function',
+            '!role': 'You mustn\'t have a role ',
+            'role': 'You must have a role ',
+            'any_roles': 'You must have at least one of the roles:',
+            'all_roles': 'You must have all of these roles:',
+            '!right': 'You mustn\'t have a right ',
+            'right': 'You must have a right ',
+            'any_rights': 'You must have at least one of the rights:',
+            'all_rights': 'You must have all of these rights:',
+        },
+        'pl': {
+            'error': 'Pomyłka',
+            'no_rigths': 'Nie masz dostępu!',
+            'only_creator': 'Musisz być `bot creator`, aby użyć tej funkcji',
+            '!role': 'Nie możesz mieć roli ',
+            'role': 'Musisz mieć rolę ',
+            'any_roles': 'Musisz mieć co najmniej jedną z ról:',
+            'all_roles': 'Musisz mieć wszystkie te role:',
+            '!right': 'Nie możesz mieć prawa ',
+            'right': 'Musisz mieć prawo ',
+            'any_rights': 'Musisz mieć co najmniej jedno z tych praw:',
+            'all_rights': 'Musisz mieć wszystkie te prawa:',
+        }
+    };
     lang = lang_phrases[lang];
     if (['421030089732653057'].includes(member.id)) return {access: true};
     if (access_type === 'creator') {

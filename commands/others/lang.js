@@ -19,25 +19,25 @@ module.exports.info = {
         }
     }
 };
-let lang_phrases = {
-    'ru': {
-        'done': 'Готово!',
-        'successful': 'Язык изменен на `Русский` успешно!',
-    },
-    'ua': {
-        'done': 'Готово!',
-        'successful': 'Мова змінена на `Українська` успішно!',
-    },
-    'en': {
-        'done': 'Success!',
-        'successful': 'Language changed to `English` successfully',
-    },
-    'pl': {
-        'done': 'Sukces!',
-        'successful': 'Język został zmieniony na `Polski`',
-    }
-};
 module.exports.run = async function (client, message, command, args, info, language) {
+    let lang_phrases = {
+        'ru': {
+            'done': 'Готово!',
+            'successful': 'Язык изменен на `Русский` успешно!',
+        },
+        'ua': {
+            'done': 'Готово!',
+            'successful': 'Мова змінена на `Українська` успішно!',
+        },
+        'en': {
+            'done': 'Success!',
+            'successful': 'Language changed to `English` successfully',
+        },
+        'pl': {
+            'done': 'Sukces!',
+            'successful': 'Język został zmieniony na `Polski`',
+        }
+    };
     message.delete();
     let lang = '';
     args[0] = args[0].replace(/`/g, "`" + String.fromCharCode(8203));
