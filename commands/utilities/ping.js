@@ -19,42 +19,44 @@ module.exports.info = {
         }
     }
 };
-let lang = {
-    'ru': {
-        'main_server': 'Основной сервер',
-        'api_server': 'API сервер',
-        'ms': 'мс',
-        'ping': 'Пинг',
-        'calculation': 'Расчет',
-        'only_bots': 'Внимание! Это пинг бота, а не Ваш!',
-    },
-    'ua': {
-        'main_server': 'Основний сервер',
-        'api_server': 'API сервер',
-        'ms': 'мс',
-        'ping': 'Пінг',
-        'calculation': 'Розрахунек',
-        'only_bots': 'Увага! Це пінг бота, а не Ваш!',
-    },
-    'en': {
-        'main_server': 'Main server',
-        'api_server': 'API server',
-        'ms': 'ms',
-        'ping': 'Ping',
-        'calculation': 'Calculation',
-        'only_bots': 'Attention! This is ping of bot, not yours!',
-    },
-    'pl': {
-        'main_server': 'Główny serwer',
-        'api_server': 'API serwer',
-        'ms': 'ms',
-        'ping': 'Ping',
-        'calculation': 'Obliczanie',
-        'only_bots': 'Uwaga, proszę! Ten ping bota, nie twój!',
-    }
-};
+
 module.exports.run = async function (client, message, command, args, info, language) {
-    if (!lang) return message.channel.send(`${client.emojis.get('424467513578094592')} Critical error!`);
+    let lang = {
+        'ru': {
+            'main_server': 'Основной сервер',
+            'api_server': 'API сервер',
+            'ms': 'мс',
+            'ping': 'Пинг',
+            'calculation': 'Расчет',
+            'only_bots': 'Внимание! Это пинг бота, а не Ваш!',
+        },
+        'ua': {
+            'main_server': 'Основний сервер',
+            'api_server': 'API сервер',
+            'ms': 'мс',
+            'ping': 'Пінг',
+            'calculation': 'Розрахунек',
+            'only_bots': 'Увага! Це пінг бота, а не Ваш!',
+        },
+        'en': {
+            'main_server': 'Main server',
+            'api_server': 'API server',
+            'ms': 'ms',
+            'ping': 'Ping',
+            'calculation': 'Calculation',
+            'only_bots': 'Attention! This is ping of bot, not yours!',
+        },
+        'pl': {
+            'main_server': 'Główny serwer',
+            'api_server': 'API serwer',
+            'ms': 'ms',
+            'ping': 'Ping',
+            'calculation': 'Obliczanie',
+            'only_bots': 'Uwaga, proszę! Ten ping bota, nie twój!',
+        }
+    };
+    if (!lang) return message.channel.send(`${client.emojis.get('424467513578094592')} Cr
+    itical error!`);
     lang = lang[language];
 	message.delete();
 	const color = parseInt(func.getRandomInt(0, 16777214));
