@@ -113,34 +113,42 @@ client.on('message', async (message) => {
         message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
     }
-    if (command.match(/^(e[vb][aoe]l|[эеe][вб][аое]л)$/im) && message.author.id === '421030089732653057') {
-        const code = args.join(" ");
-        try {
-            let output = eval(code);
-            output = util.inspect(output, { depth: 0, maxArrayLength: null });
-            output = clean(output);
-            if (output.length < 1950) {
-                message.author.send(`\`\`\`js\n${output}\n\`\`\``);
-                message.react("✅").catch()
-            } else {
-                message.author.send(`${output}`, {split:"\n", code:"js"});
+    if (command.match(/^(e[vb][aoe]l|[эеe][вб][аое]л)$/im)) {
+        let access = func.hasMemberRights(message.channel, message.member, 'creator', null, 'ru');
+        if (access.access) {
+            const code = args.join(" ");
+            try {
+                let output = eval(code);
+                output = util.inspect(output, {depth: 0, maxArrayLength: null});
+                output = clean(output);
+                if (output.length < 1950) {
+                    message.author.send(`\`\`\`js\n${output}\n\`\`\``);
+                    message.react("✅").catch()
+                } else {
+                    message.author.send(`${output}`, {split: "\n", code: "js"});
+                }
+            } catch (error) {
+                message.channel.send(`Произошла ошибка: \`\`\`js\n${error}\`\`\``);
+                message.react("❎").catch()
             }
-        } catch (error) {
-            message.channel.send(`Произошла ошибка: \`\`\`js\n${error}\`\`\``);
-            message.react("❎").catch()
-        }
 
-        function clean(text)  {
-            return text
-                .replace(/`/g, "`" + String.fromCharCode(8203))
-                .replace(/@/g, "@" + String.fromCharCode(8203));
+            function clean(text) {
+                return text
+                    .replace(/`/g, "`" + String.fromCharCode(8203))
+                    .replace(/@/g, "@" + String.fromCharCode(8203));
+            }
+        } else {
+            message.reply(access.message);
         }
     }
     let commandfile = client.commands.filter(m => {
         return command.match(new RegExp(m.command, 'im'));
     }).first();
     console.log(commandfile);
-    if (commandfile) commandfile.code.run(client, message, command, args, commandfile.info, lang).catch();
+    if (commandfile) {
+        if ()
+        commandfile.code.run(client, message, command, args, commandfile.info, lang).catch();
+    }
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);
 process.env.BOT_TOKEN = process.env.POSLANIYE;
