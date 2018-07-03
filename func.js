@@ -116,7 +116,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (member.roles.has(id)) access = true;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.client));
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.guild));
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'all_roles') {
@@ -124,7 +124,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (!member.roles.has(id)) access = false;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.client));
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.guild));
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === '!right') {
