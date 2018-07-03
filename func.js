@@ -92,14 +92,14 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
     let lang = lang_phrases[language];
     if (['421030089732653057'].includes(member.id)) return {access: true};
     if (access_type === 'creator') {
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['only_creator']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['only_creator']);
         return {access: false, message}
     } else if (access_type === 'role') {
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['role']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['role']);
         if (member.roles.has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === '!role') {
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['!role']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!role']);
         if (!member.roles.has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'any_roles') {
@@ -107,7 +107,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (member.roles.has(id)) access = true;
         });
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['any_roles']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_roles']);
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'all_roles') {
@@ -115,15 +115,15 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (!member.roles.has(id)) access = false;
         });
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['all_roles']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_roles']);
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === '!right') {
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['!right']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!right']);
         if (!member.permissionsIn(channel).has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'right') {
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['right']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['right']);
         if (member.permissionsIn(channel).has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'any_rights') {
@@ -131,7 +131,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((rule) => {
             if (!member.permissionsIn(channel).has(rule)) access = true;
         });
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['any_rights']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_rights']);
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'all_rights') {
@@ -139,7 +139,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((rule) => {
             if (!member.permissionsIn(channel).has(rule)) access = false;
         });
-        let message = module.exports.generateErrorMessage(lang['no_rights'], lang['all_rights']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_rights']);
         if (access) return {access: true};
         else return {access: false, message}
     }
