@@ -54,6 +54,7 @@ let lang = {
     }
 };
 module.exports.run = async function (client, message, command, args, info, language) {
+    if (!lang) return message.channel.send(`${client.emojis.get('424467513578094592')} Critical error!`);
     lang = lang[language];
 	message.delete();
 	const color = parseInt(func.getRandomInt(0, 16777214));
