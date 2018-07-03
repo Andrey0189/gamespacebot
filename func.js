@@ -35,7 +35,7 @@ module.exports.generateErrorMessage = function (lang, client, text1, text2) {
         .setColor('#e74c3c');
     return {embed}
 };
-module.exports.hasMemberRights = function (channel, member, access_type, access_params, lang) {
+module.exports.hasMemberRights = function (channel, member, access_type, access_params, language) {
     let lang_phrases = {
         'ru': {
             'no_rigths': 'У вас нет доступа!',
@@ -89,7 +89,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
             'all_rights': 'Musisz mieć wszystkie te prawa:',
         }
     };
-    lang = lang_phrases[lang];
+    let lang = lang_phrases[language];
     if (['421030089732653057'].includes(member.id)) return {access: true};
     if (access_type === 'creator') {
         let message = module.exports.generateErrorMessage(lang['no_rights'], lang['only_creator']);
