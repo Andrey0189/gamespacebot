@@ -35,10 +35,19 @@ module.exports.generateErrorMessage = function (lang, client, text1, text2) {
         .setColor('#e74c3c');
     return {embed}
 };
+module.exports.rolesComma = function (array_roles, guild) {
+    let msg = '';
+    array_roles.forEach((role, i) => {
+        msg += guild.roles.get(role).toString();
+        if (i !== array_roles.length-1)
+            msg += ', ';
+    });
+    return msg;
+};
 module.exports.hasMemberRights = function (channel, member, access_type, access_params, language) {
     let lang_phrases = {
         'ru': {
-            'no_rigths': 'У вас нет доступа!',
+            'no_rights': 'У вас нет доступа!',
             'only_creator': 'Вы должны быть `создателем бота` для использования этой функции',
             '!role': 'Вы должны не иметь роль ',
             'role': 'Вы должны иметь роль ',
@@ -51,7 +60,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         },
         'ua': {
             'error': 'Помилка',
-            'no_rigths': 'Ви не маєте доступу!',
+            'no_rights': 'Ви не маєте доступу!',
             'only_creator': 'Ви повинні бути `творцем бота` для використання цієї функції',
             '!role': 'Ви повинні не мати роль ',
             'role': 'Ви повинні мати роль ',
@@ -64,7 +73,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         },
         'en': {
             'error': 'Error',
-            'no_rigths': 'You don\'t have access!',
+            'no_rights': 'You don\'t have access!',
             'only_creator': 'You must be the `bot creator` to use this function',
             '!role': 'You mustn\'t have a role ',
             'role': 'You must have a role ',
@@ -77,7 +86,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         },
         'pl': {
             'error': 'Pomyłka',
-            'no_rigths': 'Nie masz dostępu!',
+            'no_rights': 'Nie masz dostępu!',
             'only_creator': 'Musisz być `bot creator`, aby użyć tej funkcji',
             '!role': 'Nie możesz mieć roli ',
             'role': 'Musisz mieć rolę ',
@@ -95,11 +104,11 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['only_creator']);
         return {access: false, message}
     } else if (access_type === 'role') {
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['role']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['role']+member.guild.roles.get(access_params));
         if (member.roles.has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === '!role') {
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!role']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!role']+member.guild.roles.get(access_params));
         if (!member.roles.has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'any_roles') {
@@ -107,7 +116,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (member.roles.has(id)) access = true;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_roles']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.client));
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'all_roles') {
@@ -115,15 +124,15 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((id) => {
             if (!member.roles.has(id)) access = false;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_roles']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_roles']+'\n[^]'+module.exports.rolesComma(access_params, member.client));
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === '!right') {
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!right']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['!right']+`\`${access_params}\``);
         if (!member.permissionsIn(channel).has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'right') {
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['right']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['right']+`\`${access_params}\``);
         if (member.permissionsIn(channel).has(access_params)) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'any_rights') {
@@ -131,7 +140,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((rule) => {
             if (!member.permissionsIn(channel).has(rule)) access = true;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_rights']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['any_rights']+`\`${access_params.join('`, `')}\``);
         if (access) return {access: true};
         else return {access: false, message}
     } else if (access_type === 'all_rights') {
@@ -139,7 +148,7 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         access_params.forEach((rule) => {
             if (!member.permissionsIn(channel).has(rule)) access = false;
         });
-        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_rights']);
+        let message = module.exports.generateErrorMessage(language, member.client, lang['no_rights'], lang['all_rights']+`\`${access_params.join('`, `')}\``);
         if (access) return {access: true};
         else return {access: false, message}
     }
