@@ -175,8 +175,8 @@ client.on('message', async (message) => {
             cmds += cat_info['name'][lang] + ':\n';
             client.commands.filter(m => m.category === cat && !m.hidden).forEach(cmd => {
                 let access;
-                if (commandfile.access)
-                    access = func.hasMemberRights(message.channel, message.member, commandfile.access.type, commandfile.access.params, lang);
+                if (cmd.access)
+                    access = func.hasMemberRights(message.channel, message.member, cmd.access.type, cmd.access.params, lang);
                 else access = {access: true, message: {}};
                 if (access.access)
                 cmds += ' ' + prefix + cmd.name + ' — ' + cmd.lang[lang].description + '\n';
