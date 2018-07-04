@@ -174,6 +174,11 @@ client.on('message', async (message) => {
             if (client.commands.filter(m => m.category === cat && !m.hidden).length === 0) return;
             cmds += cat_info['name'][lang] + ':\n';
             client.commands.filter(m => m.category === cat && !m.hidden).forEach(cmd => {
+                let access;
+                if (commandfile.access)
+                    access = func.hasMemberRights(message.channel, message.member, commandfile.access.type, commandfile.access.params, lang);
+                else access = {access: true, message: {}};
+                if (access.access)
                 cmds += ' ' + prefix + cmd.name + ' — ' + cmd.lang[lang].description + '\n';
             })
         });
