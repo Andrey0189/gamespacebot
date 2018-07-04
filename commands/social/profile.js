@@ -29,12 +29,12 @@ module.exports.run = async function (client, message, command, args, info, langu
     let member = message.member;
     if (ment_member)
         member = ment_member;
-    let attachment = new Discord.Attachment('http://'+process.env.SITE_DOMAIN+'/new_profile.php?user='+member.user.id+'&nick='+encodeURIComponent(member.nickname)+'&secret='+encodeURIComponent(process.env.SECRET_KEY), 'profile.png');
-    let embed = new Discord.RichEmbed()
-        .attachFile(attachment)
-        .setColor('36393E')
-        .setDescription(`${member}`)
-        .setImage('attachment://profile.png');
-    message.channel.send(embed);
+    let text = '';
+    if (member.user.id !== message.author.id)
+        text = message.author.toString();
+    message.channel.send(text,{files: [{
+            attachment: 'http://'+process.env.SITE_DOMAIN+'/new_profile.php?user='+member.user.id+'&nick='+encodeURIComponent(member.nickname)+'&secret='+encodeURIComponent(process.env.SECRET_KEY),
+            name: 'file.png'
+        }]});
     message.delete();
 };
