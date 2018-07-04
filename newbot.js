@@ -213,7 +213,12 @@ client.on('message', async (message) => {
     }).first();
     console.log(commandfile);
     if (commandfile) {
+        if (commandfile.access)
+        let access = func.hasMemberRights(message.channel, message.member, commandfile.access.type, commandfile.access.params, lang);
+        else let access = {access: true, message: {}};
+        if (access.access)
         commandfile.code.run(client, message, command, args, commandfile.info, lang).catch();
+        else message.reply(access.message);
     }
 });
 client.login(process.env.BOT_TOKEN).catch(console.error);

@@ -17,6 +17,10 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie do przeglądania profilu lub profilu innego użytkownika',
         }
+    },
+    access: {
+        type: 'creator',
+        params: null
     }
 };
 
