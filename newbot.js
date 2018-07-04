@@ -22,11 +22,34 @@ const client = new Discord.Client({ autofetch: [
 //     game_admin: "417312252463677451",
 //     moder: "426411685595578382"
 // };
+const cooldown = [];
 const func = require('./func.js');
 
 client.commands = new Discord.Collection();
 client.categories = new Discord.Collection();
 client.langs = new Discord.Collection();
+client.channel_settings = new Discord.Collection();
+
+channel_settings.set('417266234032390155', {notificationsAllowed: true});
+channel_settings.set('418096126957453337', {notificationsAllowed: true});
+channel_settings.set('448815323840380929', {notificationsAllowed: true, add_level: false});
+channel_settings.set('421664477662937098', {notificationsAllowed: true});
+
+const level_roles = [
+    [2, '417389665042169876'],
+    [5, '417391646863523858'],
+    [10, '417391865038635010'],
+    [15, '417392325405442058'],
+    [20, '417393247162204160'],
+    [23, '417392902872891393'],
+    [25, '417392121541296128'],
+    [28, '417392180747829249'],
+    [30, '417392444750168075']
+];
+
+const log_channels = {
+    errors: '432071031356915722'
+};
 
 client.on('ready', () => {
     request('http://'+process.env.SITE_DOMAIN+'/langs.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
@@ -96,9 +119,52 @@ let lang_phrases = {
 client.on('message', async (message) => {
     let lang = client.langs.get(message.author.id) || 'ru';
     let l = lang_phrases[lang];
+    if (message.author.bot) return;
+    if (message.channel.type !== 'text') return;
     if (message.content.indexOf(prefix) !== 0) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+
+
+    if (!cooldown.has(message.author.id)) {
+        if (message.author.bot) return;
+        request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+                if (body.startsWith('<br')) { return message.guild.channels.get(log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка!`, `Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
+                let lvls = JSON.parse(body);
+                if (parseInt(lvls[0]) !== parseInt(lvls[1])) {
+                    let msgs = [
+                        `Ура, ${message.author} получил **${lvls[1]}** уровень! Поздравьте его!`,
+                        `Вы же уже знаете, что у ${message.author} уже аж **${lvls[1]}** уровень?!)`,
+                        `${message.author}, а ты хорош! У тебя **${lvls[1]}** уровень! Не ожидал от тебя такого о_О`,
+                        `${message.author}, поздравляю с **${lvls[1]}** уровенем!`,
+                    ];
+                    let msg = msgs[func.getRandomInt(1,msgs.length)-1];
+                    if (client.channel_settings.get(message.channel.id) && client.channel_settings.get(message.channel.id).notificationsAllowed) {
+                        message.channel.send(msg);
+                    } else {
+                        client.channels.get('417266234032390155').send(msg);
+                    }
+                    level_roles.forEach(function (item) {
+                        if (lvls[1] >= item[0]) {
+                            if (!message.member.roles.has(item[1])) {
+                                message.member.addRole(item[1]).catch(console.error);
+                                message.author.send(`Вы получили роль \`${message.guild.roles.get(item[1]).name}\``);
+                            }
+                        } else {
+                            if (message.member.roles.has(item[1])) {
+                                message.member.removeRole(item[1]).catch(console.error);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        cooldown.add(message.author.id);
+        setTimeout(() => {
+            cooldown.delete(message.author.id);
+        }, 60000);
+    }
     
     if (command.match(/^(h[eaа]lp[eе]?|п[а|о]м[а|о]([щ|ш]ь?|ги)|х[эаеaeє]лп)/im)) {
         message.delete();
@@ -146,7 +212,6 @@ client.on('message', async (message) => {
     }).first();
     console.log(commandfile);
     if (commandfile) {
-        if ()
         commandfile.code.run(client, message, command, args, commandfile.info, lang).catch();
     }
 });

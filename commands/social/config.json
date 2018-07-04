@@ -1,0 +1,9 @@
+{
+  "name": {
+    "ru": "Социальные",
+    "ua": "Соціальні",
+    "en": "Social",
+    "pl": "Społecznościowe"
+  },
+  "regex": "(соц([иі]альны?[еэі])?|soc(ial)?|spo[łl]ec[zh]no(ś|si|s)ciow[ey]?)"
+}

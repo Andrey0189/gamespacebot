@@ -13,8 +13,6 @@
     "discord.js": "11.3.0",
     "request": "2.81.0",
     "rgbcolor": "1.0.1",
-    "get-image-colors": "1.8.1",
-    "node-opus": "0.3.0",
-    "text-to-mp3": "1.0.4"
+    "get-image-colors": "1.8.1"
   }
 }
