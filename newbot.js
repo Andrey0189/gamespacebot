@@ -163,7 +163,7 @@ client.on('message', async (message) => {
         });
         cooldown.push(message.author.id);
         setTimeout(() => {
-            cooldown.splice(this.indexOf(message.author.id),1);
+            cooldown.splice(cooldown.indexOf(message.author.id),1);
         }, 60000);
     }
     
