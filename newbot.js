@@ -172,15 +172,20 @@ client.on('message', async (message) => {
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
             if (client.commands.filter(m => m.category === cat && !m.hidden).length === 0) return;
-            cmds += cat_info['name'][lang] + ':\n';
+            let smallcmds = '';
+            let count = 0;
+            smallcmds += cat_info['name'][lang] + ':\n';
             client.commands.filter(m => m.category === cat && !m.hidden).forEach(cmd => {
                 let access;
                 if (cmd.access)
                     access = func.hasMemberRights(message.channel, message.member, cmd.access.type, cmd.access.params, lang);
                 else access = {access: true, message: {}};
-                if (access.access)
-                cmds += ' ' + prefix + cmd.name + ' — ' + cmd.lang[lang].description + '\n';
-            })
+                if (access.access) {
+                    smallcmds += ' ' + prefix + cmd.name + ' — ' + cmd.lang[lang].description + '\n';
+                    count++;
+                }
+            });
+            if (count > 0 ) cmds += smallcmds;
         });
         message.channel.send(`\`\`\`asciidoc\n${message.member.displayName}#${message.author.discriminator} [${lang.toUpperCase()}]\n:: ${l['help']['list']} ::\n\n${cmds}\`\`\``);
         return;
