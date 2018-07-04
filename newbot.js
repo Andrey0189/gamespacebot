@@ -22,6 +22,7 @@ const client = new Discord.Client({ autofetch: [
 //     game_admin: "417312252463677451",
 //     moder: "426411685595578382"
 // };
+
 const cooldown = [];
 const func = require('./func.js');
 
@@ -126,7 +127,7 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
 
-    if (!cooldown.has(message.author.id)) {
+    if (!cooldown.includes(message.author.id)) {
         if (message.author.bot) return;
         request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
@@ -160,9 +161,9 @@ client.on('message', async (message) => {
                 }
             }
         });
-        cooldown.add(message.author.id);
+        cooldown.push(message.author.id);
         setTimeout(() => {
-            cooldown.delete(message.author.id);
+            cooldown.splice(this.indexOf(message.author.id),1);
         }, 60000);
     }
     
