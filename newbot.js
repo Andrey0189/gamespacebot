@@ -30,10 +30,10 @@ client.categories = new Discord.Collection();
 client.langs = new Discord.Collection();
 client.channel_settings = new Discord.Collection();
 
-channel_settings.set('417266234032390155', {notificationsAllowed: true});
-channel_settings.set('418096126957453337', {notificationsAllowed: true});
-channel_settings.set('448815323840380929', {notificationsAllowed: true, add_level: false});
-channel_settings.set('421664477662937098', {notificationsAllowed: true});
+client.channel_settings.set('417266234032390155', {notificationsAllowed: true});
+client.channel_settings.set('418096126957453337', {notificationsAllowed: true});
+client.channel_settings.set('448815323840380929', {notificationsAllowed: true, add_level: false});
+client.channel_settings.set('421664477662937098', {notificationsAllowed: true});
 
 const level_roles = [
     [2, '417389665042169876'],
