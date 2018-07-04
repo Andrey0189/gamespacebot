@@ -167,7 +167,7 @@ client.on('message', async (message) => {
         }, 60000);
     }
     
-    if (command.match(/^(h[eaа]lp[eе]?|п[а|о]м[а|о]([щ|ш]ь?|ги)|х[эаеaeє]лп)/im)) {
+    if (command.match(/^(h[eaа]lp[eе]?|п[а|о]м[а|о]([щ|ш]ь?|ги)|х[эаеaeє]лп|допомо(га?|жи)|pom[oó]c)/im)) {
         message.delete();
         let cmds = '';
         client.categories.forEach((cat_info, cat) => {
