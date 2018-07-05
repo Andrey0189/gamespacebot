@@ -47,6 +47,7 @@ module.exports.rolesComma = function (array_roles, guild) {
 module.exports.hasMemberRights = function (channel, member, access_type, access_params, language) {
     let lang_phrases = {
         'ru': {
+            'error': 'Ошибка',
             'no_rights': 'У вас нет доступа!',
             'only_creator': 'Вы должны быть `создателем бота` для использования этой функции',
             '!role': 'Вы должны не иметь роль ',
