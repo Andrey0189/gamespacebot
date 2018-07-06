@@ -89,11 +89,23 @@ fs.readdir("./commands/", (err, files) => {
                 props.info.category = c;
                 client.commands.set(props.info.command, props.info );
                 if (fi === fa.length - 1 && ci === ca.length - 1)
-                    console.log(`-----\nБот запущен\nВсего загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
+                    console.log(`Загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
             });
         });
     });
     
+}).then(() => {
+    fs.readdir("./events/", (err, files) => {
+        files.forEach((event) => {
+            fs.readdir(`./events/${event}`, (listeners) => {
+                listeners.filter(f => f.endsWith('.js')).forEach(listener => {
+                    let code = require(`./events/${event}/${listener}`);
+                    client.on(event, code.run);
+                    console.log(`Загружен слушатель ${listener} ивента ${event}`);
+                })
+            })
+        })
+    })
 });
 let lang_phrases = {
     'ru': {
