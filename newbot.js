@@ -94,15 +94,14 @@ fs.readdir("./commands/", (err, files) => {
         });
     });
     
-}).then(() => {
-    fs.readdir("./events/", (err, files) => {
-        files.forEach((event) => {
-            fs.readdir(`./events/${event}`, (listeners) => {
-                listeners.filter(f => f.endsWith('.js')).forEach(listener => {
-                    let code = require(`./events/${event}/${listener}`);
-                    client.on(event, code.run);
-                    console.log(`Загружен слушатель ${listener} ивента ${event}`);
-                })
+});
+fs.readdir("./events/", (err, files) => {
+    files.forEach((event) => {
+        fs.readdir(`./events/${event}`, (listeners) => {
+            listeners.filter(f => f.endsWith('.js')).forEach(listener => {
+                let code = require(`./events/${event}/${listener}`);
+                client.on(event, code.run);
+                console.log(`Загружен слушатель ${listener} ивента ${event}`);
             })
         })
     })
