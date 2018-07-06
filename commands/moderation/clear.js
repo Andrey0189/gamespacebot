@@ -20,7 +20,27 @@ module.exports.info = {
     }
 };
 module.exports.run = async function (client, message, command, args, info, language) {
+
+    let lang = {
+        'ru': {
+            'successfully_cleared': 'Успешно удалено',
+            'arr': ['сообщение', 'сообщения', 'сообщений']
+        },
+        'ua': {
+            'successfully_cleared': 'Успішно видалено',
+            'arr': ['повідомлення', 'повідомлення', 'повідомлень']
+        },
+        'en': {
+            'successfully_cleared': 'Successfully deleted',
+            'arr': ['message', 'messages', 'messages']
+        },
+        'pl': {
+            'successfully_cleared': 'Pomyślnie usunięto',
+            'arr': ['wiadomość', 'postów', 'postów']
+        }
+    };
+    lang = lang[language];
     message.delete().then(() => {
-        func.clear_count(message.channel, parseInt(args[0]));
+        func.clear_count(lang['successfully_cleared'], lang['arr'], message.channel, parseInt(args[0]));
     });
 };

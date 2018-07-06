@@ -6,8 +6,8 @@ module.exports.run = function (member) {
     let att = new Discord.Attachment(member.user.avatarURL, 'avatar.png');
     let embed = new Discord.RichEmbed()
         .setColor('2ECC71')
-        .setTitle('Зашел на сервер')
-        .setDescription(`${member}  \`${member.user.tag}\`\n${member.user.id}\nЗарегистрирован: ${member.user.createdAt.toISOString().replace(/[TZ]/g, ' ')} UTC\n**${days}** ${func.declOfNum(days, ['день', 'дня', 'дней'])} в Discord\n\n**${member.guild.memberCount}** ${func.declOfNum(member.guild.memberCount, ['участник', 'участника', 'участников'])} на сервере`)
+        .setTitle('User joined')
+        .setDescription(`${member}  \`${member.user.tag}\`\n${member.user.id}\nRegistered: ${member.user.createdAt.toISOString().replace(/[TZ]/g, ' ')} UTC\n**${days}** ${func.declOfNum(days, ['day', 'days', 'days'])} in Discord\n\n**${member.guild.memberCount}** ${func.declOfNum(member.guild.memberCount, ['member', 'members', 'members'])} in guild`)
         .attachFile(att)
         .setThumbnail('attachment://avatar.png')
         .setTimestamp(new Date());
