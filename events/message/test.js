@@ -1,3 +1,3 @@
 module.exports.run = function (message) {
-    if (message.content === 'test') message.channel.send('test');
+    console.log(message.client.langs);
 };

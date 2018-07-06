@@ -101,7 +101,7 @@ fs.readdir("./events/", (err, files) => {
             listeners.filter(f => f.endsWith('.js')).forEach(listener => {
                 let code = require(`./events/${event}/${listener}`);
                 client.on(event, code.run);
-                console.log(`Загружен слушатель ${listener} ивента ${event}`);
+                console.log(`Загружен слушатель ${listener.replace(/\.js$/i, '')} ивента ${event}`);
             })
         })
     })
