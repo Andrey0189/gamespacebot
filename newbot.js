@@ -36,6 +36,7 @@ client.channel_settings.set('418096126957453337', {notificationsAllowed: true});
 client.channel_settings.set('448815323840380929', {notificationsAllowed: true, add_level: false});
 client.channel_settings.set('421664477662937098', {notificationsAllowed: true});
 
+
 client.level_roles = [
     [2, '417389665042169876'],
     [5, '417391646863523858'],
@@ -49,7 +50,8 @@ client.level_roles = [
 ];
 
 client.log_channels = {
-    errors: '432071031356915722'
+    errors: '432071031356915722',
+    join_leave: '464702070902095873'
 };
 
 client.on('ready', () => {
