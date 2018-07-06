@@ -21,11 +21,11 @@ module.exports.info = {
     }
 };
 module.exports.run = async function (client, message, command, args, info, language) {
-    
+
     let member = message.mentions.members.first();
     if (!member)
         member = message.member;
-    let colors = getImageColors(message.mentions.users.first().avatarURL).then(color => {
+    let colors = getImageColors(member.avatarURL).then(color => {
         let c = color.map(col => col.hex());
         const embed = new Discord.RichEmbed()
             .setAuthor(`${member.user.tag}`, member.user.avatarURL)
