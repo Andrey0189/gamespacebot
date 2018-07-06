@@ -8,7 +8,7 @@ module.exports.run = function (member) {
     let embed = new Discord.RichEmbed()
         .setColor('E74C3C')
         .setTitle('Вышел с сервера')
-        .setDescription(`${member}  \`${member.user.tag}\`\n${member.user.id}\nЗарегистрирован: ${member.user.createdAt.toISOString().replace(/[TZ]/g, ' ')} UTC\n**${days}** ${func.declOfNum(days, ['день', 'дня', 'дней'])} в Discord\nЗашел на сервер: ${member.joinedAt.toISOString().replace(/[TZ]/g, ' ')} UTC\nПровел **${days}** ${func.declOfNum(days, ['день', 'дня', 'дней'])} на сервере\n\n**${member.guild.memberCount}** ${func.declOfNum(member.guild.memberCount, ['участник', 'участника', 'участников'])} на сервере`)
+        .setDescription(`${member}  \`${member.user.tag}\`\n${member.user.id}\nЗарегистрирован: ${member.user.createdAt.toISOString().replace(/[TZ]/g, ' ')} UTC\n**${days}** ${func.declOfNum(days, ['день', 'дня', 'дней'])} в Discord\nЗашел на сервер: ${member.joinedAt.toISOString().replace(/[TZ]/g, ' ')} UTC\nПровел **${days_s}** ${func.declOfNum(days_s, ['день', 'дня', 'дней'])} на сервере\n\n**${member.guild.memberCount}** ${func.declOfNum(member.guild.memberCount, ['участник', 'участника', 'участников'])} на сервере`)
         .attachFile(att)
         .setThumbnail('attachment://avatar.png')
         .setTimestamp(new Date());

@@ -154,3 +154,14 @@ module.exports.hasMemberRights = function (channel, member, access_type, access_
         else return {access: false, message}
     }
 };
+module.exports.clear_count = function (channel, count, count_all = 0) {
+    if (count > 100) {
+        count_all = count_all + 100;
+        channel.bulkDelete(100).then(() => {module.exports.clear_count(channel, count-100, count_all)});
+    } else {
+        channel.bulkDelete(count).then(messages => {
+            count_all = count_all + messages.size;
+            channel.send(`Удалено ${count_all} ${module.exports.declOfNum(count_all, ['сообщение','сообщения','сообщений'])}.`).then((msg) => {msg.delete(3000);});
+        });
+    }
+};
