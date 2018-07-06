@@ -97,7 +97,7 @@ fs.readdir("./commands/", (err, files) => {
 });
 fs.readdir("./events/", (err, files) => {
     files.forEach((event) => {
-        fs.readdir(`./events/${event}/`, (listeners) => {
+        fs.readdir(`./events/${event}/`, (err, listeners) => {
             listeners.filter(f => f.endsWith('.js')).forEach(listener => {
                 let code = require(`./events/${event}/${listener}`);
                 client.on(event, code.run);
