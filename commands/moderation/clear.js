@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const func = require('../../func.js');
 
 module.exports.info = {
-    command: '^(c(le?a?r)|del(ete?)?|prune?|очист(ить?|ка)|удал(ить?|ение))$',
+    command: '^(c(le?a?r)?|del(ete?)?|prune?|очист(ить?|ка)?|удал(ить?|ение)?)$',
     name: 'clear [num]',
     lang: {
         'ru': {
@@ -17,7 +17,12 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie wyczyszczenia pewnej liczby wiadomości na czacie',
         }
+    },
+    access: {
+        type: 'right',
+        params: 'MANAGE_MESSAGES',
     }
+
 };
 module.exports.run = async function (client, message, command, args, info, language) {
 

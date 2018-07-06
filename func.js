@@ -28,6 +28,7 @@ module.exports.generateErrorMessage = function (lang, client, text1, text2) {
     };
     let language = lang;
     lang = lang_phrases[lang];
+    if (text1 === 'err') text1 = lang['error']+'!';
     text2 = text2.replace(/\[\^]/gim, client.emojis.get('427513198544158720'));
     let embed = new Discord.RichEmbed()
         .setTitle(`${lang['error']}! [${language.toUpperCase()}]`)
