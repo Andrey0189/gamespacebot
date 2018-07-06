@@ -21,9 +21,7 @@ module.exports.info = {
     }
 };
 module.exports.run = async function (client, message, command, args, info, language) {
-
-
-    lang = lang[language];
+    
     let member = message.mentions.members.first();
     if (!member)
         member = message.member;
