@@ -71,7 +71,7 @@ module.exports.run = async function (client, message, command, args, info, langu
                 .setTitle(lang['level'])
                 .addField(lang['rank'], arr[2], true)
                 .addField(lang['level'], arr[0], true)
-                .addField(lang['xp']+' '+lang['totally']+')', arr[1], true)
+                .addField(lang['xp'], arr[1]+' '+lang['totally']+')', true)
                 .setDescription(`${member.user} (\`${message.author.tag}\`)`)
                 .setFooter("Game🌀Space")
                 .setColor(parseInt(func.getRandomInt(0,16777214)));

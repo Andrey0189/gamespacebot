@@ -166,3 +166,6 @@ module.exports.clear_count = function (text, arr, channel, count, count_all = 0)
         });
     }
 };
+module.exports.isNumeric = function (n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+};

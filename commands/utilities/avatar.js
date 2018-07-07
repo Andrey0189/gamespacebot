@@ -22,14 +22,14 @@ module.exports.info = {
 };
 module.exports.run = async function (client, message, command, args, info, language) {
 
-    let member = message.mentions.members.first();
-    if (!member)
-        member = message.member;
-    let colors = getImageColors(member.avatarURL).then(color => {
+    let user = message.mentions.user.first();
+    if (!user)
+        user = message.author;
+    getImageColors(user.avatarURL).then(color => {
         let c = color.map(col => col.hex());
         const embed = new Discord.RichEmbed()
-            .setAuthor(`${member.user.tag}`, member.user.avatarURL)
-            .setImage(member.user.avatarURL)
+            .setAuthor(`${user.tag}`, user.avatarURL)
+            .setImage(user.avatarURL)
             .setFooter("Game🌀Space")
             .setColor(c[0]);
         message.reply({embed});
