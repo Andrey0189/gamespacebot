@@ -17,6 +17,11 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie wysłania wiadomości jako bota',
         }
+    },
+    access: {
+        type: 'any_roles',
+        params: ['419562566512017415', '430006994607538201', '417267817763831808', '417312252463677451']
+        //own trustedown banhammer admin
     }
 };
 
