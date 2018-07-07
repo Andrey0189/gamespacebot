@@ -169,3 +169,8 @@ module.exports.clear_count = function (text, arr, channel, count, count_all = 0)
 module.exports.isNumeric = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
+module.exports.newLines = function (text) {
+    let arr = text.split(/\n|\\n+/g);
+    arr.forEach((item, num) => {arr[num] = arr[num].trim()});
+    return arr;
+};

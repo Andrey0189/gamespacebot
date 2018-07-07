@@ -79,7 +79,7 @@ module.exports.run = async function (client, message, command, args, info, langu
                         let done;
                         if (item['active']) item['name'] = '*__' + item['name'] + '__*';
                         if (item['active']) done = '✅ ' + lang['done'] + ': **' + item['done'] + '**/**' + item['count'] + '**'; else done = blank;
-                        all[num] = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 ' + lang['reward'] + ': **' + item['reward'] + '**' + money, done];
+                        all[num] = ['**' + item['name'] + '**', func.newLines(item['task']).join('\n'), '🏆 ' + lang['reward'] + ': **' + item['reward'] + '**' + money, done];
                     }
                     else
                         all[num] = [blank.toString(), lang['no_task'], blank, blank]
