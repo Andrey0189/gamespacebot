@@ -66,7 +66,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     };
     lang = lang[language];
     let money = client.emojis.get('422055316792803349');
-    let blank = client.emojis.get('435119671143038986');
+    let blank = client.emojis.get('465052189774315540');
     let all = [];
     message.delete(100);
     message.channel.send(lang['loading'] + '...').then((msg) => {
