@@ -188,7 +188,7 @@ client.on('message', async (message) => {
             if (client.commands.filter(m => m.category === cat && !m.hidden).length === 0) return;
             let smallcmds = '';
             let count = 0;
-            smallcmds += cat_info['name'][lang] + ':\n';
+            smallcmds += '= '+cat_info['name'][lang] + ':\n';
             client.commands.filter(m => m.category === cat && !m.hidden).forEach(cmd => {
                 let access;
                 if (cmd.access)

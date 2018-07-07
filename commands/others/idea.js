@@ -4,7 +4,7 @@ const func = require('../../func.js');
 const getImageColors = require('get-image-colors');
 
 module.exports.info = {
-    command: '^(idey?a|идея|п?р?о?голосова(ни[ея]|ть))$',
+    command: '^(idey?a|идея|п?р?о?голосова(ни[ея]|ть)|votes?)$',
     name: 'idea [text]',
     lang: {
         'ru': {
@@ -53,9 +53,12 @@ module.exports.run = async function (client, message, command, args, info, langu
         let nick = message.author.username;
         if (message.member.nickname != null) nick = message.member.nickname;
         message.guild.channels.get(client.log_channels.ideas).createWebhook(nick, message.author.avatarURL).then(webhook => {
-            webhook.send('', {embeds: [embed]}).then((msg)=>{
+            webhook.send('', {embeds: [embed]}).then(async (msg)=>{
                 request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+msg.id+'&text='+encodeURIComponent(args.join(' ')));
                 webhook.delete();
+                await msg.react('419122029854457866');
+                await msg.react('419121999277719562');
+                await msg.react('419121914959626240');
             }).catch(console.error);
         }).catch(console.error);
         message.channel.send(lang['started']).then(msg => msg.delete(5000));
