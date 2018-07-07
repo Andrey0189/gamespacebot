@@ -62,6 +62,6 @@ module.exports.run = async function (client, message, command, args, info, langu
                 .setFooter(footer);
             message.channel.send({embed}).then(() => {message.channel.stopTyping(true)});
 
-        }
+        } catch (e) {}
     });
 };
