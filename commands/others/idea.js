@@ -53,12 +53,14 @@ module.exports.run = async function (client, message, command, args, info, langu
         let nick = message.author.username;
         if (message.member.nickname != null) nick = message.member.nickname;
         message.guild.channels.get(client.log_channels.ideas).createWebhook(nick, message.author.avatarURL).then(webhook => {
-            webhook.send('', {embeds: [embed]}).then(async (msg)=>{
-                request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+msg.id+'&text='+encodeURIComponent(args.join(' ')));
+            webhook.send('', {embeds: [embed]}).then(async (mesg)=>{
+                request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+mesg.id+'&text='+encodeURIComponent(args.join(' ')));
                 webhook.delete();
-                await msg.react('419122029854457866');
-                await msg.react('419121999277719562');
-                await msg.react('419121914959626240');
+                message.guild.channels.get(client.log_channels.ideas).fetchMessage(mesg.id).then(async msg => {
+                    await msg.react('419122029854457866');
+                    await msg.react('419121999277719562');
+                    await msg.react('419121914959626240');
+                });
             }).catch(console.error);
         }).catch(console.error);
         message.channel.send(lang['started']).then(msg => msg.delete(5000));
