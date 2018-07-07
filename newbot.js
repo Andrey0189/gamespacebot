@@ -160,7 +160,7 @@ client.on('message', async (message) => {
                     } else {
                         client.channels.get('417266234032390155').send(msg);
                     }
-                    level_roles.forEach(function (item) {
+                    client.level_roles.forEach(function (item) {
                         if (lvls[1] >= item[0]) {
                             if (!message.member.roles.has(item[1])) {
                                 message.member.addRole(item[1]).catch(console.error);
