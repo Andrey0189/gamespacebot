@@ -17,10 +17,10 @@ module.exports.run = function (message) {
     };
 
     let lang = {
-        'ru': 'Для того, чтобы присоединится к игрокам в **'+games[args[0]]+'**, и войти в один голосовой канал с ними вам нужно нажать на эту ссылку:\n<',
-        'ua': 'Для того, щоб приєднається до гравців в **'+games[args[0]]+', і увійти в один голосовий канал з ними вам потрібно натиснути на це посилання:\n<',
-        'en': 'In order to join players of **'+games[args[0]]+'**, and to enter one voice channel with them you need to click on this link:\n<',
-        'pl': 'Aby dołączyć do graczy w **'+games[args[0]]+'** i wprowadzić jeden kanał głosowy za ich pomocą, musisz kliknąć ten link:\n<',
+        'ru': 'Для того, чтобы присоединится к игрокам в **'+games[args[1]]+'**, и войти в один голосовой канал с ними вам нужно нажать на эту ссылку:\n<',
+        'ua': 'Для того, щоб приєднається до гравців в **'+games[args[1]]+', і увійти в один голосовий канал з ними вам потрібно натиснути на це посилання:\n<',
+        'en': 'In order to join players of **'+games[args[1]]+'**, and to enter one voice channel with them you need to click on this link:\n<',
+        'pl': 'Aby dołączyć do graczy w **'+games[args[1]]+'** i wprowadzić jeden kanał głosowy za ich pomocą, musisz kliknąć ten link:\n<',
     };
 
 
