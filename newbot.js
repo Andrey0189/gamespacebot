@@ -1,6 +1,7 @@
 let express = require('express');
 let app = express();
-
+let ip = require('ip');
+console.log(ip.address());
 
 app.get('/', function (req, res) {
     if (req.query.text === 'lul')
