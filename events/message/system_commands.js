@@ -33,6 +33,24 @@ module.exports.run = function (message) {
             'cs': 'https://discord.gg/naDAzVw',
             'd2': 'https://discord.gg/ZDjYSXG',
             'll': 'https://discord.gg/Um6sV7g'
+        },
+        'ua': {
+            'rl': 'https://discord.gg/Jvzvx3h',
+            'cs': 'https://discord.gg/naDAzVw',
+            'd2': 'https://discord.gg/ZDjYSXG',
+            'll': 'https://discord.gg/Um6sV7g'
+        },
+        'en': {
+            'rl': 'https://discord.gg/qgHYh4y',
+            'cs': 'https://discord.gg/7s7JMGA',
+            'd2': 'https://discord.gg/aC5y9MA',
+            'll': 'https://discord.gg/zW2nC98'
+        },
+        'pl': {
+            'rl': 'https://discord.gg/qgHYh4y',
+            'cs': 'https://discord.gg/7s7JMGA',
+            'd2': 'https://discord.gg/aC5y9MA',
+            'll': 'https://discord.gg/zW2nC98'
         }
     };
 
