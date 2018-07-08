@@ -23,7 +23,7 @@ const client = new Discord.Client({ autofetch: [
 //     moder: "426411685595578382"
 // };
 
-const cooldown = [];
+const cooldown = new Set();
 const func = require('./func.js');
 
 client.commands = new Discord.Collection();
@@ -175,9 +175,9 @@ client.on('message', async (message) => {
                 }
             }
         });
-        cooldown.push(message.author.id);
+        cooldown.add(message.author.id);
         setTimeout(() => {
-            cooldown.splice(cooldown.indexOf(message.author.id),1);
+            cooldown.delete(message.author.id);
         }, 60000);
     }
     
