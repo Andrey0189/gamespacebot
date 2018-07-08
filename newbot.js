@@ -1,3 +1,13 @@
+let express = require('express');
+let app = express();
+
+
+app.get('/', function (req, res) {
+    if (req.query.text === 'lul')
+        res.send('kek');
+});
+
+app.listen(3000);
 const Discord = require('discord.js');
 const request = require("request");
 // const rgbcolor = require('rgbcolor');

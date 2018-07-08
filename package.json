@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "discord.js": "11.3.0",
+    "express": "^4.16.3",
+    "get-image-colors": "1.8.1",
     "request": "2.81.0",
-    "rgbcolor": "1.0.1",
-    "get-image-colors": "1.8.1"
+    "rgbcolor": "1.0.1"
   }
 }
