@@ -1,14 +1,14 @@
 let express = require('express');
 let app = express();
 let ip = require('ip');
-console.log(ip.address());
+console.log(ip.address()+':'+process.env.PORT);
 
 app.get('/', function (req, res) {
     if (req.query.text === 'lul')
         res.send('kek');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
 const Discord = require('discord.js');
 const request = require("request");
 // const rgbcolor = require('rgbcolor');
