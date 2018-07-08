@@ -174,3 +174,15 @@ module.exports.newLines = function (text) {
     arr.forEach((item, num) => {arr[num] = arr[num].trim()});
     return arr;
 };
+module.exports.updVoiceData = function (client, request) {
+    let data = JSON.stringify({
+        'ru':
+            {
+                'rl': client.channels.get('418096013497204737').members.size,
+                'd2': client.channels.get('425915855671525376').members.size,
+                'cs': client.channels.get('418076641747533834').members.size,
+                'll': client.channels.get('418081846195388457').members.size,
+            }
+    });
+    request('http://new.gamespace.ml/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
+};

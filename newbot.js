@@ -75,6 +75,7 @@ client.on('ready', () => {
             });
         } catch (e) {console.error(e)}
     });
+    func.updVoiceData(client, request)
 });
 
 fs.readdir("./commands/", (err, files) => {
