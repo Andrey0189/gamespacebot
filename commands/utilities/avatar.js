@@ -22,7 +22,7 @@ module.exports.info = {
 };
 module.exports.run = async function (client, message, command, args, info, language) {
 
-    let user = message.mentions.user.first();
+    let user = message.mentions.users.first();
     if (!user)
         user = message.author;
     getImageColors(user.avatarURL).then(color => {
