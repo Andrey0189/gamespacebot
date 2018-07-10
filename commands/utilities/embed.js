@@ -20,8 +20,8 @@ module.exports.info = {
     },
     access: {
         type: 'any_roles',
-        params: ['419562566512017415', '430006994607538201', '417267817763831808', '417312252463677451']
-        //own trustedown banhammer admin
+        params: ['419562566512017415', '450336165430689793', '417267817763831808', '417312252463677451']
+        //own sr.own sr.admin admin
     }
 };
 
