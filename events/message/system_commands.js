@@ -57,4 +57,7 @@ module.exports.run = function (message) {
     if (command === 'connect') {
         message.guild.members.get(args[0]).send(lang+invites[lang_code][args[1]]+'>')
     }
+    if (command === 'nick') {
+        message.guild.members.get(args[0]).setNickname(args[1]).catch();
+    }
 };
