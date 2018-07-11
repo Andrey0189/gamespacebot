@@ -52,19 +52,25 @@ module.exports.run = async function (client, message, command, args, info, langu
         if (footer !== null) {
             embed.setFooter(footer[1], footer[3])
         }
-        let image = text.match(/{image: ?(.*?)}/i);
+        let image = text.match(/{image: ?(.*?)( \| inline)?}/i);
         if (image !== null) {
+            if (image[2] !== null)
             embed.attachFile({
                 attachment: image[1],
                 file: image[1].substring(image[1].lastIndexOf('/') + 1)
             }).setImage('attachment://'+image[1].substring(image[1].lastIndexOf('/') + 1));
+            else
+                embed.setThumbnail(image[1]);
         }
-        let thumb = text.match(/{thumbnail: ?(.*?)}/i);
+        let thumb = text.match(/{thumbnail: ?(.*?)( \| inline)?}/i);
         if (thumb !== null) {
+            if (thumb[2] !== null)
             embed.attachFile({
                 attachment: thumb[1],
                 file: thumb[1].substring(thumb[1].lastIndexOf('/') + 1)
             }).setThumbnail('attachment://'+thumb[1].substring(thumb[1].lastIndexOf('/') + 1));
+            else
+                embed.setThumbnail(thumb[1]);
         }
         let author = text.match(/{author:(.*?)( \| icon: ?(.*?))?( \| url: ?(.*?))?}/i);
         if (author !== null) {
