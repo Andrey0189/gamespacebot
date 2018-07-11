@@ -52,7 +52,7 @@ module.exports.run = async function (client, message, command, args, info, langu
         if (footer !== null) {
             embed.setFooter(footer[1], footer[3])
         }
-        let image = text.match(/{image: ?(.*?)( \| inline)?}/i);
+        let image = text.match(/{image: ?(.*?)( \| hide)?}/i);
         if (image !== null) {
             if (image[2] !== null)
             embed.attachFile({
@@ -62,7 +62,7 @@ module.exports.run = async function (client, message, command, args, info, langu
             else
                 embed.setThumbnail(image[1]);
         }
-        let thumb = text.match(/{thumbnail: ?(.*?)( \| inline)?}/i);
+        let thumb = text.match(/{thumbnail: ?(.*?)( \| hide)?}/i);
         if (thumb !== null) {
             if (thumb[2] !== null)
             embed.attachFile({
