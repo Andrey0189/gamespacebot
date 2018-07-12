@@ -74,6 +74,7 @@ module.exports.run = function (message) {
         try {
             let member = message.guild.members.get(args.shift());
             if (!member) return;
+            console.log(args.join(' '));
             let arr = JSON.parse(args.join(' '));
             arr.forEach((game, bool) => {
                 let role = message.guild.roles.get(game);
