@@ -1,14 +1,3 @@
-let express = require('express');
-let app = express();
-let ip = require('ip');
-console.log(ip.address()+':'+process.env.PORT);
-
-app.get('/', function (req, res) {
-    if (req.query.text === 'lul')
-        res.send('kek');
-});
-
-app.listen(process.env.PORT);
 const Discord = require('discord.js');
 const request = require("request");
 // const rgbcolor = require('rgbcolor');
@@ -41,6 +30,7 @@ client.commands = new Discord.Collection();
 client.categories = new Discord.Collection();
 client.langs = new Discord.Collection();
 client.channel_settings = new Discord.Collection();
+client.tasks = [];
 
 client.channel_settings.set('417266234032390155', {notificationsAllowed: true});
 client.channel_settings.set('418096126957453337', {notificationsAllowed: true});
@@ -75,7 +65,10 @@ client.on('ready', () => {
             });
         } catch (e) {console.error(e)}
     });
-    func.updVoiceData(client, request)
+    func.updVoiceData(client, request);
+    request('https://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+        try {client.tasks = JSON.parse(body);} catch (e) {console.log('--- tasks get failed: '+e);}
+    });
 });
 
 fs.readdir("./commands/", (err, files) => {
