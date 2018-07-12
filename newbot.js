@@ -31,6 +31,7 @@ client.categories = new Discord.Collection();
 client.langs = new Discord.Collection();
 client.channel_settings = new Discord.Collection();
 client.tasks = [];
+client.privateChannels = new Discord.Collection();
 
 client.channel_settings.set('417266234032390155', {notificationsAllowed: true});
 client.channel_settings.set('418096126957453337', {notificationsAllowed: true});
