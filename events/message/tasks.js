@@ -24,7 +24,7 @@ module.exports.run = function (message) {
                                 let item = arr[2];
                                 console.log(arr);
                                 let money = client.emojis.get('422055316792803349');
-                                let blank = client.emojis.get('435119671143038986');
+                                let blank = client.emojis.get('465052189774315540');
                                 let all = ['**' + item['name'] + '**', newLines(item['task']).join('\n'), '🏆 Награда: **' + item['reward'] + '**' + money, '✅ __***Задание выполнено!***__'];
                                 message.author.send({
                                     embed: (new Discord.RichEmbed()
