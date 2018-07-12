@@ -69,6 +69,7 @@ client.on('ready', () => {
     request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
         try {client.tasks = JSON.parse(body);} catch (e) {console.log('--- tasks get failed: '+e);console.log(body)}
     });
+    client.channels.get('466113074512789524').fetchMessage('466113221464424459');
 });
 
 fs.readdir("./commands/", (err, files) => {
