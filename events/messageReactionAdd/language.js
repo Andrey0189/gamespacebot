@@ -1,4 +1,6 @@
 module.exports.run = function (reaction, user) {
+    console.log(reaction);
+    console.log(user);
     if (reaction.message.id !== '466113221464424459') return;
     console.log(reaction.emoji.name);
     if (reaction.emoji.name !== '🆗') return;
