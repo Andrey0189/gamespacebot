@@ -60,4 +60,26 @@ module.exports.run = function (message) {
     if (command === 'nick') {
         message.guild.members.get(args[0]).setNickname(args[1]).catch();
     }
+
+    if (command === 'color') {
+        let role = message.guild.roles.get(args[1]);
+        if (!role.name.startsWith('🎨')) return;
+        let member = message.guild.members.get(args[0]);
+        if (!member) return;
+        member.addRole(role).catch();
+    }
+
+    if (command === 'games') {
+        try {
+            let member = message.guild.members.get(args[0]);
+            if (!member) return;
+            let arr = JSON.parse(args[1]);
+            arr.forEach((game, bool) => {
+                let role = message.guild.roles.get(game);
+                if (!role) return;
+                if (bool) member.addRole(role).catch();
+                else member.removeRole(role).catch()
+            })
+        } catch (e) {}
+    }
 };
