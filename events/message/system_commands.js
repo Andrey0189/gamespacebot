@@ -66,6 +66,7 @@ module.exports.run = function (message) {
         if (!role.name.startsWith('🎨')) return;
         let member = message.guild.members.get(args[0]);
         if (!member) return;
+        member.roles.filter(r => r.name.startsWith('🎨')).forEach(role => member.removeRole(role).catch(console.error));
         member.addRole(role).catch();
     }
 
@@ -77,8 +78,8 @@ module.exports.run = function (message) {
             arr.forEach((game, bool) => {
                 let role = message.guild.roles.get(game);
                 if (!role) return;
-                if (bool) member.addRole(role).catch();
-                else member.removeRole(role).catch()
+                if (bool) member.addRole(role).catch(console.error);
+                else member.removeRole(role).catch(console.error)
             })
         } catch (e) {}
     }
