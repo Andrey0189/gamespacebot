@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const func = require('../../func.js');
 
 module.exports.info = {
-    command: '^{une(mb[ae]d(say)?)?|[уа]н[еэ]мб[еэ]д(сей)?)$',
+    command: '^(une(mb[ae]d(say)?)?|[уа]н[еэ]мб[еэ]д(сей)?)$',
     name: 'embed',
     lang: {
         'ru': {
