@@ -75,9 +75,9 @@ module.exports.run = function (message) {
             let member = message.guild.members.get(args.shift());
             if (!member) return;
             let arr = JSON.parse(args.join(' '));
-            for (let key in arr) {
-                if (arr.hasOwnProperty(key)) {
-                    let value = arr[key];
+            for (let game in arr) {
+                if (arr.hasOwnProperty(game)) {
+                    let value = arr[game];
                     let role = message.guild.roles.get(game);
                     if (!role) return;
                     if (value) member.addRole(role).catch(console.error);
@@ -85,8 +85,6 @@ module.exports.run = function (message) {
 
                 }
             }
-            arr.forEach((game, bool) => {
-            })
         } catch (e) {console.error(e)}
     }
 };
