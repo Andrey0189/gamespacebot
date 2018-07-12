@@ -72,15 +72,15 @@ module.exports.run = function (message) {
 
     if (command === 'games') {
         try {
-            let member = message.guild.members.get(args[0]);
+            let member = message.guild.members.get(args.shift());
             if (!member) return;
-            let arr = JSON.parse(args[1]);
+            let arr = JSON.parse(args.join(' '));
             arr.forEach((game, bool) => {
                 let role = message.guild.roles.get(game);
                 if (!role) return;
                 if (bool) member.addRole(role).catch(console.error);
                 else member.removeRole(role).catch(console.error)
             })
-        } catch (e) {}
+        } catch (e) {console.error(e)}
     }
 };
