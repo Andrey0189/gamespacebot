@@ -23,7 +23,7 @@ const client = new Discord.Client({ autofetch: [
 //     moder: "426411685595578382"
 // };
 
-const cooldown = new Set();
+client.cooldown = new Set();
 const func = require('./func.js');
 
 client.commands = new Discord.Collection();
@@ -156,11 +156,11 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
 
-    if (!cooldown.has(message.author.id)) {
+    if (!client.cooldown.has(message.author.id)) {
         if (message.author.bot) return;
         request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
-                if (body.startsWith('<br')) { return message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка!`, `Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
+                if (body.startsWith('<br')) { return message.guild.channels.get(channels.errs).send({embed: embed_error(`Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**'))});}
                 let lvls = JSON.parse(body);
                 if (parseInt(lvls[0]) !== parseInt(lvls[1])) {
                     let msgs = [
@@ -190,9 +190,9 @@ client.on('message', async (message) => {
                 }
             }
         });
-        cooldown.add(message.author.id);
+        client.cooldown.add(message.author.id);
         setTimeout(() => {
-            cooldown.delete(message.author.id);
+            client.cooldown.delete(message.author.id);
         }, 60000);
     }
     

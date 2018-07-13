@@ -66,7 +66,7 @@ module.exports.run = function (message) {
         if (!role.name.startsWith('🎨')) return;
         let member = message.guild.members.get(args[0]);
         if (!member) return;
-        member.roles.filter(r => r.name.startsWith('🎨')).forEach(role => member.removeRole(role).catch(console.error));
+        member.roles.filter(r => r.name.startsWith('🎨') || r.name.startsWith('🔐')).forEach(role => member.removeRole(role).catch(console.error));
         member.addRole(role).catch();
     }
 
