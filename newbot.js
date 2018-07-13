@@ -139,6 +139,13 @@ let lang_phrases = {
         }
     }
 };
+process
+    .on('unhandledRejection', (reason, p) => {
+        console.error(reason, 'Unhandled Rejection at Promise', p);
+    })
+    .on('uncaughtException', err => {
+        console.error(err, 'Uncaught Exception thrown');
+    });
 client.on('message', async (message) => {
     let lang = client.langs.get(message.author.id) || 'ru';
     let l = lang_phrases[lang];
