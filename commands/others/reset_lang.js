@@ -5,6 +5,18 @@ module.exports.info = {
     command: '^(reset_lang)$',
     name: 'reset_lang',
     lang: {
+        'ru': {
+            description: ''
+        },
+        'ua': {
+            description: ''
+        },
+        'en': {
+            description: ''
+        },
+        'pl': {
+            description: ''
+        },
         hidden: true
     }
 };
