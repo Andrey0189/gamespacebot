@@ -54,7 +54,7 @@ client.level_roles = [
 client.log_channels = {
     errors: '432071031356915722',
     join_leave: '464702070902095873',
-    ideas: '421287649995784193'
+    ideas: '466590820611522591'
 };
 
 client.on('ready', () => {
