@@ -261,5 +261,8 @@ client.on('message', async (message) => {
         else message.reply(access.message);
     }
 });
+client.on('disconnect', () => {
+    client.login(process.env.BOT_TOKEN).catch(console.error);
+});
 client.login(process.env.BOT_TOKEN).catch(console.error);
 process.env.BOT_TOKEN = process.env.POSLANIYE;
