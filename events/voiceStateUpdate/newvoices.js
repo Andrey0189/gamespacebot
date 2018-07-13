@@ -10,7 +10,7 @@ module.exports.run = function (old_m, new_m) {
         }
     });
     if (new_m.voiceChannelID === '466601087072206858') {
-        if (new_m.client.privateChannels.find('id', new_m.user.id)) new_m.setVoiceChannel(new_m.client.privateChannels.find('id', new_m.user.id).channel).catch();
+        if (new_m.client.privateChannels.find('id', new_m.user.id)) return new_m.setVoiceChannel(new_m.client.privateChannels.find('id', new_m.user.id).channel).catch();
         if (new_m.roles.has('466621050340507649')) return new_m.setVoiceChannel(new_m.guild.afkChannelID);
         new_m.guild.createChannel('Созвездие '+new_m.displayName, 'voice', [{
             id: new_m.id,
