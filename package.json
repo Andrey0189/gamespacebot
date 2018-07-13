@@ -10,7 +10,7 @@
     "npm": "6.0.1"
   },
   "dependencies": {
-    "discord.js": "11.3.0",
+    "discord.js": "11.3.2",
     "express": "^4.16.3",
     "get-image-colors": "1.8.1",
     "ip": "^1.1.5",
