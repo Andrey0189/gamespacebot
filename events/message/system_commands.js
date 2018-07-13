@@ -29,16 +29,16 @@ module.exports.run = function (message) {
 
     let invites = {
         'ru': {
-            'rl': 'https://discord.gg/Jvzvx3h',
-            'cs': 'https://discord.gg/naDAzVw',
-            'd2': 'https://discord.gg/ZDjYSXG',
-            'll': 'https://discord.gg/Um6sV7g'
+            'rl': 'https://discord.gg/naDAzVw',
+            'cs': 'https://discord.gg/N6AmUn',
+            'd2': 'https://discord.gg/8zhPVRb',
+            'll': 'https://discord.gg/ZDjYSXG'
         },
         'ua': {
-            'rl': 'https://discord.gg/Jvzvx3h',
-            'cs': 'https://discord.gg/naDAzVw',
-            'd2': 'https://discord.gg/ZDjYSXG',
-            'll': 'https://discord.gg/Um6sV7g'
+            'rl': 'https://discord.gg/naDAzVw',
+            'cs': 'https://discord.gg/N6AmUn',
+            'd2': 'https://discord.gg/8zhPVRb',
+            'll': 'https://discord.gg/ZDjYSXG'
         },
         'en': {
             'rl': 'https://discord.gg/qgHYh4y',
