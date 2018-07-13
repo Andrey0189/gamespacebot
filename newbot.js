@@ -152,7 +152,7 @@ client.on('message', async (message) => {
         if (message.author.bot) return;
         request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
-                if (body.startsWith('<br')) { return message.guild.channels.get(log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка!`, `Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
+                if (body.startsWith('<br')) { return message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка!`, `Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
                 let lvls = JSON.parse(body);
                 if (parseInt(lvls[0]) !== parseInt(lvls[1])) {
                     let msgs = [
