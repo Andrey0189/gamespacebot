@@ -205,5 +205,5 @@ module.exports.updVoiceData = function (client, request) {
                 'll': client.channels.get('465563130987151361').members.size,
             }
     });
-    request('http://new.gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
+    request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
 };
