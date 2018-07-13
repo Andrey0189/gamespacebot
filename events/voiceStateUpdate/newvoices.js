@@ -4,6 +4,7 @@ module.exports.run = function (old_m, new_m) {
             setTimeout(() => {
                 if (channel.members.size === 0) {
                     channel.delete();
+                    if (new_m.client.privateChannels.has(channel.id))
                     new_m.client.privateChannels.delete(channel.id);
                 }
             }, 60000)
