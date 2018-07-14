@@ -14,7 +14,9 @@ const client = new Discord.Client({ autofetch: [
     'MESSAGE_UPDATE',
     'MESSAGE_REACTION_ADD',
     'MESSAGE_REACTION_REMOVE',
-]});
+], ws: {
+    compress: false
+}});
 // const rule = {
 //     own: "419562566512017415",
 //     trusted_own: "430006994607538201",
