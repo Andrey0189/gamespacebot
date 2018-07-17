@@ -90,7 +90,7 @@ fs.readdir("./commands/", (err, files) => {
         console.log(`Категория ${c} загружена`);
         client.categories.set(c, cat_info);
         fs.readdir("./commands/"+c+"/", (err, cmds) => {
-        let jsfile = cmds.filter(c => c.endsWith('.js'));
+        let jsfile = cmds.filter(c => c.endsWith('.js') && !c.startsWith('-'));
             jsfile.forEach((f, fi, fa) => {
                 let props = require(`./commands/${c}/${f}`);
                 let commandName = f.replace(/\.js$/i, '');
