@@ -158,6 +158,7 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
 
+    if (!['448815323840380929', '465557872097492993'].includes(message.channel.id))
     if (!client.cooldown.has(message.author.id)) {
         if (message.author.bot) return;
         request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
