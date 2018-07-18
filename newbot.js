@@ -169,9 +169,9 @@ fs.readdir("./commands/", (err, files) => {
         return;
     }
     files.forEach((c, ci, ca) => {
-        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${c} не загружена: не обнаружен файл конфигурации категории.`);
+        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${console.color('reset', c)} ${console.color('reset', 'не загружена: не обнаружен файл конфигурации категории.')}`);
         let cat_info = require("./commands/"+c+"/config.json");
-        console.log(console.color('bright;green', `Категория ${c} загружена`));
+        console.log(console.color('bright;green', `Категория `) + c + console.color('bright;green', ` загружена`));
         client.categories.set(c, cat_info);
         fs.readdir("./commands/"+c+"/", (err, cmds) => {
         let jsfile = cmds.filter(c => c.endsWith('.js') && !c.startsWith('-'));
@@ -179,7 +179,7 @@ fs.readdir("./commands/", (err, files) => {
                 let props = require(`./commands/${c}/${f}`);
                 let commandName = f.replace(/\.js$/i, '');
 
-                console.log(console.color('bright;green', `Команда ${commandName} загружена`));
+                console.log(console.color(console.color('bright;green', `Команда `) + commandName + console.color('bright;green', ` загружена`)));
                 commandCount++;
                 props.info.code = props;
                 props.info.category = c;
@@ -198,7 +198,7 @@ fs.readdir("./events/", (err, files) => {
             listeners.filter(f => f.endsWith('.js')).forEach(listener => {
                 let code = require(`./events/${event}/${listener}`);
                 client.on(event, code.run);
-                console.log(console.color('bright;green', `Загружен слушатель ${listener.replace(/\.js$/i, '')} ивента ${event}`));
+                console.log(console.color('bright;green', `Загружен слушатель `)+listener.replace(/\.js$/i, '')+console.color('bright;green', ` ивента `)+event);
             })
         })
     })
