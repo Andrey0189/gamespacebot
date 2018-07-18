@@ -179,7 +179,7 @@ fs.readdir("./commands/", (err, files) => {
                 let props = require(`./commands/${c}/${f}`);
                 let commandName = f.replace(/\.js$/i, '');
 
-                console.log(console.color(console.color('bright;green', `Команда `) + commandName + console.color('bright;green', ` загружена`)));
+                console.log(console.color('bright;green', `Команда `) + commandName + console.color('bright;green', ` загружена`));
                 commandCount++;
                 props.info.code = props;
                 props.info.category = c;
