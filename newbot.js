@@ -101,7 +101,7 @@ console.error = (text, name) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 80) {
+    if (text.match(/\n/) || text.length > 200) {
         end = '\n'+console.color('bgRed;bright;white', '-----');
         center = '\n';
     }
@@ -112,7 +112,7 @@ console.warning = (text) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 80) {
+    if (text.match(/\n/) || text.length > 200) {
         end = '\n'+console.color('bgYellow;bright;white', '-----');
         center = '\n';
     }
@@ -123,7 +123,7 @@ console.success = (text) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 80) {
+    if (text.match(/\n/) || text.length > 200) {
         end = '\n'+console.color('bgGreen;bright;white', '-----');
         center = '\n';
     }
@@ -136,7 +136,7 @@ console.info= (text, name) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 80) {
+    if (text.match(/\n/) || text.length > 200) {
         end = '\n'+console.color('bgBlue;bright;white', '-----');
         center = '\n';
     }
