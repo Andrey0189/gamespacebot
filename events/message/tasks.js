@@ -19,8 +19,8 @@ module.exports.run = function (message) {
                     request('http://' + process.env.SITE_DOMAIN + '/do_task.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + task[0] + '&task=' + task[1], function (error, response, body) {
                         try {
                             let arr = JSON.parse(body);
+                            message.reply(task[2]['action']['content']).then(msg => {msg.delete(1000)});
                             if (arr[0] !== arr[1] && task[2]['action']['content'] !== '(.*?)') message.reply('выполнено: **' + arr[0] + '**/**' + arr[1] + '**').then(msg => msg.delete(3000));
-                            message.channel.send('task[2][\'action\'][\'content\']').then(msg => {msg.delete(1000)});
                             else if (arr[0] === arr[1]) {
                                 let item = arr[2];
                                 console.log(arr);
