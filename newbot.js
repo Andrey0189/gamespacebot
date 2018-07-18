@@ -169,7 +169,7 @@ fs.readdir("./commands/", (err, files) => {
         return;
     }
     files.forEach((c, ci, ca) => {
-        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${console.color('reset', c)} ${console.color('reset', 'не загружена: не обнаружен файл конфигурации категории.')}`);
+        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${console.color('reset', c)} ${console.color('bright;red', 'не загружена: не обнаружен файл конфигурации категории.')}`);
         let cat_info = require("./commands/"+c+"/config.json");
         console.log(console.color('bright;green', `Категория `) + c + console.color('bright;green', ` загружена`));
         client.categories.set(c, cat_info);
