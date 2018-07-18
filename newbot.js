@@ -90,8 +90,57 @@ console.color = (params, text) => {
     for (let color in colors) {
         let num= colors[color];
         params = params.replace(new RegExp(color), num)
-}
-    return `\x1b[${params}m${text}\x1b[0m`;
+    }
+    let arr = text.split('\n');
+    return `\x1b[${params}m`+arr.join(`\x1b[0m\n\x1b[${params}m`)+'\x1b[0m';
+};
+
+console.error = (text, name) => {
+    let error_name = '';
+    if (name) error_name = console.color('bgRed;bright;yellow', ' '+name);
+    let end = '';
+    let center = ' ';
+    if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
+    if (text.match(/\n/) || text.length > 30) {
+        end = '\n'+console.color('bgRed;white', '-----');
+        center = '\n';
+    }
+    console.log(console.color('bgRed;white', '× Произошла ошибка')+error_name+console.color('bgRed;white', ':')+center+console.color('bright;red', text)+end)
+};
+
+console.warning = (text) => {
+    let end = '';
+    let center = ' ';
+    if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
+    if (text.match(/\n/) || text.length > 30) {
+        end = '\n'+console.color('bgYellow;white', '-----');
+        center = '\n';
+    }
+    console.log(console.color('bgYellow;white', '! Внимание:')+center+console.color('bright;yellow', text)+end)
+};
+
+console.success = (text) => {
+    let end = '';
+    let center = ' ';
+    if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
+    if (text.match(/\n/) || text.length > 30) {
+        end = '\n'+console.color('bgGreen;white', '-----');
+        center = '\n';
+    }
+    console.log(console.color('bgGreen;white', '√ Успех:')+center+console.color('bright;green', text)+end)
+};
+
+console.info= (text, name) => {
+    let info_name = '';
+    if (name) info_name = console.color('bgBlue;bright;yellow', ' '+name);
+    let end = '';
+    let center = ' ';
+    if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
+    if (text.match(/\n/) || text.length > 30) {
+        end = '\n'+console.color('bgBlue;white', '-----');
+        center = '\n';
+    }
+    console.log(console.color('bgBlue;white', 'i Информация')+info_name+console.color('bgBlue;white', ':')+center+console.color('bright;white', text)+end)
 };
 
 client.on('ready', () => {
