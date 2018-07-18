@@ -59,6 +59,41 @@ client.log_channels = {
     ideas: '466590820611522591'
 };
 
+console.color = (params, text) => {
+    const colors = {
+        'reset': "0",
+        'bright': "1",
+        'dim': "2",
+        'underscore': "4",
+        'blink': "5",
+        'reverse': "7",
+        'hidden': "8",
+        'black': "30",
+        'red': "31",
+        'green': "32",
+        'yellow': "33",
+        'blue': "34",
+        'magenta': "35",
+        'cyan': "36",
+        'white': "37",
+        'crimson': "38",
+        'bgBlack': "40",
+        'bgRed': "41",
+        'bgGreen': "42",
+        'bgYellow': "43",
+        'bgBlue': "44",
+        'bgMagenta': "45",
+        'bgCyan': "46",
+        'bgWhite': "47",
+        'bgCrimson': "48"
+    };
+    for (let color in colors) {
+        let num= colors[color];
+        params = params.replace(new RegExp(color), num)
+}
+    return `\x1b[${params}m${text}\x1b[0m`;
+};
+
 client.on('ready', () => {
     request('http://'+process.env.SITE_DOMAIN+'/langs.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
         try {
@@ -81,13 +116,13 @@ fs.readdir("./commands/", (err, files) => {
 
     if (err) console.error(err);
     if (files.length <= 0) {
-        console.log("Категорий нет.");
+        console.log(console.color('bgYellow;white', 'Категорий нет.'));
         return;
     }
     files.forEach((c, ci, ca) => {
-        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${c} не загружена: не обнаружен файл конфигурации категории.`);
+        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(console.color('bgRed;white', 'Ошибка') + ' ' + console.color('bright;red', `Категория ${c} не загружена: не обнаружен файл конфигурации категории.`));
         let cat_info = require("./commands/"+c+"/config.json");
-        console.log(`Категория ${c} загружена`);
+        console.log(console.color('bright;green', `Категория ${c} загружена`));
         client.categories.set(c, cat_info);
         fs.readdir("./commands/"+c+"/", (err, cmds) => {
         let jsfile = cmds.filter(c => c.endsWith('.js') && !c.startsWith('-'));
@@ -95,13 +130,13 @@ fs.readdir("./commands/", (err, files) => {
                 let props = require(`./commands/${c}/${f}`);
                 let commandName = f.replace(/\.js$/i, '');
 
-                console.log(`Команда ${commandName} загружена`);
+                console.log(console.color('bright;green', `Команда ${commandName} загружена`));
                 commandCount++;
                 props.info.code = props;
                 props.info.category = c;
                 client.commands.set(props.info.command, props.info );
                 if (fi === fa.length - 1 && ci === ca.length - 1)
-                    console.log(`Загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`);
+                    console.log(console.color('bgGreen;white', `Загружен${func.declOfNum(commandCount, ['а', 'о', 'о'])} ${commandCount} ${func.declOfNum(commandCount, ['команда', 'команды', 'команд'])}`));
             });
         });
     });
@@ -114,7 +149,7 @@ fs.readdir("./events/", (err, files) => {
             listeners.filter(f => f.endsWith('.js')).forEach(listener => {
                 let code = require(`./events/${event}/${listener}`);
                 client.on(event, code.run);
-                console.log(`Загружен слушатель ${listener.replace(/\.js$/i, '')} ивента ${event}`);
+                console.log(console.color('bright;green', `Загружен слушатель ${listener.replace(/\.js$/i, '')} ивента ${event}`));
             })
         })
     })
@@ -158,39 +193,42 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
 
+    console.log(client.cooldown);
+
     if (!['448815323840380929', '465557872097492993'].includes(message.channel.id))
     if (!client.cooldown.has(message.author.id)) {
         if (message.author.bot) return;
         request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
-                if (body.startsWith('<br')) { return message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage(`Ошибка добавления уровня пользователю ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
-                let lvls = JSON.parse(body);
-                if (parseInt(lvls[0]) !== parseInt(lvls[1])) {
-                    let msgs = [
-                        `Ура, ${message.author} получил **${lvls[1]}** уровень! Поздравьте его!`,
-                        `Вы же уже знаете, что у ${message.author} уже аж **${lvls[1]}** уровень?!)`,
-                        `${message.author}, а ты хорош! У тебя **${lvls[1]}** уровень! Не ожидал от тебя такого о_О`,
-                        `${message.author}, поздравляю с **${lvls[1]}** уровенем!`,
-                    ];
-                    let msg = msgs[func.getRandomInt(1,msgs.length)-1];
-                    if (client.channel_settings.get(message.channel.id) && client.channel_settings.get(message.channel.id).notificationsAllowed) {
-                        message.channel.send(msg);
-                    } else {
-                        client.channels.get('417266234032390155').send(msg);
-                    }
-                    client.level_roles.forEach(function (item) {
-                        if (lvls[1] >= item[0]) {
-                            if (!message.member.roles.has(item[1])) {
-                                message.member.addRole(item[1]).catch(console.error);
-                                message.author.send(`Вы получили роль \`${message.guild.roles.get(item[1]).name}\``);
-                            }
+                try {
+                    let lvls = JSON.parse(body);
+                    if (parseInt(lvls[0]) !== parseInt(lvls[1])) {
+                        let msgs = [
+                            `Ура, ${message.author} получил **${lvls[1]}** уровень! Поздравьте его!`,
+                            `Вы же уже знаете, что у ${message.author} уже аж **${lvls[1]}** уровень?!)`,
+                            `${message.author}, а ты хорош! У тебя **${lvls[1]}** уровень! Не ожидал от тебя такого о_О`,
+                            `${message.author}, поздравляю с **${lvls[1]}** уровенем!`,
+                        ];
+                        let msg = msgs[func.getRandomInt(1,msgs.length)-1];
+                        if (client.channel_settings.get(message.channel.id) && client.channel_settings.get(message.channel.id).notificationsAllowed) {
+                            message.channel.send(msg);
                         } else {
-                            if (message.member.roles.has(item[1])) {
-                                message.member.removeRole(item[1]).catch(console.error);
-                            }
+                            client.channels.get('417266234032390155').send(msg);
                         }
-                    });
-                }
+                        client.level_roles.forEach(function (item) {
+                            if (lvls[1] >= item[0]) {
+                                if (!message.member.roles.has(item[1])) {
+                                    message.member.addRole(item[1]).catch(console.error);
+                                    message.author.send(`Вы получили роль \`${message.guild.roles.get(item[1]).name}\``);
+                                }
+                            } else {
+                                if (message.member.roles.has(item[1])) {
+                                    message.member.removeRole(item[1]).catch(console.error);
+                                }
+                            }
+                        });
+                    }
+                } catch (e) {console.error(e)}
             }
         });
         client.cooldown.add(message.author.id);
