@@ -67,7 +67,7 @@ module.exports.run = async function (client, message, command, args, info, langu
                 console.error('Получен код \'err\' от сайта', 'выбора дейлика');
                 return message.channel.send(lang['err'])
             } else {
-                return message.channel.send(lang['already_active']);
+                return message.channel.send(lang['already']);
             }
         } catch (e) {console.error(e)}
     });
