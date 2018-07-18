@@ -20,6 +20,7 @@ module.exports.run = function (message) {
                         try {
                             let arr = JSON.parse(body);
                             if (arr[0] !== arr[1] && task[2]['action']['content'] !== '(.*?)') message.reply('выполнено: **' + arr[0] + '**/**' + arr[1] + '**').then(msg => msg.delete(3000));
+                            message.channel.send('task[2][\'action\'][\'content\']').then(msg => {msg.delete(1000)});
                             else if (arr[0] === arr[1]) {
                                 let item = arr[2];
                                 console.log(arr);
