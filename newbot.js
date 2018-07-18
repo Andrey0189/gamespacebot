@@ -101,33 +101,33 @@ console.error = (text, name) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 30) {
-        end = '\n'+console.color('bgRed;white', '-----');
+    if (text.match(/\n/) || text.length > 80) {
+        end = '\n'+console.color('bgRed;bright;white', '-----');
         center = '\n';
     }
-    console.log(console.color('bgRed;white', '× Произошла ошибка')+error_name+console.color('bgRed;white', ':')+center+console.color('bright;red', text)+end)
+    console.log(console.color('bgRed;bright;white', '× Произошла ошибка')+error_name+console.color('bgRed;white', ':')+center+console.color('bright;red', text)+end)
 };
 
 console.warning = (text) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 30) {
-        end = '\n'+console.color('bgYellow;white', '-----');
+    if (text.match(/\n/) || text.length > 80) {
+        end = '\n'+console.color('bgYellow;bright;white', '-----');
         center = '\n';
     }
-    console.log(console.color('bgYellow;white', '! Внимание:')+center+console.color('bright;yellow', text)+end)
+    console.log(console.color('bgYellow;bright;white', '! Внимание:')+center+console.color('bright;yellow', text)+end)
 };
 
 console.success = (text) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 30) {
-        end = '\n'+console.color('bgGreen;white', '-----');
+    if (text.match(/\n/) || text.length > 80) {
+        end = '\n'+console.color('bgGreen;bright;white', '-----');
         center = '\n';
     }
-    console.log(console.color('bgGreen;white', '√ Успех:')+center+console.color('bright;green', text)+end)
+    console.log(console.color('bgGreen;bright;white', '√ Успех:')+center+console.color('bright;green', text)+end)
 };
 
 console.info= (text, name) => {
@@ -136,11 +136,11 @@ console.info= (text, name) => {
     let end = '';
     let center = ' ';
     if (typeof text !== 'string') text = JSON.stringify(text, null, 2);
-    if (text.match(/\n/) || text.length > 30) {
-        end = '\n'+console.color('bgBlue;white', '-----');
+    if (text.match(/\n/) || text.length > 80) {
+        end = '\n'+console.color('bgBlue;bright;white', '-----');
         center = '\n';
     }
-    console.log(console.color('bgBlue;white', 'i Информация')+info_name+console.color('bgBlue;white', ':')+center+console.color('bright;white', text)+end)
+    console.log(console.color('bgBlue;white', 'i Информация')+info_name+console.color('bgBlue;bright;white', ':')+center+console.color('bright;white', text)+end)
 };
 
 client.on('ready', () => {
@@ -169,7 +169,7 @@ fs.readdir("./commands/", (err, files) => {
         return;
     }
     files.forEach((c, ci, ca) => {
-        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(console.color('bgRed;white', 'Ошибка') + ' ' + console.color('bright;red', `Категория ${c} не загружена: не обнаружен файл конфигурации категории.`));
+        if (!fs.existsSync(`./commands/${c}/config.json`)) return console.error(`Категория ${c} не загружена: не обнаружен файл конфигурации категории.`);
         let cat_info = require("./commands/"+c+"/config.json");
         console.log(console.color('bright;green', `Категория ${c} загружена`));
         client.categories.set(c, cat_info);
