@@ -3,20 +3,20 @@ const func = require('../../func.js');
 const request = require('request');
 
 module.exports.info = {
-    command: '^(kiss?|поцел[уй|овать])$',
-    name: 'kiss [msg]',
+    command: '^(h[ua]g|обн([еи]ма|я)тт?ь?и?)$',
+    name: 'hug [msg]',
     lang: {
         'ru': {
-            description: 'Поцеловать пользователя',
+            description: 'Обнять пользователя',
         },
         'ua': {
-            description: 'Поцілувати користувача',
+            description: 'Обняти користувача',
         },
         'en': {
-            description: 'Kiss a user',
+            description: 'Hug a user',
         },
         'pl': {
-            description: 'Pocałuj użytkownika',
+            description: 'Przytulić użytkownika',
         }
     }
 };
@@ -25,19 +25,19 @@ module.exports.run = async function (client, message, command, args, info, langu
     let lang = {
         'ru': {
             'loading': 'Загрузка',
-            'kissed': 'поцеловал(а)',
+            'hugged': 'обнял(а)',
         },
         'ua': {
             'loading': 'Завантаження',
-            'kissed': 'поцілував(ла)',
+            'hugged': 'обняв(ла)',
         },
         'en': {
             'loading': 'Loading',
-            'kissed': 'kissed',
+            'hugged': 'hugged',
         },
         'pl': {
             'loading': 'Ładowanie',
-            'kissed': 'pocałował(a)',
+            'hugged': 'przytulił(a)',
         }
     };
     lang = lang[language];
@@ -49,12 +49,12 @@ module.exports.run = async function (client, message, command, args, info, langu
         user1 = message.author;
     }
     message.channel.send(lang['loading']+'...').then(msg => {
-        request('https://nekos.life/api/v2/img/kiss', function (error, response, body) {
+        request('https://nekos.life/api/v2/img/hug', function (error, response, body) {
             try {
                 let arr = JSON.parse(body);
                 let embed = new Discord.RichEmbed()
                     .setTitle(':3')
-                    .setDescription(`${user} ${lang['kissed']} ${user1}`)
+                    .setDescription(`${user} ${lang['hugged']} ${user1}`)
                     .setImage(arr['url'])
                     .setColor('RANDOM');
                 msg.edit(`${user1}`, {embed});
