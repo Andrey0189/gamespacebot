@@ -18,10 +18,6 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie do przeglądania codziennych zadań',
         }
-    },
-    access: {
-        type: 'creator',
-        params: null
     }
 };
 
@@ -101,6 +97,7 @@ module.exports.run = async function (client, message, command, args, info, langu
                             .addField(lang['task'] + ' 1', `${all[0][0]}\n${blank}\n${all[0][1]}\n\n${blank}\n${all[0][3]}\n${all[0][2]}`, true)
                             .addField(lang['task'] + ' 2', `${all[1][0]}\n${blank}\n${all[1][1]}\n${blank}\n${all[1][3]}\n${all[1][2]}`, true)
                             .addField(lang['task'] + ' 3', `${all[2][0]}\n${blank}\n${all[2][1]}\n${blank}\n${all[2][3]}\n${all[2][2]}`, true)
+                            .setFooter('Для активирования задания пишите в чат .select [номер задания]')
                     )
                 });
             } catch (e) {
