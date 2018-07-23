@@ -18,6 +18,9 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie aktywowania codziennego zadania',
         }
+    },
+    access: {
+    	type: 'creator'
     }
 };
 
