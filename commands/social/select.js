@@ -71,4 +71,7 @@ module.exports.run = async function (client, message, command, args, info, langu
             }
         } catch (e) {console.error(e)}
     });
+    request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+        try {client.tasks = JSON.parse(body);} catch (e) {console.log('--- tasks get failed: '+e);console.log(body)}
+    });
 };
