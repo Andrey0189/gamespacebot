@@ -37,7 +37,7 @@ module.exports.run = function (message) {
                                 message.reply('задание выполнено.').then(msg => msg.delete(3000));
                             }
                         } catch (e) {
-                            message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, 'Ошибка выполнения дейлика', e));
+                            message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, 'Ошибка выполнения дейлика', e.toString() || ''));
                         }
                     });
 
