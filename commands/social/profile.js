@@ -17,11 +17,6 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie do przeglądania profilu lub profilu innego użytkownika',
         }
-    },
-    access: {
-        type: 'any_roles',
-        params: ['419562566512017415', '450336165430689793', '417267817763831808']
-        //own sr.own sr.admin
     }
 };
 
