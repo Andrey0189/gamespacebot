@@ -175,7 +175,7 @@ module.exports.newLines = function (text) {
     return arr;
 };
 module.exports.updVoiceData = function (client, request) {
-    let data = JSON.stringify({
+   /* let data = JSON.stringify({
         'ru':
             {
                 'rl': client.channels.get('418096013497204737').members.size,
@@ -205,5 +205,5 @@ module.exports.updVoiceData = function (client, request) {
                 'll': client.channels.get('465563130987151361').members.size,
             }
     });
-    request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
+    request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));*/
 };
