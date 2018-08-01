@@ -153,10 +153,10 @@ client.on('ready', () => {
     //     } catch (e) {console.error(e)}
     // });
     func.updVoiceData(client, request);
-    request('http://'+process.env.SITE_DOMAIN+'/?action=get_active_tasks&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+    request('http://'+process.env.SITE_DOMAIN+'?action=get_active_tasks&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
         try {client.tasks = JSON.parse(body);} catch (e) {console.log('--- tasks get failed: '+e);console.log(body)}
     });
-    client.channels.get('466113074512789524').fetchMessage('466113221464424459');
+    client.channels.get('466113074512789524').fetchMessage('466113221464424459').catch();
 });
 
 fs.readdir("./commands/", (err, files) => {
