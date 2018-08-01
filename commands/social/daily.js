@@ -66,7 +66,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     let all = [];
     message.delete(100);
     message.channel.send(lang['loading'] + '...').then((msg) => {
-        request('http://' + process.env.SITE_DOMAIN + '/get_user_tasks.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '$lang=' + language + '&user=' + message.author.id, function (error, response, body) {
+        request('http://' + process.env.SITE_DOMAIN + '?action=get_user_tasks&secret=' + encodeURIComponent(process.env.SECRET_KEY) + '$lang=' + language + '&user=' + message.author.id, function (error, response, body) {
             msg.edit(message.author + ', ' + lang['DM'] + ' :wink:').then(msg => msg.delete(3000));
             try {
                 let tasks_data = JSON.parse(body);

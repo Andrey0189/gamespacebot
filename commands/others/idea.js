@@ -54,7 +54,7 @@ module.exports.run = async function (client, message, command, args, info, langu
         if (message.member.nickname != null) nick = message.member.nickname;
         message.guild.channels.get(client.log_channels.ideas).createWebhook(nick, message.author.avatarURL).then(webhook => {
             webhook.send('', {embeds: [embed]}).then(async (mesg)=>{
-                request('http://'+process.env.SITE_DOMAIN+'/idea.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+mesg.id+'&text='+encodeURIComponent(args.join(' ')));
+                request('http://'+process.env.SITE_DOMAIN+'?action=idea&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id+'&message='+mesg.id+'&text='+encodeURIComponent(args.join(' ')));
                 webhook.delete();
                 message.guild.channels.get(client.log_channels.ideas).fetchMessage(mesg.id).then(async msg => {
                     await msg.react('419122029854457866');

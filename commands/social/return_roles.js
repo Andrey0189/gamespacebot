@@ -67,7 +67,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     } else {
         member = message.member;
     }
-    request('http://'+process.env.SITE_DOMAIN+'/rank.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
+    request('http://'+process.env.SITE_DOMAIN+'?acrion=rank&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&id='+member.user.id, function (error, response, body) {
         if (body.startsWith('<br')) {message.channel.stopTyping(true); message.channel.send(func.generateErrorMessage(language, client, lang['error'], lang['error_recovery'])); return message.guild.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, 'Произошла ошибка', `Ошибка восстановления ролей пользователя ${message.author} (${message.author.tag}). Содержание ошибки:\n`+body.replace(/<br \/>/g, '\n').replace(/<b>/g, '**').replace(/<\/b>/g, '**')));}
         const arr = JSON.parse(body);
         let bool = false;

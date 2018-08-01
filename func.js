@@ -175,7 +175,7 @@ module.exports.newLines = function (text) {
     return arr;
 };
 module.exports.updVoiceData = function (client, request) {
-   /* let data = JSON.stringify({
+    let data = JSON.stringify({
         'ru':
             {
                 'rl': client.channels.get('418096013497204737').members.size,
@@ -189,21 +189,7 @@ module.exports.updVoiceData = function (client, request) {
                 'd2': client.channels.get('425915855671525376').members.size,
                 'cs': client.channels.get('418076641747533834').members.size,
                 'll': client.channels.get('418081846195388457').members.size,
-            },
-        'en':
-            {
-                'rl': client.channels.get('465563093762703361').members.size,
-                'd2': client.channels.get('465563256514150425').members.size,
-                'cs': client.channels.get('465563060007075841').members.size,
-                'll': client.channels.get('465563130987151361').members.size,
-            },
-        'pl':
-            {
-                'rl': client.channels.get('465563093762703361').members.size,
-                'd2': client.channels.get('465563256514150425').members.size,
-                'cs': client.channels.get('465563060007075841').members.size,
-                'll': client.channels.get('465563130987151361').members.size,
             }
     });
-    request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));*/
+    request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
 };

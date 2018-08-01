@@ -18,9 +18,6 @@ module.exports.info = {
         'pl': {
             description: 'Polecenie aktywowania codziennego zadania',
         }
-    },
-    access: {
-    	type: 'creator'
     }
 };
 
@@ -57,7 +54,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     let arr = [1, 2, 3];
     let num = parseInt(args[0]);
     if (!arr.includes(num)) return message.channel.send(lang['err']);
-    request('http://' + process.env.SITE_DOMAIN + '/select_task.php?task=' + encodeURIComponent(num) + '&secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + message.author.id, function (error, response, body) {
+    request('http://' + process.env.SITE_DOMAIN + '/action=select_task&task=' + encodeURIComponent(num) + '&secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + message.author.id, function (error, response, body) {
         try {
             if (body === '') {
                 message.channel.send(lang['succ']+num+lang['succ1']);

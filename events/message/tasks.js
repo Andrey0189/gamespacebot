@@ -13,7 +13,7 @@ module.exports.run = function (message) {
     let client = message.client;
     let tasks = client.tasks;
     tasks.filter(task => task[0] === message.author.id).forEach((task) => {
-        if (task[2]['action']['action'] === 'send_message') {
+        if (task[2] && task[2]['action'] && task[2]['action']['action'] === 'send_message') {
             if (task[2]['action']['content_type'] === 'regex') {
                 if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) {
                     request('http://' + process.env.SITE_DOMAIN + '/do_task.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + task[0] + '&task=' + task[1], function (error, response, body) {

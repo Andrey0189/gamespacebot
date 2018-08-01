@@ -233,7 +233,7 @@ let lang_phrases = {
 //         console.error(err, 'Uncaught Exception thrown');
 //     });
 client.on('message', async (message) => {
-    let lang = client.langs.get(message.author.id) || 'ru';
+    let lang = /*client.langs.get(message.author.id) ||*/ 'ru';
     let l = lang_phrases[lang];
     if (message.author.bot) return;
     if (message.channel.type !== 'text') return;
@@ -247,7 +247,7 @@ client.on('message', async (message) => {
     if (!['448815323840380929', '465557872097492993'].includes(message.channel.id))
     if (!client.cooldown.has(message.author.id)) {
         if (message.author.bot) return;
-        request('http://'+process.env.SITE_DOMAIN+'/add.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
+        request('http://'+process.env.SITE_DOMAIN+'?action=add&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+message.author.id, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 try {
                     let lvls = JSON.parse(body);
