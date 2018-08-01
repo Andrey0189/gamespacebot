@@ -144,16 +144,16 @@ console.info= (text, name) => {
 };
 
 client.on('ready', () => {
-    request('http://'+process.env.SITE_DOMAIN+'/langs.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
-        try {
-            let arr = JSON.parse(body);
-            arr.forEach((obj) => {
-                client.langs.set(obj.id, obj.lang);
-            });
-        } catch (e) {console.error(e)}
-    });
+    // request('http://'+process.env.SITE_DOMAIN+'/langs.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+    //     try {
+    //         let arr = JSON.parse(body);
+    //         arr.forEach((obj) => {
+    //             client.langs.set(obj.id, obj.lang);
+    //         });
+    //     } catch (e) {console.error(e)}
+    // });
     func.updVoiceData(client, request);
-    request('http://'+process.env.SITE_DOMAIN+'/get_active_tasks.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
+    request('http://'+process.env.SITE_DOMAIN+'/?action=get_active_tasks&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+client.user.id, function (error, response, body) {
         try {client.tasks = JSON.parse(body);} catch (e) {console.log('--- tasks get failed: '+e);console.log(body)}
     });
     client.channels.get('466113074512789524').fetchMessage('466113221464424459');
