@@ -42,6 +42,7 @@ module.exports.run = async function (client, message, command, args, info, langu
     let member = message.member;
     if (ment_member)
         member = ment_member;
+    console.log('http://'+process.env.SITE_DOMAIN+'?action=balance&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id);
     request('http://'+process.env.SITE_DOMAIN+'?action=balance&secret='+encodeURIComponent(process.env.SECRET_KEY)+'&user='+member.user.id, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             const money = client.emojis.get('422055316792803349');
