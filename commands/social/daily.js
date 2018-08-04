@@ -70,6 +70,7 @@ module.exports.run = async function (client, message, command, args, info, langu
             msg.edit(message.author + ', ' + lang['DM'] + ' :wink:').then(msg => msg.delete(3000));
             try {
                 let tasks_data = JSON.parse(body);
+                console.log(body);
                 tasks_data.forEach((item, num) => {
                     if (item !== null) {
                         let done;
