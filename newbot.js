@@ -262,7 +262,7 @@ client.on('message', async (message) => {
                         if (client.channel_settings.get(message.channel.id) && client.channel_settings.get(message.channel.id).notificationsAllowed) {
                             message.channel.send(msg);
                         } else {
-                            client.channels.get('417266234032390155').send(msg);
+                            client.channels.get('466199224254595072').send(msg);
                         }
                         client.level_roles.forEach(function (item) {
                             if (lvls[1] >= item[0]) {

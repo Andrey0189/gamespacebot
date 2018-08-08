@@ -80,6 +80,7 @@ module.exports.run = async function (client, message, command, args, info, langu
             } else {
                 message.reply({embed});
             }
+            console.info(arr);
         }
     });
 };

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const emojis = require('./emojis.json');
 module.exports.declOfNum = function (number, titles) {
     let cases = [2, 0, 1, 1, 1, 2];
     return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
@@ -192,4 +193,20 @@ module.exports.updVoiceData = function (client, request) {
             }
     });
     request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
+};
+module.exports.confirm = function (client, text, callback) {
+    message.channel.send(text).then((acc) => {
+        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 60000});
+        collector.on('collect', msg => {
+            if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
+                message.delete();
+                callback(msg.content.toLowerCase());
+            } else {
+                message.channel.send(client.emojis.get(emojis.error) + ' Действие отменено').then(msg => msg.delete(5000))
+            }
+            acc.delete();
+            console.log(collector);
+            collector.stop();
+        });
+    });
 };
