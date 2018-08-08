@@ -13,7 +13,7 @@ module.exports.info = {
 
 module.exports.run = async function (client, message, command, args, info) {
     message.delete();
-    func.confirm(client, 'Вы уверены?', () => {
+    func.confirm(client, message, 'Вы уверены?', () => {
         message.channel.send('у а ты хорош')
     })
 };

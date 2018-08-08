@@ -194,7 +194,7 @@ module.exports.updVoiceData = function (client, request) {
     });
     request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
 };
-module.exports.confirm = function (client, text, callback) {
+module.exports.confirm = function (client, message, text, callback) {
     message.channel.send(text).then((acc) => {
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 60000});
         collector.on('collect', msg => {
