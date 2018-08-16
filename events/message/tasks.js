@@ -16,7 +16,7 @@ module.exports.run = function (message) {
         if (task[2] && task[2]['action'] && task[2]['action']['action'] === 'send_message') {
             if (task[2]['action']['content_type'] === 'regex') {
                 if (message.content.match(new RegExp(task[2]['action']['content'], 'i'))) {
-                    request('http://' + process.env.SITE_DOMAIN + '/do_task.php?secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + task[0] + '&task=' + task[1], function (error, response, body) {
+                    request('http://' + process.env.SITE_DOMAIN + '/?action=do_task&secret=' + encodeURIComponent(process.env.SECRET_KEY) + '&user=' + task[0] + '&task=' + task[1], function (error, response, body) {
                         try {
                             let arr = JSON.parse(body);
                             // message.reply(task[2]['action']['content']).then(msg => {msg.delete(1000)});
@@ -30,7 +30,7 @@ module.exports.run = function (message) {
                                 message.author.send({
                                     embed: (new Discord.RichEmbed()
                                             .setColor('36393E')
-                                            .setTitle('❗ Задание завершено')
+                                            .setTitle('❗ Задание '+task[1]+' завершено')
                                             .setDescription(`${all[0]}\n${blank}\n${all[1]}\n${blank}\n${all[3]}\n${all[2]}`)
                                     )
                                 });
