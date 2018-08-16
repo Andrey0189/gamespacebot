@@ -26,7 +26,7 @@ module.exports.run = async function (client, message, command, args, info) {
     func.confirm(client, message, `Вы уверены, что хотите выдать предупреждение пользователю \`${member.displayName}#${member.user.discriminator}\`?`, () => {
         request(`'http://${process.env.SITE_DOMAIN}/?action=warn&moderator=${message.author.id}&user=${member.user.id}`, (err, response, data) => {
             // noinspection EqualityComparisonWithCoercionJS
-            if ((response && response.statusCode != '200') || err) {err = err || response.statusCode; client.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка при выдаче предупреждения ${message.author} -> ${member}`, err)); return message.channel.send(func.generateErrorMessage('ru', client, 'Произошла ошибка!', 'Не удалось выдать варн.'));}
+            if ((response && response.statusCode != '200') || err) {err = err || response.statusCode || ''; client.channels.get(client.log_channels.errors).send(func.generateErrorMessage('ru', client, `Произошла ошибка при выдаче предупреждения ${message.author} -> ${member}`, err)); return message.channel.send(func.generateErrorMessage('ru', client, 'Произошла ошибка!', 'Не удалось выдать варн.'));}
             message.channel.send(`Пользователь ${member} получил предупреждение${reasontext} от модератора ${message.author}`)
         })
     })

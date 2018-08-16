@@ -195,7 +195,7 @@ module.exports.updVoiceData = function (client, request) {
     request('http://gamespace.ml/data/update.php?secret='+encodeURIComponent(process.env.SECRET_KEY)+'&data='+encodeURIComponent(data));
 };
 module.exports.confirm = function (client, message, text, callback) {
-    message.channel.send(text).then((acc) => {
+    message.channel.send(text+'\n\nПодтвердите действие, написав в чат `да`').then((acc) => {
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 60000});
         collector.on('collect', msg => {
             if (['да', 'ага', 'кнш', 'конечно', 'конешно', 'давай', 'йес', 'yes', 'y', 'aga', 'go', 'da', 'го'].includes(msg.content.toLowerCase())) {
