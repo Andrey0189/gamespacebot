@@ -9,6 +9,10 @@ module.exports.info = {
         'ru': {
             description: 'Команда для выдачи предупрежденяи пользователю',
         }
+    },
+    access: {
+        type: 'right',
+        params: 'MANAGE_MESSAGES',
     }
 };
 
