@@ -25,7 +25,7 @@ module.exports.run = function (message) {
 
 
     let lang_code = message.client.langs.get(args[0]) || 'ru';
-    lang = lang[lang_code];
+    lang = lang['ru'];
 
     let invites = {
         'ru': {
