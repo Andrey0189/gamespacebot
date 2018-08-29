@@ -242,7 +242,6 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
 
-    console.log(client.cooldown);
 
     if (!['448815323840380929', '465557872097492993'].includes(message.channel.id))
     if (!client.cooldown.has(message.author.id)) {
@@ -340,7 +339,6 @@ client.on('message', async (message) => {
     let commandfile = client.commands.filter(m => {
         return command.match(new RegExp(m.command, 'im'));
     }).first();
-    console.log(commandfile);
     if (commandfile) {
         let access;
         if (commandfile.access)
