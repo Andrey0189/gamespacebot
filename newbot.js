@@ -24,17 +24,6 @@ const client = new Discord.Client({ autofetch: [
 //     game_admin: "417312252463677451",
 //     moder: "426411685595578382"
 // };
-var antispam = require("discord-anti-spam");
-antispam(client, {
-    warnBuffer: 10, //Maximum amount of messages allowed to send in the interval time before getting warned.
-    maxBuffer: 15, // Maximum amount of messages allowed to send in the interval time before getting banned.
-    interval: 1000, // Amount of time in ms users can send a maximum of the maxBuffer variable before getting banned.
-    warningMessage: "тебя уебать, пес?", // Warning message send to the user indicating they are going to fast.
-    banMessage: "был уебан с вертухи, кто следующий?", // Ban message, always tags the banned user in front of it.
-    maxDuplicatesWarning: 7,// Maximum amount of duplicate messages a user can send in a timespan before getting warned
-    maxDuplicatesBan: 10, // Maximum amount of duplicate messages a user can send in a timespan before getting banned
-    deleteMessagesAfterBanForPastDays: 7 // Delete the spammed messages after banning for the past x days.
-});
 
 client.cooldown = new Set();
 const func = require('./func.js');
